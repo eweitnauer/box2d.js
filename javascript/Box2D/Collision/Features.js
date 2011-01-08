@@ -2,36 +2,6 @@ var Features = function() {
 this.__varz();
 this.__constructor.apply(this, arguments);
 }
-Features.prototype = {
-    get referenceEdge() {
-        return this._referenceEdge;
-    },
-    set referenceEdge(value) {
-		this._referenceEdge = value;
-		this._m_id._key = (this._m_id._key & 0xffffff00) | (this._referenceEdge & 0x000000ff);
-    },
-    get incidentEdge() {
-        return this._incidentEdge;
-    },
-    set incidentEdge(value) {
-		this._incidentEdge = value;
-		this._m_id._key = (this._m_id._key & 0xffff00ff) | ((this._incidentEdge << 8) & 0x0000ff00);
-    },
-    set incidentVertex(value) {
-		this._incidentVertex = value;
-		this._m_id._key = (this._m_id._key & 0xff00ffff) | ((this._incidentVertex << 16) & 0x00ff0000);
-    },
-    get incidentVertex() {
-        return this._incidentVertex;
-    },
-    set flip(value) {
-		this._flip = value;
-		this._m_id._key = (this._m_id._key & 0x00ffffff) | ((this._flip << 24) & 0xff000000);
-    },
-    get flip() {
-        return this._flip;
-    }
-}
 Features.prototype.__constructor = function(){}
 Features.prototype.__varz = function(){
 }
@@ -43,3 +13,32 @@ Features.prototype._incidentEdge =  0;
 Features.prototype._incidentVertex =  0;
 Features.prototype._flip =  0;
 Features.prototype._m_id =  null;
+// methods
+Features.prototype.set = function (value) {
+		this._referenceEdge = value;
+		this._m_id._key = (this._m_id._key & 0xffffff00) | (this._referenceEdge & 0x000000ff);
+	}
+Features.prototype.get = function () {
+		return this._referenceEdge;
+	}
+Features.prototype.set = function (value) {
+		this._incidentEdge = value;
+		this._m_id._key = (this._m_id._key & 0xffff00ff) | ((this._incidentEdge << 8) & 0x0000ff00);
+	}
+Features.prototype.get = function () {
+		return this._incidentEdge;
+	}
+Features.prototype.set = function (value) {
+		this._incidentVertex = value;
+		this._m_id._key = (this._m_id._key & 0xff00ffff) | ((this._incidentVertex << 16) & 0x00ff0000);
+	}
+Features.prototype.get = function () {
+		return this._incidentVertex;
+	}
+Features.prototype.set = function (value) {
+		this._flip = value;
+		this._m_id._key = (this._m_id._key & 0x00ffffff) | ((this._flip << 24) & 0xff000000);
+	}
+Features.prototype.get = function () {
+		return this._flip;
+	}

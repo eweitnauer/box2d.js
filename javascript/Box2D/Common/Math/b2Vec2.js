@@ -1,7 +1,9 @@
-var b2Vec2 = function(x_, y_) {
-    if(arguments.length == 2) {
-        this.x=x_; this.y=y_;
-    }
+var b2Vec2 = function() {
+this.__varz();
+this.__constructor.apply(this, arguments);
+}
+b2Vec2.prototype.__constructor = function (x_, y_) {this.x=x_; this.y=y_;}
+b2Vec2.prototype.__varz = function(){
 }
 // static attributes
 // static methods
@@ -9,8 +11,8 @@ b2Vec2.Make = function (x_, y_) {
 		return new b2Vec2(x_, y_);
 	}
 // attributes
-b2Vec2.prototype.x =  0;
-b2Vec2.prototype.y =  0;
+b2Vec2.prototype.x =  null;
+b2Vec2.prototype.y =  null;
 // methods
 b2Vec2.prototype.SetZero = function () { this.x = 0.0; this.y = 0.0; }
 b2Vec2.prototype.Set = function (x_, y_) {this.x=x_; this.y=y_;}

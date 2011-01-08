@@ -221,6 +221,8 @@ while classes:
             files.append(dest)
             del classes[name]
 
+files.sort()
+
 with open("build.sh", "w") as f:
     f.write("#!/bin/sh\n")
     f.write("java -jar compiler.jar --js extend.js --js ")

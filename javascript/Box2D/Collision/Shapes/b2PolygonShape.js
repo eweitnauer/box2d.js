@@ -102,6 +102,7 @@ b2PolygonShape.s_sweptAABB2 =  new b2AABB();
 b2PolygonShape.ComputeCentroid = function (vs, count) {
 		
 		
+		
 		var c = new b2Vec2();
 		var area = 0.0;
 		
