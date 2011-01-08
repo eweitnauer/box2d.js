@@ -213,6 +213,11 @@ def breakCircle(klass, root, visited):
 while any(breakCircle(klass, klass, []) for klass in classes):
     pass
 
+# exports for usage with CommonJS and node.js specifically
+with open("exports.js", "w") as f:
+	for name in classes:
+		f.write("exports.%s=%s;\n" % (name, name))           
+
 while classes:
     for name in classes.keys():
         klass, code, dest, deps = classes[name]
@@ -225,10 +230,13 @@ with open("build.sh", "w") as f:
     f.write("#!/bin/sh\n")
     f.write("java -jar compiler.jar --compilation_level=WHITESPACE_ONLY --formatting PRETTY_PRINT --js extend.js --js ")
     f.write(" --js ".join(files))
-    f.write(" --js_output_file box2d-dev.js\n")
+    f.write(" --js exports.js")
+    f.write(" --js_output_file box2d.js\n")
     f.write("java -jar compiler.jar --js extend.js --js ")
     f.write(" --js ".join(files))
-    f.write(" --js_output_file box2d.js")
+    f.write(" --js exports.js")
+    f.write(" --js_output_file box2d.min.js")
+
 with open("load.html", "w") as f:
     for filename in files:
         f.write('<script src="' + filename + '" type="text/javascript"></script>\r\n')
