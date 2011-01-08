@@ -225,6 +225,9 @@ files.sort()
 
 with open("build.sh", "w") as f:
     f.write("#!/bin/sh\n")
+    f.write("java -jar compiler.jar --compilation_level=WHITESPACE_ONLY --formatting PRETTY_PRINT --js extend.js --js ")
+    f.write(" --js ".join(files))
+    f.write(" --js_output_file box2d-dev.js\n")
     f.write("java -jar compiler.jar --js extend.js --js ")
     f.write(" --js ".join(files))
     f.write(" --js_output_file box2d.js")
