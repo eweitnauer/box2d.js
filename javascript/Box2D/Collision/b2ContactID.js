@@ -23,13 +23,13 @@ b2ContactID.prototype.Copy = function () {
 		id.key = key;
 		return id;
 	}
-b2ContactID.prototype.get = function () {
+b2ContactID.prototype.__defineSetter__("key", function () {
 		return this._key;
-	}
-b2ContactID.prototype.set = function (value) {
+	});
+b2ContactID.prototype.__defineSetter__("key", function(value) {	
 		this._key = value;
 		this.features._referenceEdge = this._key & 0x000000ff;
 		this.features._incidentEdge = ((this._key & 0x0000ff00) >> 8) & 0x000000ff;
 		this.features._incidentVertex = ((this._key & 0x00ff0000) >> 16) & 0x000000ff;
 		this.features._flip = ((this._key & 0xff000000) >> 24) & 0x000000ff;
-	}
+	});
