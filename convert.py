@@ -228,10 +228,18 @@ while classes:
 
 with open("build.sh", "w") as f:
     f.write("#!/bin/sh\n")
+    f.write("if [ ! -f closure/compiler.jar ]\n")
+    f.write("then\n")
+    f.write("echo \"closure compiler seems to be missing\"\n")
+    f.write("echo \"read and follow instruction directory ./closure/\"\n")
+    f.write("exit 1\n")
+    f.write("fi\n")
+    f.write("echo \"compiling box2d.js\"\n")
     f.write("java -jar closure/compiler.jar --compilation_level=WHITESPACE_ONLY --formatting PRETTY_PRINT --js javascript/misc/extend.js")
     f.write(" --js " + " --js ".join(files))
     f.write(" --js javascript/misc/exports.js")
     f.write(" --js_output_file javascript/Box2D/box2d.js\n")
+    f.write("echo \"compiling box2d.min.js\"\n")
     f.write("java -jar closure/compiler.jar --js javascript/misc/extend.js")
     f.write(" --js " + " --js ".join(files))
     f.write(" --js javascript/misc/exports.js")
