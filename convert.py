@@ -192,18 +192,13 @@ for name in classes:
 # build deps
 for klass in classes:
     klass, code, dest, deps = classes[klass]
-    for name, value in klass.varz + klass.svars:
+    for name, value in klass.varz + klass.svars + [klass.constructor]:
         for klass2 in classes:
             if klass2 == klass.name:
                 continue
             if klass2 in value and not klass2 in deps:
                 deps.append(klass2)
                 
-    #TODO: find a generic way to derive dependencies from constructor calls
-	if klass.name == "b2Manifold" and not "b2ManifoldPoint" in deps:
-		print "add dependency"
-		deps.append("b2ManifoldPoint");
-
 # randomly breaking circular dependencies
 def breakCircle(klass, root, visited):
     visited.append(klass)
