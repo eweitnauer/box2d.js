@@ -215,8 +215,10 @@ while any(breakCircle(klass, klass, []) for klass in classes):
 
 # exports for usage with CommonJS and node.js specifically
 with open("javascript/misc/exports.js", "w") as f:
+	f.write("if(typeof exports !== 'undefined') {\n")
 	for name in classes:
-		f.write("exports.%s=%s;\n" % (name, name))           
+		f.write("    exports.%s=%s;\n" % (name, name))       
+	f.write("}")    
 
 while classes:
     for name in classes.keys():
