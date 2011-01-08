@@ -198,6 +198,11 @@ for klass in classes:
                 continue
             if klass2 in value and not klass2 in deps:
                 deps.append(klass2)
+                
+    #TODO: find a generic way to derive dependencies from constructor calls
+	if klass.name == "b2Manifold" and not "b2ManifoldPoint" in deps:
+		print "add dependency"
+		deps.append("b2ManifoldPoint");
 
 # randomly breaking circular dependencies
 def breakCircle(klass, root, visited):
@@ -220,8 +225,6 @@ while classes:
         if len(deps) == 0:
             files.append(dest)
             del classes[name]
-
-files.sort()
 
 with open("build.sh", "w") as f:
     f.write("#!/bin/sh\n")
