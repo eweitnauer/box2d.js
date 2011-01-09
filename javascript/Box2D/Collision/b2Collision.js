@@ -10,8 +10,8 @@ b2Collision.b2_nullFeature =  0x000000ff;
 b2Collision.s_incidentEdge =  b2Collision.MakeClipPointVector();
 b2Collision.s_clipPoints1 =  b2Collision.MakeClipPointVector();
 b2Collision.s_clipPoints2 =  b2Collision.MakeClipPointVector();
-b2Collision.s_edgeAO =  new Vector(1);
-b2Collision.s_edgeBO =  new Vector(1);
+b2Collision.s_edgeAO =  new Array(1);
+b2Collision.s_edgeBO =  new Array(1);
 b2Collision.s_localTangent =  new b2Vec2();
 b2Collision.s_localNormal =  new b2Vec2();
 b2Collision.s_planePoint =  new b2Vec2();
@@ -23,7 +23,7 @@ b2Collision.s_v12 =  new b2Vec2();
 b2Collision.b2CollidePolyTempVec =  new b2Vec2();
 // static methods
 b2Collision.MakeClipPointVector = function () {
-		var r = new Vector(2);
+		var r = new Array(2);
 		r[0] = new ClipVertex();
 		r[1] = new ClipVertex();
 		return r;

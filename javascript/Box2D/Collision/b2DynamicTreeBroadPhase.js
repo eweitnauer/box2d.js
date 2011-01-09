@@ -5,16 +5,16 @@ this.__constructor.apply(this, arguments);
 b2DynamicTreeBroadPhase.prototype.__constructor = function(){}
 b2DynamicTreeBroadPhase.prototype.__varz = function(){
 this.m_tree =  new b2DynamicTree();
-this.m_moveBuffer =  new Vector();
-this.m_pairBuffer =  new Vector();
+this.m_moveBuffer =  new Array();
+this.m_pairBuffer =  new Array();
 }
 // static attributes
 // static methods
 // attributes
 b2DynamicTreeBroadPhase.prototype.m_tree =  new b2DynamicTree();
 b2DynamicTreeBroadPhase.prototype.m_proxyCount =  0;
-b2DynamicTreeBroadPhase.prototype.m_moveBuffer =  new Vector();
-b2DynamicTreeBroadPhase.prototype.m_pairBuffer =  new Vector();
+b2DynamicTreeBroadPhase.prototype.m_moveBuffer =  new Array();
+b2DynamicTreeBroadPhase.prototype.m_pairBuffer =  new Array();
 b2DynamicTreeBroadPhase.prototype.m_pairCount =  0;
 // methods
 b2DynamicTreeBroadPhase.prototype.BufferMove = function (proxy) {

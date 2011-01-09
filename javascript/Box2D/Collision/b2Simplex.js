@@ -11,7 +11,7 @@ b2Simplex.prototype.__varz = function(){
 this.m_v1 =  new b2SimplexVertex();
 this.m_v2 =  new b2SimplexVertex();
 this.m_v3 =  new b2SimplexVertex();
-this.m_vertices =  new Vector(3);
+this.m_vertices =  new Array(3);
 }
 // static attributes
 // static methods
@@ -19,7 +19,7 @@ this.m_vertices =  new Vector(3);
 b2Simplex.prototype.m_v1 =  new b2SimplexVertex();
 b2Simplex.prototype.m_v2 =  new b2SimplexVertex();
 b2Simplex.prototype.m_v3 =  new b2SimplexVertex();
-b2Simplex.prototype.m_vertices =  new Vector(3);
+b2Simplex.prototype.m_vertices =  new Array(3);
 b2Simplex.prototype.m_count =  0;
 // methods
 b2Simplex.prototype.ReadCache = function (cache, 

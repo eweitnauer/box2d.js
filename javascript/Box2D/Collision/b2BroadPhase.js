@@ -13,9 +13,9 @@ b2BroadPhase.prototype.__constructor = function (worldAABB) {
 		m_proxyCount = 0;
 		
 		
-		m_bounds = new Vector >();
+		m_bounds = new Array();
 		for (i = 0; i < 2; i++){
-			m_bounds[i] = new Vector();
+			m_bounds[i] = new Array();
 		}
 		
 		
@@ -251,8 +251,8 @@ b2BroadPhase.prototype.CreateProxy = function (aabb, userData) {
 		
 		var boundCount = 2 * m_proxyCount;
 		
-		var lowerValues = new Vector();
-		var upperValues = new Vector();
+		var lowerValues = new Array();
+		var upperValues = new Array();
 		this.ComputeBounds(lowerValues, upperValues, aabb);
 		
 		for (var axis = 0; axis < 2; ++axis)
@@ -260,9 +260,9 @@ b2BroadPhase.prototype.CreateProxy = function (aabb, userData) {
 			var bounds = m_bounds[axis];
 			var lowerIndex = 0;
 			var upperIndex = 0;
-			var lowerIndexOut = new Vector();
+			var lowerIndexOut = new Array();
 			lowerIndexOut.push(lowerIndex);
-			var upperIndexOut = new Vector();
+			var upperIndexOut = new Array();
 			upperIndexOut.push(upperIndex);
 			this.QueryAxis(lowerIndexOut, upperIndexOut, lowerValues[axis], upperValues[axis], bounds, boundCount, axis);
 			lowerIndex = lowerIndexOut[0];
@@ -382,7 +382,7 @@ b2BroadPhase.prototype.DestroyProxy = function (proxy_) {
 			
 			
 			
-			var ignore = new Vector();
+			var ignore = new Array();
 			this.QueryAxis(ignore, ignore, lowerValue, upperValue, bounds, boundCount - 2, axis);
 		}
 		
@@ -727,15 +727,15 @@ b2BroadPhase.prototype.GetProxyCount = function () {
 		return m_proxyCount;
 	}
 b2BroadPhase.prototype.Query = function (callback, aabb) {
-		var lowerValues = new Vector();
-		var upperValues = new Vector();
+		var lowerValues = new Array();
+		var upperValues = new Array();
 		this.ComputeBounds(lowerValues, upperValues, aabb);
 		
 		var lowerIndex = 0;
 		var upperIndex = 0;
-		var lowerIndexOut = new Vector();
+		var lowerIndexOut = new Array();
 		lowerIndexOut.push(lowerIndex);
-		var upperIndexOut = new Vector();
+		var upperIndexOut = new Array();
 		upperIndexOut.push(upperIndex);
 		this.QueryAxis(lowerIndexOut, upperIndexOut, lowerValues[0], upperValues[0], m_bounds[0], 2*m_proxyCount, 0);
 		this.QueryAxis(lowerIndexOut, upperIndexOut, lowerValues[1], upperValues[1], m_bounds[1], 2*m_proxyCount, 1);
@@ -832,9 +832,9 @@ b2BroadPhase.prototype.RayCast = function (callback, input) {
 		
 		var lowerIndex = 0;
 		var upperIndex = 0;
-		var lowerIndexOut = new Vector(); 
+		var lowerIndexOut = new Array(); 
 		lowerIndexOut.push(lowerIndex);
-		var upperIndexOut = new Vector();
+		var upperIndexOut = new Array();
 		upperIndexOut.push(upperIndex);
 		this.QueryAxis(lowerIndexOut, upperIndexOut, startValues[0], startValues2[0], m_bounds[0], 2*m_proxyCount, 0);
 		if(sx>=0)	xIndex = upperIndexOut[0]-1;

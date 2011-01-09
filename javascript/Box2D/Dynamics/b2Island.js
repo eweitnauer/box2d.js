@@ -3,9 +3,9 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 b2Island.prototype.__constructor = function () {
-		m_bodies = new Vector();
-		m_contacts = new Vector();
-		m_joints = new Vector();
+		m_bodies = new Array();
+		m_contacts = new Array();
+		m_joints = new Array();
 	}
 b2Island.prototype.__varz = function(){
 }

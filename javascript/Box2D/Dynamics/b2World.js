@@ -31,7 +31,7 @@ b2World.prototype.__constructor = function (gravity, doSleep) {
 		m_groundBody = this.CreateBody(bd);
 	}
 b2World.prototype.__varz = function(){
-this.s_stack =  new Vector();
+this.s_stack =  new Array();
 this.m_contactSolver =  new b2ContactSolver();
 this.m_island =  new b2Island();
 }
@@ -40,7 +40,7 @@ b2World.s_timestep2 =  new b2TimeStep();
 b2World.s_backupA =  new b2Sweep();
 b2World.s_backupB =  new b2Sweep();
 b2World.s_timestep =  new b2TimeStep();
-b2World.s_queue =  new Vector();
+b2World.s_queue =  new Array();
 b2World.e_newFixture =  0x0001;
 b2World.e_locked =  0x0002;
 b2World.s_xf =  new b2Transform();
@@ -49,7 +49,7 @@ b2World. m_warmStarting =  null;
 b2World. m_continuousPhysics =  null;
 // static methods
 // attributes
-b2World.prototype.s_stack =  new Vector();
+b2World.prototype.s_stack =  new Array();
 b2World.prototype.m_contactSolver =  new b2ContactSolver();
 b2World.prototype.m_island =  new b2Island();
 b2World.prototype.m_jointList =  null;
@@ -676,7 +676,7 @@ b2World.prototype.RayCastOne = function (point1, point2) {
 		return result;
 	}
 b2World.prototype.RayCastAll = function (point1, point2) {
-		var result = new Vector();
+		var result = new Array();
 		function RayCastAllWrapper(fixture, point, normal, fraction):Number
 		{
 			result[result.length] = fixture;

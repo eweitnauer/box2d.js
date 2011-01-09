@@ -70,11 +70,12 @@ def parse(code):
     code = re.sub("(\w+):[ ]*(\w+|\\*)", "\\1", code)
     #convert vectors to arrays
     ## new Vector.<Number>();
-    code = re.sub(r"\wVector\w", "Array", code);
+    code = re.sub(r"\bVector\b", "Array", code);
     # remove generics
     ## new Vector.<Number>();
     ## var lowerValues:Vector.<Number>;
-    code = re.sub(r"\.<.*?>", "", code);
+    ## var m_registers:Vector.<Vector.<b2ContactRegister> > = null;
+    code = re.sub(r"\.<[^<>]*(<.*?>)?[^>]*>", "", code);
     ## remove override and virtual
     code = code.replace("override", "").replace("virtual", "").replace("\r", "")
     # hack ...

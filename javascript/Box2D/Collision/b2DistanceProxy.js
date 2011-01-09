@@ -18,7 +18,7 @@ b2DistanceProxy.prototype.Set = function (shape) {
 				case b2Shape.e_circleShape:
 				{
 					var circle = shape;
-					this.m_vertices = new Vector(1, true);
+					this.m_vertices = new Array(1, true);
 					this.m_vertices[0] = circle.m_p;
 					this.m_count = 1;
 					this.m_radius = circle.m_radius;

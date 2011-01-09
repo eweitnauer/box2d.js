@@ -11,8 +11,8 @@ b2PolygonShape.prototype.__constructor = function () {
 		m_type = e_polygonShape;
 		
 		m_centroid = new b2Vec2();
-		m_vertices = new Vector();
-		m_normals = new Vector();
+		m_vertices = new Array();
+		m_normals = new Array();
 	}
 b2PolygonShape.prototype.__varz = function(){
 }
@@ -131,7 +131,7 @@ b2PolygonShape.prototype.Set = function (other) {
 		}
 	}
 b2PolygonShape.prototype.SetAsArray = function (vertices, vertexCount ) {
-		var v = new Vector();
+		var v = new Array();
 		for each(var tVec in vertices)
 		{
 			v.push(tVec);
@@ -507,7 +507,7 @@ b2PolygonShape.prototype.ComputeSubmergedArea = function (
 		var normalL = b2Math.MulTMV(xf.R, normal);
 		var offsetL = offset - b2Math.Dot(normal, xf.position);
 		
-		var depths = new Vector();
+		var depths = new Array();
 		var diveCount = 0;
 		var intoIndex = -1;
 		var outoIndex = -1;

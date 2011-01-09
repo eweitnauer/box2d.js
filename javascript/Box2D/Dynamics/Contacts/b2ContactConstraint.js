@@ -3,7 +3,7 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 b2ContactConstraint.prototype.__constructor = function () {
-		this.points = new Vector(b2Settings.b2_maxManifoldPoints);
+		this.points = new Array(b2Settings.b2_maxManifoldPoints);
 		for (var i = 0; i < b2Settings.b2_maxManifoldPoints; i++){
 			this.points[i] = new b2ContactConstraintPoint();
 		}

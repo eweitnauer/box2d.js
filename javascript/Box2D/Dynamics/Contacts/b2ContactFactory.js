@@ -8,7 +8,7 @@ b2ContactFactory.prototype.__varz = function(){
 // static attributes
 // static methods
 // attributes
-b2ContactFactory.prototype.m_registers > =  null;
+b2ContactFactory.prototype.m_registers =  null;
 b2ContactFactory.prototype.m_allocator =  null;
 // methods
 b2ContactFactory.prototype.Create = function (fixtureA, fixtureB) {
@@ -18,7 +18,7 @@ b2ContactFactory.prototype.Create = function (fixtureA, fixtureB) {
 		
 		
 		
-		var reg = m_registers[type1][type2];
+		var reg = this.m_registers[type1][type2];
 		
 		var c;
 		
@@ -66,7 +66,7 @@ b2ContactFactory.prototype.Destroy = function (contact) {
 		
 		
 		
-		var reg = m_registers[type1][type2];
+		var reg = this.m_registers[type1][type2];
 		
 		if (true)
 		{

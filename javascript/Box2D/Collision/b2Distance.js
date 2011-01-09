@@ -10,8 +10,8 @@ b2Distance.b2_gjkCalls =  0;
 b2Distance.b2_gjkIters =  0;
 b2Distance.b2_gjkMaxIters =  0;
 b2Distance.s_simplex =  new b2Simplex();
-b2Distance.s_saveA =  new Vector(3);
-b2Distance.s_saveB =  new Vector(3);
+b2Distance.s_saveA =  new Array(3);
+b2Distance.s_saveB =  new Array(3);
 // static methods
 b2Distance.Distance = function (output, cache, input) {
 	++b2Distance.b2_gjkCalls;

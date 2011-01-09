@@ -3,7 +3,7 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 b2Manifold.prototype.__constructor = function () {
-		this.m_points = new Vector(b2Settings.b2_maxManifoldPoints);
+		this.m_points = new Array(b2Settings.b2_maxManifoldPoints);
 		for (var i = 0; i < b2Settings.b2_maxManifoldPoints; i++){
 			this.m_points[i] = new b2ManifoldPoint();
 		}

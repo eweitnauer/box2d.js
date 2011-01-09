@@ -245,7 +245,7 @@ b2DynamicTree.prototype.Query = function (callback, aabb) {
 			if (this.m_root == null)
 				return;
 				
-			var stack = new Vector();
+			var stack = new Array();
 			
 			var count = 0;
 			stack[count++] = this.m_root;
@@ -300,7 +300,7 @@ b2DynamicTree.prototype.RayCast = function (callback, input) {
 				segmentAABB.upperBound.y = Math.max(p1.y, tY);
 			}
 			
-			var stack = new Vector();
+			var stack = new Array();
 			
 			var count = 0;
 			stack[count++] = this.m_root;
