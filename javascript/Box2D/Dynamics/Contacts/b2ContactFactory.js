@@ -5,11 +5,8 @@ this.__constructor.apply(this, arguments);
 b2ContactFactory.prototype.__constructor = function(){}
 b2ContactFactory.prototype.__varz = function(){
 }
-// static attributes
 // static methods
-// attributes
-b2ContactFactory.prototype.m_registers =  null;
-b2ContactFactory.prototype.m_allocator =  null;
+// static attributes
 // methods
 b2ContactFactory.prototype.Create = function (fixtureA, fixtureB) {
 		var type1 = fixtureA.GetType();
@@ -78,3 +75,6 @@ b2ContactFactory.prototype.Destroy = function (contact) {
 		var destroyFcn = reg.destroyFcn;
 		destroyFcn(contact, this.m_allocator);
 	}
+// attributes
+b2ContactFactory.prototype.m_registers =  null;
+b2ContactFactory.prototype.m_allocator =  null;

@@ -38,23 +38,8 @@ this.m_direction =  new b2Vec2();
 this.m_cornerDir1 =  new b2Vec2();
 this.m_cornerDir2 =  new b2Vec2();
 }
-// static attributes
 // static methods
-// attributes
-b2EdgeShape.prototype.s_supportVec =  new b2Vec2();
-b2EdgeShape.prototype.m_v1 =  new b2Vec2();
-b2EdgeShape.prototype.m_v2 =  new b2Vec2();
-b2EdgeShape.prototype.m_coreV1 =  new b2Vec2();
-b2EdgeShape.prototype.m_coreV2 =  new b2Vec2();
-b2EdgeShape.prototype.m_length =  null;
-b2EdgeShape.prototype.m_normal =  new b2Vec2();
-b2EdgeShape.prototype.m_direction =  new b2Vec2();
-b2EdgeShape.prototype.m_cornerDir1 =  new b2Vec2();
-b2EdgeShape.prototype.m_cornerDir2 =  new b2Vec2();
-b2EdgeShape.prototype.m_cornerConvex1 =  null;
-b2EdgeShape.prototype.m_cornerConvex2 =  null;
-b2EdgeShape.prototype.m_nextEdge =  null;
-b2EdgeShape.prototype.m_prevEdge =  null;
+// static attributes
 // methods
 b2EdgeShape.prototype.TestPoint = function (transform, p) {
 		return false;
@@ -246,3 +231,18 @@ b2EdgeShape.prototype.Support = function (xf, dX, dY) {
 		}
 		return this.s_supportVec;
 	}
+// attributes
+b2EdgeShape.prototype.s_supportVec =  new b2Vec2();
+b2EdgeShape.prototype.m_v1 =  new b2Vec2();
+b2EdgeShape.prototype.m_v2 =  new b2Vec2();
+b2EdgeShape.prototype.m_coreV1 =  new b2Vec2();
+b2EdgeShape.prototype.m_coreV2 =  new b2Vec2();
+b2EdgeShape.prototype.m_length =  null;
+b2EdgeShape.prototype.m_normal =  new b2Vec2();
+b2EdgeShape.prototype.m_direction =  new b2Vec2();
+b2EdgeShape.prototype.m_cornerDir1 =  new b2Vec2();
+b2EdgeShape.prototype.m_cornerDir2 =  new b2Vec2();
+b2EdgeShape.prototype.m_cornerConvex1 =  null;
+b2EdgeShape.prototype.m_cornerConvex2 =  null;
+b2EdgeShape.prototype.m_nextEdge =  null;
+b2EdgeShape.prototype.m_prevEdge =  null;

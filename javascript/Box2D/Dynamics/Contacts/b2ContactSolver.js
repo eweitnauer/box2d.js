@@ -8,15 +8,10 @@ b2ContactSolver.prototype.__varz = function(){
 this.m_step =  new b2TimeStep();
 this.m_constraints =  new Array ();
 }
+// static methods
 // static attributes
 b2ContactSolver.s_worldManifold =  new b2WorldManifold();
 b2ContactSolver.s_psm =  new b2PositionSolverManifold();
-// static methods
-// attributes
-b2ContactSolver.prototype.m_step =  new b2TimeStep();
-b2ContactSolver.prototype.m_allocator =  null;
-b2ContactSolver.prototype.m_constraints =  new Array ();
-b2ContactSolver.prototype.m_constraintCount =  0;
 // methods
 b2ContactSolver.prototype.Initialize = function (step, contacts, contactCount, allocator) {
 		var contact;
@@ -783,3 +778,8 @@ b2ContactSolver.prototype.SolvePositionConstraints = function (baumgarte) {
 		
 		return minSeparation > -1.5 * b2Settings.b2_linearSlop;
 	}
+// attributes
+b2ContactSolver.prototype.m_step =  new b2TimeStep();
+b2ContactSolver.prototype.m_allocator =  null;
+b2ContactSolver.prototype.m_constraints =  new Array ();
+b2ContactSolver.prototype.m_constraintCount =  0;

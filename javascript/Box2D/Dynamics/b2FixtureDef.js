@@ -16,8 +16,9 @@ b2FixtureDef.prototype.__constructor = function () {
 b2FixtureDef.prototype.__varz = function(){
 this.filter =  new b2FilterData();
 }
-// static attributes
 // static methods
+// static attributes
+// methods
 // attributes
 b2FixtureDef.prototype.shape =  null;
 b2FixtureDef.prototype.userData =  null;
@@ -26,4 +27,3 @@ b2FixtureDef.prototype.restitution =  null;
 b2FixtureDef.prototype.density =  null;
 b2FixtureDef.prototype.isSensor =  null;
 b2FixtureDef.prototype.filter =  new b2FilterData();
-// methods

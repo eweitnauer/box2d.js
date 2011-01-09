@@ -5,10 +5,6 @@ this.__constructor.apply(this, arguments);
 b2Math.prototype.__constructor = function(){}
 b2Math.prototype.__varz = function(){
 }
-// static attributes
-b2Math.b2Vec2_zero =  new b2Vec2(0.0, 0.0);
-b2Math.b2Mat22_identity =  b2Mat22.FromVV(new b2Vec2(1.0, 0.0), new b2Vec2(0.0, 1.0));
-b2Math.b2Transform_identity =  new b2Transform(b2Math.b2Vec2_zero, b2Math.b2Mat22_identity);
 // static methods
 b2Math.IsValid = function (x) {
 		return isFinite(x);
@@ -146,5 +142,9 @@ b2Math.IsPowerOfTwo = function (x) {
 		var result = x > 0 && (x & (x - 1)) == 0;
 		return result;
 	}
-// attributes
+// static attributes
+b2Math.b2Vec2_zero =  new b2Vec2(0.0, 0.0);
+b2Math.b2Mat22_identity =  b2Mat22.FromVV(new b2Vec2(1.0, 0.0), new b2Vec2(0.0, 1.0));
+b2Math.b2Transform_identity =  new b2Transform(b2Math.b2Vec2_zero, b2Math.b2Mat22_identity);
 // methods
+// attributes

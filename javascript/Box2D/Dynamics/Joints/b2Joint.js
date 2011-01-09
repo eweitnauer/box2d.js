@@ -19,8 +19,34 @@ this.m_edgeB =  new b2JointEdge();
 this.m_localCenterA =  new b2Vec2();
 this.m_localCenterB =  new b2Vec2();
 }
-// static attributes
 // static methods
+// static attributes
+// methods
+b2Joint.prototype.GetType = function () {
+		return this.m_type;
+	}
+b2Joint.prototype.GetAnchorA = function () {return null}
+b2Joint.prototype.GetAnchorB = function () {return null}
+b2Joint.prototype.GetReactionForce = function (inv_dt) {return null}
+b2Joint.prototype.GetReactionTorque = function (inv_dt) {return 0.0}
+b2Joint.prototype.GetBodyA = function () {
+		return this.m_bodyA;
+	}
+b2Joint.prototype.GetBodyB = function () {
+		return this.m_bodyB;
+	}
+b2Joint.prototype.GetNext = function () {
+		return this.m_next;
+	}
+b2Joint.prototype.GetUserData = function () {
+		return this.m_userData;
+	}
+b2Joint.prototype.SetUserData = function (data) {
+		this.m_userData = data;
+	}
+b2Joint.prototype.IsActive = function () {
+		return this.m_bodyA.IsActive() && this.m_bodyB.IsActive();
+	}
 // attributes
 b2Joint.prototype.m_type =  0;
 b2Joint.prototype.m_prev =  null;
@@ -52,29 +78,3 @@ b2Joint.prototype.e_inactiveLimit =  0;
 b2Joint.prototype.e_atLowerLimit =  1;
 b2Joint.prototype.e_atUpperLimit =  2;
 b2Joint.prototype.e_equalLimits =  3;
-// methods
-b2Joint.prototype.GetType = function () {
-		return this.m_type;
-	}
-b2Joint.prototype.GetAnchorA = function () {return null}
-b2Joint.prototype.GetAnchorB = function () {return null}
-b2Joint.prototype.GetReactionForce = function (inv_dt) {return null}
-b2Joint.prototype.GetReactionTorque = function (inv_dt) {return 0.0}
-b2Joint.prototype.GetBodyA = function () {
-		return this.m_bodyA;
-	}
-b2Joint.prototype.GetBodyB = function () {
-		return this.m_bodyB;
-	}
-b2Joint.prototype.GetNext = function () {
-		return this.m_next;
-	}
-b2Joint.prototype.GetUserData = function () {
-		return this.m_userData;
-	}
-b2Joint.prototype.SetUserData = function (data) {
-		this.m_userData = data;
-	}
-b2Joint.prototype.IsActive = function () {
-		return this.m_bodyA.IsActive() && this.m_bodyB.IsActive();
-	}

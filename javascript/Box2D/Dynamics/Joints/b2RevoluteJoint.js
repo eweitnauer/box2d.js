@@ -39,31 +39,9 @@ this.m_localAnchor2 =  new b2Vec2();
 this.m_impulse =  new b2Vec3();
 this.m_mass =  new b2Mat33();
 }
+// static methods
 // static attributes
 b2RevoluteJoint.tImpulse =  new b2Vec2();
-// static methods
-// attributes
-b2RevoluteJoint.prototype.K =  new b2Mat22();
-b2RevoluteJoint.prototype.K1 =  new b2Mat22();
-b2RevoluteJoint.prototype.K2 =  new b2Mat22();
-b2RevoluteJoint.prototype.K3 =  new b2Mat22();
-b2RevoluteJoint.prototype.impulse3 =  new b2Vec3();
-b2RevoluteJoint.prototype.impulse2 =  new b2Vec2();
-b2RevoluteJoint.prototype.reduced =  new b2Vec2();
-b2RevoluteJoint.prototype.m_localAnchor1 =  new b2Vec2();
-b2RevoluteJoint.prototype.m_localAnchor2 =  new b2Vec2();
-b2RevoluteJoint.prototype.m_impulse =  new b2Vec3();
-b2RevoluteJoint.prototype.m_motorImpulse =  null;
-b2RevoluteJoint.prototype.m_mass =  new b2Mat33();
-b2RevoluteJoint.prototype.m_motorMass =  null;
-b2RevoluteJoint.prototype.m_enableMotor =  null;
-b2RevoluteJoint.prototype.m_maxMotorTorque =  null;
-b2RevoluteJoint.prototype.m_motorSpeed =  null;
-b2RevoluteJoint.prototype.m_enableLimit =  null;
-b2RevoluteJoint.prototype.m_referenceAngle =  null;
-b2RevoluteJoint.prototype.m_lowerAngle =  null;
-b2RevoluteJoint.prototype.m_upperAngle =  null;
-b2RevoluteJoint.prototype.m_limitState =  0;
 // methods
 b2RevoluteJoint.prototype.GetAnchorA = function () {
 		return this.m_bodyA.GetWorldPoint(this.m_localAnchor1);
@@ -126,3 +104,25 @@ b2RevoluteJoint.prototype.SetMaxMotorTorque = function (torque) {
 b2RevoluteJoint.prototype.GetMotorTorque = function () {
 		return this.m_maxMotorTorque;
 	}
+// attributes
+b2RevoluteJoint.prototype.K =  new b2Mat22();
+b2RevoluteJoint.prototype.K1 =  new b2Mat22();
+b2RevoluteJoint.prototype.K2 =  new b2Mat22();
+b2RevoluteJoint.prototype.K3 =  new b2Mat22();
+b2RevoluteJoint.prototype.impulse3 =  new b2Vec3();
+b2RevoluteJoint.prototype.impulse2 =  new b2Vec2();
+b2RevoluteJoint.prototype.reduced =  new b2Vec2();
+b2RevoluteJoint.prototype.m_localAnchor1 =  new b2Vec2();
+b2RevoluteJoint.prototype.m_localAnchor2 =  new b2Vec2();
+b2RevoluteJoint.prototype.m_impulse =  new b2Vec3();
+b2RevoluteJoint.prototype.m_motorImpulse =  null;
+b2RevoluteJoint.prototype.m_mass =  new b2Mat33();
+b2RevoluteJoint.prototype.m_motorMass =  null;
+b2RevoluteJoint.prototype.m_enableMotor =  null;
+b2RevoluteJoint.prototype.m_maxMotorTorque =  null;
+b2RevoluteJoint.prototype.m_motorSpeed =  null;
+b2RevoluteJoint.prototype.m_enableLimit =  null;
+b2RevoluteJoint.prototype.m_referenceAngle =  null;
+b2RevoluteJoint.prototype.m_lowerAngle =  null;
+b2RevoluteJoint.prototype.m_upperAngle =  null;
+b2RevoluteJoint.prototype.m_limitState =  0;

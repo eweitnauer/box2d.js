@@ -47,30 +47,8 @@ this.m_localAnchor2 =  new b2Vec2();
 this.m_u1 =  new b2Vec2();
 this.m_u2 =  new b2Vec2();
 }
-// static attributes
 // static methods
-// attributes
-b2PulleyJoint.prototype.m_ground =  null;
-b2PulleyJoint.prototype.m_groundAnchor1 =  new b2Vec2();
-b2PulleyJoint.prototype.m_groundAnchor2 =  new b2Vec2();
-b2PulleyJoint.prototype.m_localAnchor1 =  new b2Vec2();
-b2PulleyJoint.prototype.m_localAnchor2 =  new b2Vec2();
-b2PulleyJoint.prototype.m_u1 =  new b2Vec2();
-b2PulleyJoint.prototype.m_u2 =  new b2Vec2();
-b2PulleyJoint.prototype.m_constant =  null;
-b2PulleyJoint.prototype.m_ratio =  null;
-b2PulleyJoint.prototype.m_maxLength1 =  null;
-b2PulleyJoint.prototype.m_maxLength2 =  null;
-b2PulleyJoint.prototype.m_pulleyMass =  null;
-b2PulleyJoint.prototype.m_limitMass1 =  null;
-b2PulleyJoint.prototype.m_limitMass2 =  null;
-b2PulleyJoint.prototype.m_impulse =  null;
-b2PulleyJoint.prototype.m_limitImpulse1 =  null;
-b2PulleyJoint.prototype.m_limitImpulse2 =  null;
-b2PulleyJoint.prototype.m_state =  0;
-b2PulleyJoint.prototype.m_limitState1 =  0;
-b2PulleyJoint.prototype.m_limitState2 =  0;
-b2PulleyJoint.prototype.b2_minPulleyLength =  2.0;
+// static attributes
 // methods
 b2PulleyJoint.prototype.GetAnchorA = function () {
 		return this.m_bodyA.GetWorldPoint(this.m_localAnchor1);
@@ -124,3 +102,25 @@ b2PulleyJoint.prototype.GetLength2 = function () {
 b2PulleyJoint.prototype.GetRatio = function () {
 		return this.m_ratio;
 	}
+// attributes
+b2PulleyJoint.prototype.m_ground =  null;
+b2PulleyJoint.prototype.m_groundAnchor1 =  new b2Vec2();
+b2PulleyJoint.prototype.m_groundAnchor2 =  new b2Vec2();
+b2PulleyJoint.prototype.m_localAnchor1 =  new b2Vec2();
+b2PulleyJoint.prototype.m_localAnchor2 =  new b2Vec2();
+b2PulleyJoint.prototype.m_u1 =  new b2Vec2();
+b2PulleyJoint.prototype.m_u2 =  new b2Vec2();
+b2PulleyJoint.prototype.m_constant =  null;
+b2PulleyJoint.prototype.m_ratio =  null;
+b2PulleyJoint.prototype.m_maxLength1 =  null;
+b2PulleyJoint.prototype.m_maxLength2 =  null;
+b2PulleyJoint.prototype.m_pulleyMass =  null;
+b2PulleyJoint.prototype.m_limitMass1 =  null;
+b2PulleyJoint.prototype.m_limitMass2 =  null;
+b2PulleyJoint.prototype.m_impulse =  null;
+b2PulleyJoint.prototype.m_limitImpulse1 =  null;
+b2PulleyJoint.prototype.m_limitImpulse2 =  null;
+b2PulleyJoint.prototype.m_state =  0;
+b2PulleyJoint.prototype.m_limitState1 =  0;
+b2PulleyJoint.prototype.m_limitState2 =  0;
+b2PulleyJoint.prototype.b2_minPulleyLength =  2.0;

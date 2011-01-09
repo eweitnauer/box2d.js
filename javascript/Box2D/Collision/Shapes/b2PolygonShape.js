@@ -16,8 +16,6 @@ b2PolygonShape.prototype.__constructor = function () {
 	}
 b2PolygonShape.prototype.__varz = function(){
 }
-// static attributes
-b2PolygonShape.s_mat =  new b2Mat22();
 // static methods
 b2PolygonShape.AsArray = function (vertices, vertexCount) {
 		var polygonShape = new b2PolygonShape();
@@ -97,11 +95,8 @@ b2PolygonShape.ComputeCentroid = function (vs, count) {
 		c.y *= 1.0 / area;
 		return c;
 	}
-// attributes
-b2PolygonShape.prototype.m_centroid =  null;
-b2PolygonShape.prototype.m_vertices =  null;
-b2PolygonShape.prototype.m_normals =  null;
-b2PolygonShape.prototype.m_vertexCount =  0;
+// static attributes
+b2PolygonShape.s_mat =  new b2Mat22();
 // methods
 b2PolygonShape.prototype.Validate = function () {
 		
@@ -649,3 +644,8 @@ b2PolygonShape.prototype.GetSupportVertex = function (d) {
 		}
 		return this.m_vertices[bestIndex];
 	}
+// attributes
+b2PolygonShape.prototype.m_centroid =  null;
+b2PolygonShape.prototype.m_vertices =  null;
+b2PolygonShape.prototype.m_normals =  null;
+b2PolygonShape.prototype.m_vertexCount =  0;

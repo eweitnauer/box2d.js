@@ -13,13 +13,8 @@ b2DynamicTree.prototype.__constructor = function () {
 		}
 b2DynamicTree.prototype.__varz = function(){
 }
-// static attributes
 // static methods
-// attributes
-b2DynamicTree.prototype.m_root =  null;
-b2DynamicTree.prototype.m_freeList =  null;
-b2DynamicTree.prototype.m_path =  0;
-b2DynamicTree.prototype.m_insertionCount =  0;
+// static attributes
 // methods
 b2DynamicTree.prototype.AllocateNode = function () {
 			
@@ -354,3 +349,8 @@ b2DynamicTree.prototype.RayCast = function (callback, input) {
 				}
 			}
 		}
+// attributes
+b2DynamicTree.prototype.m_root =  null;
+b2DynamicTree.prototype.m_freeList =  null;
+b2DynamicTree.prototype.m_path =  0;
+b2DynamicTree.prototype.m_insertionCount =  0;

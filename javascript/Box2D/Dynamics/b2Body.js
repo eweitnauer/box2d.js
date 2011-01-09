@@ -112,46 +112,12 @@ this.e_bulletFlag =  0x0008;
 this.e_fixedRotationFlag =  0x0010;
 this.e_activeFlag =  0x0020;
 }
+// static methods
 // static attributes
 b2Body.b2_staticBody =  0;
 b2Body.b2_kinematicBody =  1;
 b2Body.b2_dynamicBody =  2;
 b2Body.s_xf1 =  new b2Transform();
-// static methods
-// attributes
-b2Body.prototype.m_flags =  0;
-b2Body.prototype.m_type =  0;
-b2Body.prototype.m_islandIndex =  0;
-b2Body.prototype.m_xf =  new b2Transform();
-b2Body.prototype.m_sweep =  new b2Sweep();
-b2Body.prototype.m_linearVelocity =  new b2Vec2();
-b2Body.prototype.m_angularVelocity =  null;
-b2Body.prototype.m_force =  new b2Vec2();
-b2Body.prototype.m_torque =  null;
-b2Body.prototype.m_world =  null;
-b2Body.prototype.m_prev =  null;
-b2Body.prototype.m_next =  null;
-b2Body.prototype.m_fixtureList =  null;
-b2Body.prototype.m_fixtureCount =  0;
-b2Body.prototype.m_controllerList =  null;
-b2Body.prototype.m_controllerCount =  0;
-b2Body.prototype.m_jointList =  null;
-b2Body.prototype.m_contactList =  null;
-b2Body.prototype.m_mass =  null;
-b2Body.prototype.m_invMass =  null;
-b2Body.prototype.m_I =  null;
-b2Body.prototype.m_invI =  null;
-b2Body.prototype.m_inertiaScale =  null;
-b2Body.prototype.m_linearDamping =  null;
-b2Body.prototype.m_angularDamping =  null;
-b2Body.prototype.m_sleepTime =  null;
-b2Body.prototype.m_userData =  null;
-b2Body.prototype.e_islandFlag =  0x0001;
-b2Body.prototype.e_awakeFlag =  0x0002;
-b2Body.prototype.e_allowSleepFlag =  0x0004;
-b2Body.prototype.e_bulletFlag =  0x0008;
-b2Body.prototype.e_fixedRotationFlag =  0x0010;
-b2Body.prototype.e_activeFlag =  0x0020;
 // methods
 b2Body.prototype.connectEdges = function (s1, s2, angle1) {
 		var angle2 = Math.atan2(s2.GetDirectionVector().y, s2.GetDirectionVector().x);
@@ -852,3 +818,37 @@ b2Body.prototype.SetUserData = function (data) {
 b2Body.prototype.GetWorld = function () {
 		return this.m_world;
 	}
+// attributes
+b2Body.prototype.m_flags =  0;
+b2Body.prototype.m_type =  0;
+b2Body.prototype.m_islandIndex =  0;
+b2Body.prototype.m_xf =  new b2Transform();
+b2Body.prototype.m_sweep =  new b2Sweep();
+b2Body.prototype.m_linearVelocity =  new b2Vec2();
+b2Body.prototype.m_angularVelocity =  null;
+b2Body.prototype.m_force =  new b2Vec2();
+b2Body.prototype.m_torque =  null;
+b2Body.prototype.m_world =  null;
+b2Body.prototype.m_prev =  null;
+b2Body.prototype.m_next =  null;
+b2Body.prototype.m_fixtureList =  null;
+b2Body.prototype.m_fixtureCount =  0;
+b2Body.prototype.m_controllerList =  null;
+b2Body.prototype.m_controllerCount =  0;
+b2Body.prototype.m_jointList =  null;
+b2Body.prototype.m_contactList =  null;
+b2Body.prototype.m_mass =  null;
+b2Body.prototype.m_invMass =  null;
+b2Body.prototype.m_I =  null;
+b2Body.prototype.m_invI =  null;
+b2Body.prototype.m_inertiaScale =  null;
+b2Body.prototype.m_linearDamping =  null;
+b2Body.prototype.m_angularDamping =  null;
+b2Body.prototype.m_sleepTime =  null;
+b2Body.prototype.m_userData =  null;
+b2Body.prototype.e_islandFlag =  0x0001;
+b2Body.prototype.e_awakeFlag =  0x0002;
+b2Body.prototype.e_allowSleepFlag =  0x0004;
+b2Body.prototype.e_bulletFlag =  0x0008;
+b2Body.prototype.e_fixedRotationFlag =  0x0010;
+b2Body.prototype.e_activeFlag =  0x0020;

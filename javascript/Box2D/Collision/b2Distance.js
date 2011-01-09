@@ -5,13 +5,6 @@ this.__constructor.apply(this, arguments);
 b2Distance.prototype.__constructor = function(){}
 b2Distance.prototype.__varz = function(){
 }
-// static attributes
-b2Distance.b2_gjkCalls =  0;
-b2Distance.b2_gjkIters =  0;
-b2Distance.b2_gjkMaxIters =  0;
-b2Distance.s_simplex =  new b2Simplex();
-b2Distance.s_saveA =  new Array(3);
-b2Distance.s_saveB =  new Array(3);
 // static methods
 b2Distance.Distance = function (output, cache, input) {
 	++b2Distance.b2_gjkCalls;
@@ -175,5 +168,12 @@ b2Distance.Distance = function (output, cache, input) {
 		}
 	}
 }
-// attributes
+// static attributes
+b2Distance.b2_gjkCalls =  0;
+b2Distance.b2_gjkIters =  0;
+b2Distance.b2_gjkMaxIters =  0;
+b2Distance.s_simplex =  new b2Simplex();
+b2Distance.s_saveA =  new Array(3);
+b2Distance.s_saveB =  new Array(3);
 // methods
+// attributes

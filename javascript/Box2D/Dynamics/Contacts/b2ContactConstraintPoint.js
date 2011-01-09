@@ -8,8 +8,9 @@ this.localPoint = new b2Vec2();
 this.rA = new b2Vec2();
 this.rB = new b2Vec2();
 }
-// static attributes
 // static methods
+// static attributes
+// methods
 // attributes
 b2ContactConstraintPoint.prototype.localPoint = new b2Vec2();
 b2ContactConstraintPoint.prototype.rA = new b2Vec2();
@@ -20,4 +21,3 @@ b2ContactConstraintPoint.prototype.normalMass =  null;
 b2ContactConstraintPoint.prototype.tangentMass =  null;
 b2ContactConstraintPoint.prototype.equalizedMass =  null;
 b2ContactConstraintPoint.prototype.velocityBias =  null;
-// methods

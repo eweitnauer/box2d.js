@@ -9,13 +9,8 @@ b2ManifoldPoint.prototype.__varz = function(){
 this.m_localPoint =  new b2Vec2();
 this.m_id =  new b2ContactID();
 }
-// static attributes
 // static methods
-// attributes
-b2ManifoldPoint.prototype.m_localPoint =  new b2Vec2();
-b2ManifoldPoint.prototype.m_normalImpulse =  null;
-b2ManifoldPoint.prototype.m_tangentImpulse =  null;
-b2ManifoldPoint.prototype.m_id =  new b2ContactID();
+// static attributes
 // methods
 b2ManifoldPoint.prototype.Reset = function () {
 		this.m_localPoint.SetZero();
@@ -29,3 +24,8 @@ b2ManifoldPoint.prototype.Set = function (m) {
 		this.m_tangentImpulse = m.m_tangentImpulse;
 		this.m_id.Set(m.m_id);
 	}
+// attributes
+b2ManifoldPoint.prototype.m_localPoint =  new b2Vec2();
+b2ManifoldPoint.prototype.m_normalImpulse =  null;
+b2ManifoldPoint.prototype.m_tangentImpulse =  null;
+b2ManifoldPoint.prototype.m_id =  new b2ContactID();

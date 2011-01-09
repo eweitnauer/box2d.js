@@ -10,18 +10,8 @@ b2BuoyancyController.prototype.__varz = function(){
 this.normal =  new b2Vec2(0,-1);
 this.velocity =  new b2Vec2(0,0);
 }
-// static attributes
 // static methods
-// attributes
-b2BuoyancyController.prototype.normal =  new b2Vec2(0,-1);
-b2BuoyancyController.prototype.offset =  0;
-b2BuoyancyController.prototype.density =  0;
-b2BuoyancyController.prototype.velocity =  new b2Vec2(0,0);
-b2BuoyancyController.prototype.linearDrag =  2;
-b2BuoyancyController.prototype.angularDrag =  1;
-b2BuoyancyController.prototype.useDensity =  false;
-b2BuoyancyController.prototype.useWorldGravity =  true;
-b2BuoyancyController.prototype.gravity =  null;
+// static attributes
 // methods
 b2BuoyancyController.prototype.Step = function (step) {
 		if(!m_bodyList)
@@ -91,3 +81,13 @@ b2BuoyancyController.prototype.Draw = function (debugDraw) {
 		var color = new b2Color(0,0,1);
 		debugDraw.DrawSegment(p1,p2,color);
 	}
+// attributes
+b2BuoyancyController.prototype.normal =  new b2Vec2(0,-1);
+b2BuoyancyController.prototype.offset =  0;
+b2BuoyancyController.prototype.density =  0;
+b2BuoyancyController.prototype.velocity =  new b2Vec2(0,0);
+b2BuoyancyController.prototype.linearDrag =  2;
+b2BuoyancyController.prototype.angularDrag =  1;
+b2BuoyancyController.prototype.useDensity =  false;
+b2BuoyancyController.prototype.useWorldGravity =  true;
+b2BuoyancyController.prototype.gravity =  null;

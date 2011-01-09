@@ -26,19 +26,8 @@ this.m_localAnchor1 =  new b2Vec2();
 this.m_localAnchor2 =  new b2Vec2();
 this.m_u =  new b2Vec2();
 }
-// static attributes
 // static methods
-// attributes
-b2DistanceJoint.prototype.m_localAnchor1 =  new b2Vec2();
-b2DistanceJoint.prototype.m_localAnchor2 =  new b2Vec2();
-b2DistanceJoint.prototype.m_u =  new b2Vec2();
-b2DistanceJoint.prototype.m_frequencyHz =  null;
-b2DistanceJoint.prototype.m_dampingRatio =  null;
-b2DistanceJoint.prototype.m_gamma =  null;
-b2DistanceJoint.prototype.m_bias =  null;
-b2DistanceJoint.prototype.m_impulse =  null;
-b2DistanceJoint.prototype.m_mass =  null;
-b2DistanceJoint.prototype.m_length =  null;
+// static attributes
 // methods
 b2DistanceJoint.prototype.GetAnchorA = function () {
 		return this.m_bodyA.GetWorldPoint(this.m_localAnchor1);
@@ -73,3 +62,14 @@ b2DistanceJoint.prototype.GetDampingRatio = function () {
 b2DistanceJoint.prototype.SetDampingRatio = function (ratio) {
 		this.m_dampingRatio = ratio;
 	}
+// attributes
+b2DistanceJoint.prototype.m_localAnchor1 =  new b2Vec2();
+b2DistanceJoint.prototype.m_localAnchor2 =  new b2Vec2();
+b2DistanceJoint.prototype.m_u =  new b2Vec2();
+b2DistanceJoint.prototype.m_frequencyHz =  null;
+b2DistanceJoint.prototype.m_dampingRatio =  null;
+b2DistanceJoint.prototype.m_gamma =  null;
+b2DistanceJoint.prototype.m_bias =  null;
+b2DistanceJoint.prototype.m_impulse =  null;
+b2DistanceJoint.prototype.m_mass =  null;
+b2DistanceJoint.prototype.m_length =  null;

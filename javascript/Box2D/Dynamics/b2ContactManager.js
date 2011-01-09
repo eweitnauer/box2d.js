@@ -12,18 +12,9 @@ b2ContactManager.prototype.__constructor = function () {
 	}
 b2ContactManager.prototype.__varz = function(){
 }
+// static methods
 // static attributes
 b2ContactManager.s_evalCP =  new b2ContactPoint();
-// static methods
-// attributes
-b2ContactManager.prototype.m_world =  null;
-b2ContactManager.prototype.m_broadPhase =  null;
-b2ContactManager.prototype.m_contactList =  null;
-b2ContactManager.prototype.m_contactCount =  0;
-b2ContactManager.prototype.m_contactFilter =  null;
-b2ContactManager.prototype.m_contactListener =  null;
-b2ContactManager.prototype.m_contactFactory =  null;
-b2ContactManager.prototype.m_allocator =  null;
 // methods
 b2ContactManager.prototype.AddPair = function (proxyUserDataA, proxyUserDataB) {
 		var fixtureA = proxyUserDataA;
@@ -238,3 +229,12 @@ b2ContactManager.prototype.Collide = function () {
 			c = c.GetNext();
 		}
 	}
+// attributes
+b2ContactManager.prototype.m_world =  null;
+b2ContactManager.prototype.m_broadPhase =  null;
+b2ContactManager.prototype.m_contactList =  null;
+b2ContactManager.prototype.m_contactCount =  0;
+b2ContactManager.prototype.m_contactFilter =  null;
+b2ContactManager.prototype.m_contactListener =  null;
+b2ContactManager.prototype.m_contactFactory =  null;
+b2ContactManager.prototype.m_allocator =  null;

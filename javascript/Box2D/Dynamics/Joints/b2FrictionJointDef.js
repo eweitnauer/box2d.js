@@ -14,13 +14,8 @@ b2FrictionJointDef.prototype.__varz = function(){
 this.localAnchorA =  new b2Vec2();
 this.localAnchorB =  new b2Vec2();
 }
-// static attributes
 // static methods
-// attributes
-b2FrictionJointDef.prototype.localAnchorA =  new b2Vec2();
-b2FrictionJointDef.prototype.localAnchorB =  new b2Vec2();
-b2FrictionJointDef.prototype.maxForce =  null;
-b2FrictionJointDef.prototype.maxTorque =  null;
+// static attributes
 // methods
 b2FrictionJointDef.prototype.Initialize = function (bA, bB,
 								anchor) {
@@ -29,3 +24,8 @@ b2FrictionJointDef.prototype.Initialize = function (bA, bB,
 		this.localAnchorA.SetV( this.bodyA.GetLocalPoint(anchor));
 		this.localAnchorB.SetV( this.bodyB.GetLocalPoint(anchor));
 	}
+// attributes
+b2FrictionJointDef.prototype.localAnchorA =  new b2Vec2();
+b2FrictionJointDef.prototype.localAnchorB =  new b2Vec2();
+b2FrictionJointDef.prototype.maxForce =  null;
+b2FrictionJointDef.prototype.maxTorque =  null;

@@ -6,9 +6,9 @@ b2RayCastOutput.prototype.__constructor = function(){}
 b2RayCastOutput.prototype.__varz = function(){
 this.normal =  new b2Vec2();
 }
-// static attributes
 // static methods
+// static attributes
+// methods
 // attributes
 b2RayCastOutput.prototype.normal =  new b2Vec2();
 b2RayCastOutput.prototype.fraction =  null;
-// methods

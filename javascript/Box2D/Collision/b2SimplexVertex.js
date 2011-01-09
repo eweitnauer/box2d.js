@@ -5,15 +5,8 @@ this.__constructor.apply(this, arguments);
 b2SimplexVertex.prototype.__constructor = function(){}
 b2SimplexVertex.prototype.__varz = function(){
 }
-// static attributes
 // static methods
-// attributes
-b2SimplexVertex.prototype.wA =  null;
-b2SimplexVertex.prototype.wB =  null;
-b2SimplexVertex.prototype.w =  null;
-b2SimplexVertex.prototype.a =  null;
-b2SimplexVertex.prototype.indexA =  0;
-b2SimplexVertex.prototype.indexB =  0;
+// static attributes
 // methods
 b2SimplexVertex.prototype.Set = function (other) {
 		this.wA.SetV(other.wA);
@@ -23,3 +16,10 @@ b2SimplexVertex.prototype.Set = function (other) {
 		this.indexA = other.indexA;
 		this.indexB = other.indexB;
 	}
+// attributes
+b2SimplexVertex.prototype.wA =  null;
+b2SimplexVertex.prototype.wB =  null;
+b2SimplexVertex.prototype.w =  null;
+b2SimplexVertex.prototype.a =  null;
+b2SimplexVertex.prototype.indexA =  0;
+b2SimplexVertex.prototype.indexB =  0;

@@ -1,16 +1,10 @@
 var b2Vec3 = function(x, y, z) {
 	if(arguments.length == 3) {
 		this.x=x; this.y=y; this.z=z;
-	}	
 }
-
-// static attributes
+}
 // static methods
-// attributes
-b2Vec3.prototype.x =  0;
-b2Vec3.prototype.y =  0;
-b2Vec3.prototype.z =  0;
-
+// static attributes
 // methods
 b2Vec3.prototype.SetZero = function () {
 		this.x = this.y = this.z = 0.0;
@@ -39,3 +33,7 @@ b2Vec3.prototype.Subtract = function (v) {
 b2Vec3.prototype.Multiply = function (a) {
 		this.x *= a; this.y *= a; this.z *= a;
 	}
+// attributes
+b2Vec3.prototype.x =  0;
+b2Vec3.prototype.y =  0;
+b2Vec3.prototype.z =  0;

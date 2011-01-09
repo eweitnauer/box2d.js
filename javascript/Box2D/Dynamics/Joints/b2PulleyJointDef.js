@@ -24,18 +24,8 @@ this.groundAnchorB =  new b2Vec2();
 this.localAnchorA =  new b2Vec2();
 this.localAnchorB =  new b2Vec2();
 }
-// static attributes
 // static methods
-// attributes
-b2PulleyJointDef.prototype.groundAnchorA =  new b2Vec2();
-b2PulleyJointDef.prototype.groundAnchorB =  new b2Vec2();
-b2PulleyJointDef.prototype.localAnchorA =  new b2Vec2();
-b2PulleyJointDef.prototype.localAnchorB =  new b2Vec2();
-b2PulleyJointDef.prototype.lengthA =  null;
-b2PulleyJointDef.prototype.maxLengthA =  null;
-b2PulleyJointDef.prototype.lengthB =  null;
-b2PulleyJointDef.prototype.maxLengthB =  null;
-b2PulleyJointDef.prototype.ratio =  null;
+// static attributes
 // methods
 b2PulleyJointDef.prototype.Initialize = function (bA, bB,
 				gaA, gaB,
@@ -65,3 +55,13 @@ b2PulleyJointDef.prototype.Initialize = function (bA, bB,
 		this.maxLengthA = C - this.ratio * b2PulleyJoint.b2_minPulleyLength;
 		this.maxLengthB = (C - b2PulleyJoint.b2_minPulleyLength) / this.ratio;
 	}
+// attributes
+b2PulleyJointDef.prototype.groundAnchorA =  new b2Vec2();
+b2PulleyJointDef.prototype.groundAnchorB =  new b2Vec2();
+b2PulleyJointDef.prototype.localAnchorA =  new b2Vec2();
+b2PulleyJointDef.prototype.localAnchorB =  new b2Vec2();
+b2PulleyJointDef.prototype.lengthA =  null;
+b2PulleyJointDef.prototype.maxLengthA =  null;
+b2PulleyJointDef.prototype.lengthB =  null;
+b2PulleyJointDef.prototype.maxLengthB =  null;
+b2PulleyJointDef.prototype.ratio =  null;

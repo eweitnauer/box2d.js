@@ -26,17 +26,8 @@ this.m_localAnchorB =  new b2Vec2();
 this.m_linearImpulse =  new b2Vec2();
 this.m_linearMass =  new b2Mat22();
 }
-// static attributes
 // static methods
-// attributes
-b2FrictionJoint.prototype.m_localAnchorA =  new b2Vec2();
-b2FrictionJoint.prototype.m_localAnchorB =  new b2Vec2();
-b2FrictionJoint.prototype.m_linearImpulse =  new b2Vec2();
-b2FrictionJoint.prototype.m_angularImpulse =  null;
-b2FrictionJoint.prototype.m_maxForce =  null;
-b2FrictionJoint.prototype.m_maxTorque =  null;
-b2FrictionJoint.prototype.m_linearMass =  new b2Mat22();
-b2FrictionJoint.prototype.m_angularMass =  null;
+// static attributes
 // methods
 b2FrictionJoint.prototype.GetAnchorA = function () {
 		return this.m_bodyA.GetWorldPoint(this.m_localAnchorA);
@@ -63,3 +54,12 @@ b2FrictionJoint.prototype.SetMaxTorque = function (torque) {
 b2FrictionJoint.prototype.GetMaxTorque = function () {
 		return this.m_maxTorque;
 	}
+// attributes
+b2FrictionJoint.prototype.m_localAnchorA =  new b2Vec2();
+b2FrictionJoint.prototype.m_localAnchorB =  new b2Vec2();
+b2FrictionJoint.prototype.m_linearImpulse =  new b2Vec2();
+b2FrictionJoint.prototype.m_angularImpulse =  null;
+b2FrictionJoint.prototype.m_maxForce =  null;
+b2FrictionJoint.prototype.m_maxTorque =  null;
+b2FrictionJoint.prototype.m_linearMass =  new b2Mat22();
+b2FrictionJoint.prototype.m_angularMass =  null;

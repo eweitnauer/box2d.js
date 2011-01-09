@@ -36,6 +36,7 @@ this.m_contactManager =  new b2ContactManager();
 this.m_contactSolver =  new b2ContactSolver();
 this.m_island =  new b2Island();
 }
+// static methods
 // static attributes
 b2World.s_timestep2 =  new b2TimeStep();
 b2World.s_backupA =  new b2Sweep();
@@ -48,27 +49,6 @@ b2World.s_xf =  new b2Transform();
 b2World.s_jointColor =  new b2Color(0.5, 0.8, 0.8);
 b2World. m_warmStarting =  null;
 b2World. m_continuousPhysics =  null;
-// static methods
-// attributes
-b2World.prototype.s_stack =  new Array();
-b2World.prototype.m_flags =  0;
-b2World.prototype.m_contactManager =  new b2ContactManager();
-b2World.prototype.m_contactSolver =  new b2ContactSolver();
-b2World.prototype.m_island =  new b2Island();
-b2World.prototype.m_bodyList =  null;
-b2World.prototype.m_jointList =  null;
-b2World.prototype.m_contactList =  null;
-b2World.prototype.m_bodyCount =  0;
-b2World.prototype.m_contactCount =  0;
-b2World.prototype.m_jointCount =  0;
-b2World.prototype.m_controllerList =  null;
-b2World.prototype.m_controllerCount =  0;
-b2World.prototype.m_gravity =  null;
-b2World.prototype.m_allowSleep =  null;
-b2World.prototype.m_groundBody =  null;
-b2World.prototype.m_destructionListener =  null;
-b2World.prototype.m_debugDraw =  null;
-b2World.prototype.m_inv_dt0 =  null;
 // methods
 b2World.prototype.SetDestructionListener = function (listener) {
 		this.m_destructionListener = listener;
@@ -704,3 +684,23 @@ b2World.prototype.GetContactList = function () {
 b2World.prototype.IsLocked = function () {
 		return (this.m_flags & b2World.e_locked) > 0;
 	}
+// attributes
+b2World.prototype.s_stack =  new Array();
+b2World.prototype.m_flags =  0;
+b2World.prototype.m_contactManager =  new b2ContactManager();
+b2World.prototype.m_contactSolver =  new b2ContactSolver();
+b2World.prototype.m_island =  new b2Island();
+b2World.prototype.m_bodyList =  null;
+b2World.prototype.m_jointList =  null;
+b2World.prototype.m_contactList =  null;
+b2World.prototype.m_bodyCount =  0;
+b2World.prototype.m_contactCount =  0;
+b2World.prototype.m_jointCount =  0;
+b2World.prototype.m_controllerList =  null;
+b2World.prototype.m_controllerCount =  0;
+b2World.prototype.m_gravity =  null;
+b2World.prototype.m_allowSleep =  null;
+b2World.prototype.m_groundBody =  null;
+b2World.prototype.m_destructionListener =  null;
+b2World.prototype.m_debugDraw =  null;
+b2World.prototype.m_inv_dt0 =  null;

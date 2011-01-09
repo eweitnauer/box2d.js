@@ -8,7 +8,7 @@ b2NullContact.prototype._super = function(){ b2Contact.prototype.__constructor.a
 b2NullContact.prototype.__constructor = function () {}
 b2NullContact.prototype.__varz = function(){
 }
-// static attributes
 // static methods
-// attributes
+// static attributes
 // methods
+// attributes

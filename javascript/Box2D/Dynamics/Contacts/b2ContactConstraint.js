@@ -17,8 +17,9 @@ this.normal =  new b2Vec2();
 this.normalMass =  new b2Mat22();
 this.K =  new b2Mat22();
 }
-// static attributes
 // static methods
+// static attributes
+// methods
 // attributes
 b2ContactConstraint.prototype.points =  null;
 b2ContactConstraint.prototype.localPlaneNormal =  new b2Vec2();
@@ -34,4 +35,3 @@ b2ContactConstraint.prototype.friction =  null;
 b2ContactConstraint.prototype.restitution =  null;
 b2ContactConstraint.prototype.pointCount =  0;
 b2ContactConstraint.prototype.manifold =  null;
-// methods

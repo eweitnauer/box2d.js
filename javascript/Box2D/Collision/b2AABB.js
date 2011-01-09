@@ -7,16 +7,13 @@ b2AABB.prototype.__varz = function(){
 this.lowerBound =  new b2Vec2();
 this.upperBound =  new b2Vec2();
 }
-// static attributes
 // static methods
 b2AABB.Combine = function (aabb1, aabb2) {
 		var aabb = new b2AABB();
 		aabb.Combine(aabb1, aabb2);
 		return aabb;
 	}
-// attributes
-b2AABB.prototype.lowerBound =  new b2Vec2();
-b2AABB.prototype.upperBound =  new b2Vec2();
+// static attributes
 // methods
 b2AABB.prototype.IsValid = function () {
 		
@@ -165,3 +162,6 @@ b2AABB.prototype.Combine = function (aabb1, aabb2) {
 		this.upperBound.x = Math.max(aabb1.upperBound.x, aabb2.upperBound.x);
 		this.upperBound.y = Math.max(aabb1.upperBound.y, aabb2.upperBound.y);
 	}
+// attributes
+b2AABB.prototype.lowerBound =  new b2Vec2();
+b2AABB.prototype.upperBound =  new b2Vec2();

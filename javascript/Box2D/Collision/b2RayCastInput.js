@@ -7,10 +7,10 @@ b2RayCastInput.prototype.__varz = function(){
 this.p1 =  new b2Vec2();
 this.p2 =  new b2Vec2();
 }
-// static attributes
 // static methods
+// static attributes
+// methods
 // attributes
 b2RayCastInput.prototype.p1 =  new b2Vec2();
 b2RayCastInput.prototype.p2 =  new b2Vec2();
 b2RayCastInput.prototype.maxFraction =  null;
-// methods

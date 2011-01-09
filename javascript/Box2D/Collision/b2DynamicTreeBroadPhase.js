@@ -8,14 +8,8 @@ this.m_tree =  new b2DynamicTree();
 this.m_moveBuffer =  new Array();
 this.m_pairBuffer =  new Array();
 }
-// static attributes
 // static methods
-// attributes
-b2DynamicTreeBroadPhase.prototype.m_tree =  new b2DynamicTree();
-b2DynamicTreeBroadPhase.prototype.m_proxyCount =  0;
-b2DynamicTreeBroadPhase.prototype.m_moveBuffer =  new Array();
-b2DynamicTreeBroadPhase.prototype.m_pairBuffer =  new Array();
-b2DynamicTreeBroadPhase.prototype.m_pairCount =  0;
+// static attributes
 // methods
 b2DynamicTreeBroadPhase.prototype.BufferMove = function (proxy) {
 		this.m_moveBuffer[m_moveBuffer.length] = proxy;
@@ -132,3 +126,9 @@ b2DynamicTreeBroadPhase.prototype.Validate = function () {
 b2DynamicTreeBroadPhase.prototype.Rebalance = function (iterations) {
 		this.m_tree.Rebalance(iterations);
 	}
+// attributes
+b2DynamicTreeBroadPhase.prototype.m_tree =  new b2DynamicTree();
+b2DynamicTreeBroadPhase.prototype.m_proxyCount =  0;
+b2DynamicTreeBroadPhase.prototype.m_moveBuffer =  new Array();
+b2DynamicTreeBroadPhase.prototype.m_pairBuffer =  new Array();
+b2DynamicTreeBroadPhase.prototype.m_pairCount =  0;

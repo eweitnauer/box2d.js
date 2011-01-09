@@ -7,11 +7,8 @@ b2Segment.prototype.__varz = function(){
 this.p1 =  new b2Vec2();
 this.p2 =  new b2Vec2();
 }
-// static attributes
 // static methods
-// attributes
-b2Segment.prototype.p1 =  new b2Vec2();
-b2Segment.prototype.p2 =  new b2Vec2();
+// static attributes
 // methods
 b2Segment.prototype.TestSegment = function (lambda, 
 								normal, 
@@ -92,3 +89,6 @@ b2Segment.prototype.ExtendBackward = function (aabb) {
 		this.p1.y = this.p2.y + dY * lambda;
 		
 	}
+// attributes
+b2Segment.prototype.p1 =  new b2Vec2();
+b2Segment.prototype.p2 =  new b2Vec2();

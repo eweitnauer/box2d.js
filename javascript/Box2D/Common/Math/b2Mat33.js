@@ -21,12 +21,8 @@ this.col1 =  new b2Vec3();
 this.col2 =  new b2Vec3();
 this.col3 =  new b2Vec3();
 }
-// static attributes
 // static methods
-// attributes
-b2Mat33.prototype.col1 =  new b2Vec3();
-b2Mat33.prototype.col2 =  new b2Vec3();
-b2Mat33.prototype.col3 =  new b2Vec3();
+// static attributes
 // methods
 b2Mat33.prototype.SetVVV = function (c1, c2, c3) {
 		this.col1.SetV(c1);
@@ -111,3 +107,7 @@ b2Mat33.prototype.Solve33 = function (out, bX, bY, bZ) {
 						a31 * (a12 * bY - a22 * bX));
 		return out;
 	}
+// attributes
+b2Mat33.prototype.col1 =  new b2Vec3();
+b2Mat33.prototype.col2 =  new b2Vec3();
+b2Mat33.prototype.col3 =  new b2Vec3();

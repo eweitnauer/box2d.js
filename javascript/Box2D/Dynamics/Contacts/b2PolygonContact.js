@@ -8,7 +8,6 @@ b2PolygonContact.prototype._super = function(){ b2Contact.prototype.__constructo
 b2PolygonContact.prototype.__constructor = function(){}
 b2PolygonContact.prototype.__varz = function(){
 }
-// static attributes
 // static methods
 b2PolygonContact.Create = function (allocator) {
 		
@@ -18,10 +17,11 @@ b2PolygonContact.Destroy = function (contact, allocator) {
 		
 		
 	}
-// attributes
+// static attributes
 // methods
 b2PolygonContact.prototype.Reset = function (fixtureA, fixtureB) {
 		this._super.Reset(fixtureA, fixtureB);
 		
 		
 	}
+// attributes

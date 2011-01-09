@@ -13,11 +13,8 @@ b2Transform.prototype.__varz = function(){
 this.position =  new b2Vec2;
 this.R =  new b2Mat22();
 }
-// static attributes
 // static methods
-// attributes
-b2Transform.prototype.position =  new b2Vec2;
-b2Transform.prototype.R =  new b2Mat22();
+// static attributes
 // methods
 b2Transform.prototype.Initialize = function (pos, r) {
 		this.position.SetV(pos);
@@ -37,3 +34,6 @@ b2Transform.prototype.Set = function (x) {
 b2Transform.prototype.GetAngle = function () {
 		return Math.atan2(this.R.col1.y, this.R.col1.x);
 	}
+// attributes
+b2Transform.prototype.position =  new b2Vec2;
+b2Transform.prototype.R =  new b2Mat22();

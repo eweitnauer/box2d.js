@@ -8,7 +8,6 @@ b2CircleContact.prototype._super = function(){ b2Contact.prototype.__constructor
 b2CircleContact.prototype.__constructor = function(){}
 b2CircleContact.prototype.__varz = function(){
 }
-// static attributes
 // static methods
 b2CircleContact.Create = function (allocator) {
 		return new b2CircleContact();
@@ -16,10 +15,11 @@ b2CircleContact.Create = function (allocator) {
 b2CircleContact.Destroy = function (contact, allocator) {
 		
 	}
-// attributes
+// static attributes
 // methods
 b2CircleContact.prototype.Reset = function (fixtureA, fixtureB) {
 		this._super.Reset(fixtureA, fixtureB);
 		
 		
 	}
+// attributes

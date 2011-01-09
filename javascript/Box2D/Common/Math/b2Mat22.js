@@ -9,7 +9,6 @@ b2Mat22.prototype.__varz = function(){
 this.col1 =  new b2Vec2();
 this.col2 =  new b2Vec2();
 }
-// static attributes
 // static methods
 b2Mat22.FromAngle = function (angle) {
 		var mat = new b2Mat22();
@@ -21,9 +20,7 @@ b2Mat22.FromVV = function (c1, c2) {
 		mat.SetVV(c1, c2);
 		return mat;
 	}
-// attributes
-b2Mat22.prototype.col1 =  new b2Vec2();
-b2Mat22.prototype.col2 =  new b2Vec2();
+// static attributes
 // methods
 b2Mat22.prototype.Set = function (angle) {
 		var c = Math.cos(angle);
@@ -97,3 +94,6 @@ b2Mat22.prototype.Abs = function () {
 		this.col1.Abs();
 		this.col2.Abs();
 	}
+// attributes
+b2Mat22.prototype.col1 =  new b2Vec2();
+b2Mat22.prototype.col2 =  new b2Vec2();

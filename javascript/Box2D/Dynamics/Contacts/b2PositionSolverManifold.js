@@ -13,14 +13,10 @@ b2PositionSolverManifold.prototype.__constructor = function () {
 	}
 b2PositionSolverManifold.prototype.__varz = function(){
 }
+// static methods
 // static attributes
 b2PositionSolverManifold.circlePointA =  new b2Vec2();
 b2PositionSolverManifold.circlePointB =  new b2Vec2();
-// static methods
-// attributes
-b2PositionSolverManifold.prototype.m_normal =  null;
-b2PositionSolverManifold.prototype.m_points =  null;
-b2PositionSolverManifold.prototype.m_separations =  null;
 // methods
 b2PositionSolverManifold.prototype.Initialize = function (cc) {
 		b2Settings.b2Assert(cc.pointCount > 0);
@@ -123,3 +119,7 @@ b2PositionSolverManifold.prototype.Initialize = function (cc) {
 			break;
 		}
 	}
+// attributes
+b2PositionSolverManifold.prototype.m_normal =  null;
+b2PositionSolverManifold.prototype.m_points =  null;
+b2PositionSolverManifold.prototype.m_separations =  null;

@@ -18,27 +18,9 @@ this.m_nodeB =  new b2ContactEdge();
 this.m_manifold =  new b2Manifold();
 this.m_oldManifold =  new b2Manifold();
 }
+// static methods
 // static attributes
 b2Contact.s_input =  new b2TOIInput();
-// static methods
-// attributes
-b2Contact.prototype.e_sensorFlag =  0x0001;
-b2Contact.prototype.e_continuousFlag =  0x0002;
-b2Contact.prototype.e_islandFlag =  0x0004;
-b2Contact.prototype.e_toiFlag =  0x0008;
-b2Contact.prototype.e_touchingFlag =  0x0010;
-b2Contact.prototype.e_enabledFlag =  0x0020;
-b2Contact.prototype.e_filterFlag =  0x0040;
-b2Contact.prototype.m_flags =  0;
-b2Contact.prototype.m_prev =  null;
-b2Contact.prototype.m_next =  null;
-b2Contact.prototype.m_nodeA =  new b2ContactEdge();
-b2Contact.prototype.m_nodeB =  new b2ContactEdge();
-b2Contact.prototype.m_fixtureA =  null;
-b2Contact.prototype.m_fixtureB =  null;
-b2Contact.prototype.m_manifold =  new b2Manifold();
-b2Contact.prototype.m_oldManifold =  new b2Manifold();
-b2Contact.prototype.m_toi =  null;
 // methods
 b2Contact.prototype.GetManifold = function () {
 		return this.m_manifold;
@@ -95,3 +77,21 @@ b2Contact.prototype.GetFixtureB = function () {
 b2Contact.prototype.FlagForFiltering = function () {
 		this.m_flags |= this.e_filterFlag;
 	}
+// attributes
+b2Contact.prototype.e_sensorFlag =  0x0001;
+b2Contact.prototype.e_continuousFlag =  0x0002;
+b2Contact.prototype.e_islandFlag =  0x0004;
+b2Contact.prototype.e_toiFlag =  0x0008;
+b2Contact.prototype.e_touchingFlag =  0x0010;
+b2Contact.prototype.e_enabledFlag =  0x0020;
+b2Contact.prototype.e_filterFlag =  0x0040;
+b2Contact.prototype.m_flags =  0;
+b2Contact.prototype.m_prev =  null;
+b2Contact.prototype.m_next =  null;
+b2Contact.prototype.m_nodeA =  new b2ContactEdge();
+b2Contact.prototype.m_nodeB =  new b2ContactEdge();
+b2Contact.prototype.m_fixtureA =  null;
+b2Contact.prototype.m_fixtureB =  null;
+b2Contact.prototype.m_manifold =  new b2Manifold();
+b2Contact.prototype.m_oldManifold =  new b2Manifold();
+b2Contact.prototype.m_toi =  null;

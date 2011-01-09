@@ -5,18 +5,6 @@ this.__constructor.apply(this, arguments);
 b2TimeOfImpact.prototype.__constructor = function(){}
 b2TimeOfImpact.prototype.__varz = function(){
 }
-// static attributes
-b2TimeOfImpact.b2_toiCalls =  0;
-b2TimeOfImpact.b2_toiIters =  0;
-b2TimeOfImpact.b2_toiMaxIters =  0;
-b2TimeOfImpact.b2_toiRootIters =  0;
-b2TimeOfImpact.b2_toiMaxRootIters =  0;
-b2TimeOfImpact.s_cache =  new b2SimplexCache();
-b2TimeOfImpact.s_distanceInput =  new b2DistanceInput();
-b2TimeOfImpact.s_xfA =  new b2Transform();
-b2TimeOfImpact.s_xfB =  new b2Transform();
-b2TimeOfImpact.s_fcn =  new b2SeparationFunction();
-b2TimeOfImpact.s_distanceOutput =  new b2DistanceOutput();
 // static methods
 b2TimeOfImpact.TimeOfImpact = function (input) {
 		++b2TimeOfImpact.b2_toiCalls;
@@ -211,5 +199,17 @@ b2TimeOfImpact.TimeOfImpact = function (input) {
 
 		return alpha;
 	}
-// attributes
+// static attributes
+b2TimeOfImpact.b2_toiCalls =  0;
+b2TimeOfImpact.b2_toiIters =  0;
+b2TimeOfImpact.b2_toiMaxIters =  0;
+b2TimeOfImpact.b2_toiRootIters =  0;
+b2TimeOfImpact.b2_toiMaxRootIters =  0;
+b2TimeOfImpact.s_cache =  new b2SimplexCache();
+b2TimeOfImpact.s_distanceInput =  new b2DistanceInput();
+b2TimeOfImpact.s_xfA =  new b2Transform();
+b2TimeOfImpact.s_xfB =  new b2Transform();
+b2TimeOfImpact.s_fcn =  new b2SeparationFunction();
+b2TimeOfImpact.s_distanceOutput =  new b2DistanceOutput();
 // methods
+// attributes

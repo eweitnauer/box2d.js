@@ -47,31 +47,8 @@ this.m_perp =  new b2Vec2();
 this.m_K =  new b2Mat33();
 this.m_impulse =  new b2Vec3();
 }
-// static attributes
 // static methods
-// attributes
-b2PrismaticJoint.prototype.m_localAnchor1 =  new b2Vec2();
-b2PrismaticJoint.prototype.m_localAnchor2 =  new b2Vec2();
-b2PrismaticJoint.prototype.m_localXAxis1 =  new b2Vec2();
-b2PrismaticJoint.prototype.m_localYAxis1 =  new b2Vec2();
-b2PrismaticJoint.prototype.m_refAngle =  null;
-b2PrismaticJoint.prototype.m_axis =  new b2Vec2();
-b2PrismaticJoint.prototype.m_perp =  new b2Vec2();
-b2PrismaticJoint.prototype.m_s1 =  null;
-b2PrismaticJoint.prototype.m_s2 =  null;
-b2PrismaticJoint.prototype.m_a1 =  null;
-b2PrismaticJoint.prototype.m_a2 =  null;
-b2PrismaticJoint.prototype.m_K =  new b2Mat33();
-b2PrismaticJoint.prototype.m_impulse =  new b2Vec3();
-b2PrismaticJoint.prototype.m_motorMass =  null;
-b2PrismaticJoint.prototype.m_motorImpulse =  null;
-b2PrismaticJoint.prototype.m_lowerTranslation =  null;
-b2PrismaticJoint.prototype.m_upperTranslation =  null;
-b2PrismaticJoint.prototype.m_maxMotorForce =  null;
-b2PrismaticJoint.prototype.m_motorSpeed =  null;
-b2PrismaticJoint.prototype.m_enableLimit =  null;
-b2PrismaticJoint.prototype.m_enableMotor =  null;
-b2PrismaticJoint.prototype.m_limitState =  0;
+// static attributes
 // methods
 b2PrismaticJoint.prototype.GetAnchorA = function () {
 		return this.m_bodyA.GetWorldPoint(this.m_localAnchor1);
@@ -195,3 +172,26 @@ b2PrismaticJoint.prototype.SetMaxMotorForce = function (force) {
 b2PrismaticJoint.prototype.GetMotorForce = function () {
 		return this.m_motorImpulse;
 	}
+// attributes
+b2PrismaticJoint.prototype.m_localAnchor1 =  new b2Vec2();
+b2PrismaticJoint.prototype.m_localAnchor2 =  new b2Vec2();
+b2PrismaticJoint.prototype.m_localXAxis1 =  new b2Vec2();
+b2PrismaticJoint.prototype.m_localYAxis1 =  new b2Vec2();
+b2PrismaticJoint.prototype.m_refAngle =  null;
+b2PrismaticJoint.prototype.m_axis =  new b2Vec2();
+b2PrismaticJoint.prototype.m_perp =  new b2Vec2();
+b2PrismaticJoint.prototype.m_s1 =  null;
+b2PrismaticJoint.prototype.m_s2 =  null;
+b2PrismaticJoint.prototype.m_a1 =  null;
+b2PrismaticJoint.prototype.m_a2 =  null;
+b2PrismaticJoint.prototype.m_K =  new b2Mat33();
+b2PrismaticJoint.prototype.m_impulse =  new b2Vec3();
+b2PrismaticJoint.prototype.m_motorMass =  null;
+b2PrismaticJoint.prototype.m_motorImpulse =  null;
+b2PrismaticJoint.prototype.m_lowerTranslation =  null;
+b2PrismaticJoint.prototype.m_upperTranslation =  null;
+b2PrismaticJoint.prototype.m_maxMotorForce =  null;
+b2PrismaticJoint.prototype.m_motorSpeed =  null;
+b2PrismaticJoint.prototype.m_enableLimit =  null;
+b2PrismaticJoint.prototype.m_enableMotor =  null;
+b2PrismaticJoint.prototype.m_limitState =  0;

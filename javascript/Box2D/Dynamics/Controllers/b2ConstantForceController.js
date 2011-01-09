@@ -9,10 +9,8 @@ b2ConstantForceController.prototype.__constructor = function(){}
 b2ConstantForceController.prototype.__varz = function(){
 this.F =  new b2Vec2(0,0);
 }
-// static attributes
 // static methods
-// attributes
-b2ConstantForceController.prototype.F =  new b2Vec2(0,0);
+// static attributes
 // methods
 b2ConstantForceController.prototype.Step = function (step) {
 		for(var i=m_bodyList;i;i=i.nextBody){
@@ -22,3 +20,5 @@ b2ConstantForceController.prototype.Step = function (step) {
 			body.ApplyForce(this.F,body.GetWorldCenter());
 		}
 	}
+// attributes
+b2ConstantForceController.prototype.F =  new b2Vec2(0,0);

@@ -13,12 +13,8 @@ b2WeldJointDef.prototype.__varz = function(){
 this.localAnchorA =  new b2Vec2();
 this.localAnchorB =  new b2Vec2();
 }
-// static attributes
 // static methods
-// attributes
-b2WeldJointDef.prototype.localAnchorA =  new b2Vec2();
-b2WeldJointDef.prototype.localAnchorB =  new b2Vec2();
-b2WeldJointDef.prototype.referenceAngle =  null;
+// static attributes
 // methods
 b2WeldJointDef.prototype.Initialize = function (bA, bB,
 								anchor) {
@@ -28,3 +24,7 @@ b2WeldJointDef.prototype.Initialize = function (bA, bB,
 		this.localAnchorB.SetV( this.bodyB.GetLocalPoint(anchor));
 		this.referenceAngle = this.bodyB.GetAngle() - this.bodyA.GetAngle();
 	}
+// attributes
+b2WeldJointDef.prototype.localAnchorA =  new b2Vec2();
+b2WeldJointDef.prototype.localAnchorB =  new b2Vec2();
+b2WeldJointDef.prototype.referenceAngle =  null;

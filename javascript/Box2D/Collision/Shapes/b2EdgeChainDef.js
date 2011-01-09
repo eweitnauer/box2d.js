@@ -10,10 +10,10 @@ b2EdgeChainDef.prototype.__constructor = function () {
 	}
 b2EdgeChainDef.prototype.__varz = function(){
 }
-// static attributes
 // static methods
+// static attributes
+// methods
 // attributes
 b2EdgeChainDef.prototype.vertices =  null;
 b2EdgeChainDef.prototype.vertexCount =  null;
 b2EdgeChainDef.prototype.isALoop =  null;
-// methods

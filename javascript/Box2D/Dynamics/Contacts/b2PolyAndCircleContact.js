@@ -8,17 +8,17 @@ b2PolyAndCircleContact.prototype._super = function(){ b2Contact.prototype.__cons
 b2PolyAndCircleContact.prototype.__constructor = function(){}
 b2PolyAndCircleContact.prototype.__varz = function(){
 }
-// static attributes
 // static methods
 b2PolyAndCircleContact.Create = function (allocator) {
 		return new b2PolyAndCircleContact();
 	}
 b2PolyAndCircleContact.Destroy = function (contact, allocator) {
 	}
-// attributes
+// static attributes
 // methods
 b2PolyAndCircleContact.prototype.Reset = function (fixtureA, fixtureB) {
 		this._super.Reset(fixtureA, fixtureB);
 		b2Settings.b2Assert(fixtureA.GetType() == b2Shape.e_polygonShape);
 		b2Settings.b2Assert(fixtureB.GetType() == b2Shape.e_circleShape);
 	}
+// attributes

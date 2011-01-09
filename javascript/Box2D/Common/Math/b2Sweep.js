@@ -8,15 +8,8 @@ this.localCenter =  new b2Vec2();
 this.c0 =  new b2Vec2;
 this.c =  new b2Vec2();
 }
-// static attributes
 // static methods
-// attributes
-b2Sweep.prototype.localCenter =  new b2Vec2();
-b2Sweep.prototype.c0 =  new b2Vec2;
-b2Sweep.prototype.c =  new b2Vec2();
-b2Sweep.prototype.a0 =  null;
-b2Sweep.prototype.a =  null;
-b2Sweep.prototype.t0 =  null;
+// static attributes
 // methods
 b2Sweep.prototype.Set = function (other) {
 		this.localCenter.SetV(other.localCenter);
@@ -59,3 +52,10 @@ b2Sweep.prototype.Advance = function (t) {
 			this.t0 = t;
 		}
 	}
+// attributes
+b2Sweep.prototype.localCenter =  new b2Vec2();
+b2Sweep.prototype.c0 =  new b2Vec2;
+b2Sweep.prototype.c =  new b2Vec2();
+b2Sweep.prototype.a0 =  null;
+b2Sweep.prototype.a =  null;
+b2Sweep.prototype.t0 =  null;

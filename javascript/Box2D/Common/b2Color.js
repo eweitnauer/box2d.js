@@ -9,12 +9,8 @@ b2Color.prototype.__constructor = function (rr, gg, bb) {
 	}
 b2Color.prototype.__varz = function(){
 }
-// static attributes
 // static methods
-// attributes
-b2Color.prototype._r =  0;
-b2Color.prototype._g =  0;
-b2Color.prototype._b =  0;
+// static attributes
 // methods
 b2Color.prototype.Set = function (rr, gg, bb) {
 		this._r = parseInt(255 * b2Math.Clamp(rr, 0.0, 1.0));
@@ -34,3 +30,7 @@ b2Color.prototype.__defineSetter__("b", function(bb) {
 b2Color.prototype.__defineGetter__("color", function() {
 		return (this._r << 16) | (this._g << 8) | (this._b);
 	});
+// attributes
+b2Color.prototype._r =  0;
+b2Color.prototype._g =  0;
+b2Color.prototype._b =  0;

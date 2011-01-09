@@ -9,11 +9,8 @@ b2TensorDampingController.prototype.__constructor = function(){}
 b2TensorDampingController.prototype.__varz = function(){
 this.T =  new b2Mat22();
 }
-// static attributes
 // static methods
-// attributes
-b2TensorDampingController.prototype.T =  new b2Mat22();
-b2TensorDampingController.prototype.maxTimestep =  0;
+// static attributes
 // methods
 b2TensorDampingController.prototype.SetAxisAligned = function (xDamping, yDamping) {
 		this.T.col1.x = -xDamping;
@@ -52,3 +49,6 @@ b2TensorDampingController.prototype.Step = function (step) {
 				));
 		}
 	}
+// attributes
+b2TensorDampingController.prototype.T =  new b2Mat22();
+b2TensorDampingController.prototype.maxTimestep =  0;

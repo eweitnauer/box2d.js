@@ -8,11 +8,8 @@ b2GravityController.prototype._super = function(){ b2Controller.prototype.__cons
 b2GravityController.prototype.__constructor = function(){}
 b2GravityController.prototype.__varz = function(){
 }
-// static attributes
 // static methods
-// attributes
-b2GravityController.prototype.G =  1;
-b2GravityController.prototype.invSqr =  true;
+// static attributes
 // methods
 b2GravityController.prototype.Step = function (step) {
 		
@@ -73,3 +70,6 @@ b2GravityController.prototype.Step = function (step) {
 			}
 		}
 	}
+// attributes
+b2GravityController.prototype.G =  1;
+b2GravityController.prototype.invSqr =  true;

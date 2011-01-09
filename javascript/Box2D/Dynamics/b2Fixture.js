@@ -17,21 +17,8 @@ b2Fixture.prototype.__constructor = function () {
 b2Fixture.prototype.__varz = function(){
 this.m_filter =  new b2FilterData();
 }
-// static attributes
 // static methods
-// attributes
-b2Fixture.prototype.m_massData =  null;
-b2Fixture.prototype.m_aabb =  null;
-b2Fixture.prototype.m_density =  null;
-b2Fixture.prototype.m_next =  null;
-b2Fixture.prototype.m_body =  null;
-b2Fixture.prototype.m_shape =  null;
-b2Fixture.prototype.m_friction =  null;
-b2Fixture.prototype.m_restitution =  null;
-b2Fixture.prototype.m_proxy =  null;
-b2Fixture.prototype.m_filter =  new b2FilterData();
-b2Fixture.prototype.m_isSensor =  null;
-b2Fixture.prototype.m_userData =  null;
+// static attributes
 // methods
 b2Fixture.prototype.GetType = function () {
 		return this.m_shape.GetType();
@@ -131,3 +118,16 @@ b2Fixture.prototype.SetRestitution = function (restitution) {
 b2Fixture.prototype.GetAABB = function () {
 		return this.m_aabb;
 	}
+// attributes
+b2Fixture.prototype.m_massData =  null;
+b2Fixture.prototype.m_aabb =  null;
+b2Fixture.prototype.m_density =  null;
+b2Fixture.prototype.m_next =  null;
+b2Fixture.prototype.m_body =  null;
+b2Fixture.prototype.m_shape =  null;
+b2Fixture.prototype.m_friction =  null;
+b2Fixture.prototype.m_restitution =  null;
+b2Fixture.prototype.m_proxy =  null;
+b2Fixture.prototype.m_filter =  new b2FilterData();
+b2Fixture.prototype.m_isSensor =  null;
+b2Fixture.prototype.m_userData =  null;

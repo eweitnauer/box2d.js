@@ -13,14 +13,8 @@ this.m_v2 =  new b2SimplexVertex();
 this.m_v3 =  new b2SimplexVertex();
 this.m_vertices =  new Array(3);
 }
-// static attributes
 // static methods
-// attributes
-b2Simplex.prototype.m_v1 =  new b2SimplexVertex();
-b2Simplex.prototype.m_v2 =  new b2SimplexVertex();
-b2Simplex.prototype.m_v3 =  new b2SimplexVertex();
-b2Simplex.prototype.m_vertices =  new Array(3);
-b2Simplex.prototype.m_count =  0;
+// static attributes
 // methods
 b2Simplex.prototype.ReadCache = function (cache, 
 			proxyA, transformA,
@@ -309,3 +303,9 @@ b2Simplex.prototype.Solve3 = function () {
 	this.m_v3.a = d123_3 * inv_d123;
 	this.m_count = 3;
 }
+// attributes
+b2Simplex.prototype.m_v1 =  new b2SimplexVertex();
+b2Simplex.prototype.m_v2 =  new b2SimplexVertex();
+b2Simplex.prototype.m_v3 =  new b2SimplexVertex();
+b2Simplex.prototype.m_vertices =  new Array(3);
+b2Simplex.prototype.m_count =  0;

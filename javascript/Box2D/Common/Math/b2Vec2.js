@@ -3,14 +3,11 @@ var b2Vec2 = function(x_, y_) {
         this.x=x_; this.y=y_;
 }
 }
-// static attributes
 // static methods
 b2Vec2.Make = function (x_, y_) {
 		return new b2Vec2(x_, y_);
 	}
-// attributes
-b2Vec2.prototype.x =  0;
-b2Vec2.prototype.y =  0;
+// static attributes
 // methods
 b2Vec2.prototype.SetZero = function () { this.x = 0.0; this.y = 0.0; }
 b2Vec2.prototype.Set = function (x_, y_) {this.x=x_; this.y=y_;}
@@ -82,3 +79,6 @@ b2Vec2.prototype.Normalize = function () {
 b2Vec2.prototype.IsValid = function () {
 		return b2Math.IsValid(this.x) && b2Math.IsValid(this.y);
 	}
+// attributes
+b2Vec2.prototype.x =  0;
+b2Vec2.prototype.y =  0;

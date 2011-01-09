@@ -45,30 +45,8 @@ this.m_perp =  new b2Vec2();
 this.m_K =  new b2Mat22();
 this.m_impulse =  new b2Vec2();
 }
-// static attributes
 // static methods
-// attributes
-b2LineJoint.prototype.m_localAnchor1 =  new b2Vec2();
-b2LineJoint.prototype.m_localAnchor2 =  new b2Vec2();
-b2LineJoint.prototype.m_localXAxis1 =  new b2Vec2();
-b2LineJoint.prototype.m_localYAxis1 =  new b2Vec2();
-b2LineJoint.prototype.m_axis =  new b2Vec2();
-b2LineJoint.prototype.m_perp =  new b2Vec2();
-b2LineJoint.prototype.m_s1 =  null;
-b2LineJoint.prototype.m_s2 =  null;
-b2LineJoint.prototype.m_a1 =  null;
-b2LineJoint.prototype.m_a2 =  null;
-b2LineJoint.prototype.m_K =  new b2Mat22();
-b2LineJoint.prototype.m_impulse =  new b2Vec2();
-b2LineJoint.prototype.m_motorMass =  null;
-b2LineJoint.prototype.m_motorImpulse =  null;
-b2LineJoint.prototype.m_lowerTranslation =  null;
-b2LineJoint.prototype.m_upperTranslation =  null;
-b2LineJoint.prototype.m_maxMotorForce =  null;
-b2LineJoint.prototype.m_motorSpeed =  null;
-b2LineJoint.prototype.m_enableLimit =  null;
-b2LineJoint.prototype.m_enableMotor =  null;
-b2LineJoint.prototype.m_limitState =  0;
+// static attributes
 // methods
 b2LineJoint.prototype.GetAnchorA = function () {
 		return this.m_bodyA.GetWorldPoint(this.m_localAnchor1);
@@ -195,3 +173,25 @@ b2LineJoint.prototype.GetMaxMotorForce = function () {
 b2LineJoint.prototype.GetMotorForce = function () {
 		return this.m_motorImpulse;
 	}
+// attributes
+b2LineJoint.prototype.m_localAnchor1 =  new b2Vec2();
+b2LineJoint.prototype.m_localAnchor2 =  new b2Vec2();
+b2LineJoint.prototype.m_localXAxis1 =  new b2Vec2();
+b2LineJoint.prototype.m_localYAxis1 =  new b2Vec2();
+b2LineJoint.prototype.m_axis =  new b2Vec2();
+b2LineJoint.prototype.m_perp =  new b2Vec2();
+b2LineJoint.prototype.m_s1 =  null;
+b2LineJoint.prototype.m_s2 =  null;
+b2LineJoint.prototype.m_a1 =  null;
+b2LineJoint.prototype.m_a2 =  null;
+b2LineJoint.prototype.m_K =  new b2Mat22();
+b2LineJoint.prototype.m_impulse =  new b2Vec2();
+b2LineJoint.prototype.m_motorMass =  null;
+b2LineJoint.prototype.m_motorImpulse =  null;
+b2LineJoint.prototype.m_lowerTranslation =  null;
+b2LineJoint.prototype.m_upperTranslation =  null;
+b2LineJoint.prototype.m_maxMotorForce =  null;
+b2LineJoint.prototype.m_motorSpeed =  null;
+b2LineJoint.prototype.m_enableLimit =  null;
+b2LineJoint.prototype.m_enableMotor =  null;
+b2LineJoint.prototype.m_limitState =  0;

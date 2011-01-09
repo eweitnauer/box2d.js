@@ -9,10 +9,8 @@ b2ConstantAccelController.prototype.__constructor = function(){}
 b2ConstantAccelController.prototype.__varz = function(){
 this.A =  new b2Vec2(0,0);
 }
-// static attributes
 // static methods
-// attributes
-b2ConstantAccelController.prototype.A =  new b2Vec2(0,0);
+// static attributes
 // methods
 b2ConstantAccelController.prototype.Step = function (step) {
 		var smallA = new b2Vec2(this.A.x*step.dt,this.A.y*step.dt);
@@ -27,3 +25,5 @@ b2ConstantAccelController.prototype.Step = function (step) {
 				));
 		}
 	}
+// attributes
+b2ConstantAccelController.prototype.A =  new b2Vec2(0,0);

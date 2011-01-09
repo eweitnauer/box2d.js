@@ -14,11 +14,11 @@ b2MouseJointDef.prototype.__constructor = function () {
 b2MouseJointDef.prototype.__varz = function(){
 this.target =  new b2Vec2();
 }
-// static attributes
 // static methods
+// static attributes
+// methods
 // attributes
 b2MouseJointDef.prototype.target =  new b2Vec2();
 b2MouseJointDef.prototype.maxForce =  null;
 b2MouseJointDef.prototype.frequencyHz =  null;
 b2MouseJointDef.prototype.dampingRatio =  null;
-// methods

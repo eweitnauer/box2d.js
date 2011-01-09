@@ -12,17 +12,11 @@ b2Manifold.prototype.__constructor = function () {
 	}
 b2Manifold.prototype.__varz = function(){
 }
+// static methods
 // static attributes
 b2Manifold.e_circles =  0x0001;
 b2Manifold.e_faceA =  0x0002;
 b2Manifold.e_faceB =  0x0004;
-// static methods
-// attributes
-b2Manifold.prototype.m_points =  null;
-b2Manifold.prototype.m_localPlaneNormal =  null;
-b2Manifold.prototype.m_localPoint =  null;
-b2Manifold.prototype.m_type =  0;
-b2Manifold.prototype.m_pointCount =  0;
 // methods
 b2Manifold.prototype.Reset = function () {
 		for (var i = 0; i < b2Settings.b2_maxManifoldPoints; i++){
@@ -47,3 +41,9 @@ b2Manifold.prototype.Copy = function () {
 		copy.Set(this);
 		return copy;
 	}
+// attributes
+b2Manifold.prototype.m_points =  null;
+b2Manifold.prototype.m_localPlaneNormal =  null;
+b2Manifold.prototype.m_localPoint =  null;
+b2Manifold.prototype.m_type =  0;
+b2Manifold.prototype.m_pointCount =  0;

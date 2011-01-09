@@ -12,11 +12,8 @@ b2WorldManifold.prototype.__constructor = function () {
 b2WorldManifold.prototype.__varz = function(){
 this.m_normal =  new b2Vec2();
 }
-// static attributes
 // static methods
-// attributes
-b2WorldManifold.prototype.m_normal =  new b2Vec2();
-b2WorldManifold.prototype.m_points =  null;
+// static attributes
 // methods
 b2WorldManifold.prototype.Initialize = function (manifold,
 					xfA, radiusA,
@@ -144,3 +141,6 @@ b2WorldManifold.prototype.Initialize = function (manifold,
 			break;
 		}
 	}
+// attributes
+b2WorldManifold.prototype.m_normal =  new b2Vec2();
+b2WorldManifold.prototype.m_points =  null;

@@ -73,24 +73,8 @@ this.m_localAnchor1 =  new b2Vec2();
 this.m_localAnchor2 =  new b2Vec2();
 this.m_J =  new b2Jacobian();
 }
-// static attributes
 // static methods
-// attributes
-b2GearJoint.prototype.m_ground1 =  null;
-b2GearJoint.prototype.m_ground2 =  null;
-b2GearJoint.prototype.m_revolute1 =  null;
-b2GearJoint.prototype.m_prismatic1 =  null;
-b2GearJoint.prototype.m_revolute2 =  null;
-b2GearJoint.prototype.m_prismatic2 =  null;
-b2GearJoint.prototype.m_groundAnchor1 =  new b2Vec2();
-b2GearJoint.prototype.m_groundAnchor2 =  new b2Vec2();
-b2GearJoint.prototype.m_localAnchor1 =  new b2Vec2();
-b2GearJoint.prototype.m_localAnchor2 =  new b2Vec2();
-b2GearJoint.prototype.m_J =  new b2Jacobian();
-b2GearJoint.prototype.m_constant =  null;
-b2GearJoint.prototype.m_ratio =  null;
-b2GearJoint.prototype.m_mass =  null;
-b2GearJoint.prototype.m_impulse =  null;
+// static attributes
 // methods
 b2GearJoint.prototype.GetAnchorA = function () {
 		
@@ -129,3 +113,19 @@ b2GearJoint.prototype.SetRatio = function (ratio) {
 		
 		this.m_ratio = ratio;
 	}
+// attributes
+b2GearJoint.prototype.m_ground1 =  null;
+b2GearJoint.prototype.m_ground2 =  null;
+b2GearJoint.prototype.m_revolute1 =  null;
+b2GearJoint.prototype.m_prismatic1 =  null;
+b2GearJoint.prototype.m_revolute2 =  null;
+b2GearJoint.prototype.m_prismatic2 =  null;
+b2GearJoint.prototype.m_groundAnchor1 =  new b2Vec2();
+b2GearJoint.prototype.m_groundAnchor2 =  new b2Vec2();
+b2GearJoint.prototype.m_localAnchor1 =  new b2Vec2();
+b2GearJoint.prototype.m_localAnchor2 =  new b2Vec2();
+b2GearJoint.prototype.m_J =  new b2Jacobian();
+b2GearJoint.prototype.m_constant =  null;
+b2GearJoint.prototype.m_ratio =  null;
+b2GearJoint.prototype.m_mass =  null;
+b2GearJoint.prototype.m_impulse =  null;

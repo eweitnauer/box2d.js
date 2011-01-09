@@ -40,22 +40,8 @@ this.m_impulse =  new b2Vec2();
 this.m_mass =  new b2Mat22();
 this.m_C =  new b2Vec2();
 }
-// static attributes
 // static methods
-// attributes
-b2MouseJoint.prototype.K =  new b2Mat22();
-b2MouseJoint.prototype.K1 =  new b2Mat22();
-b2MouseJoint.prototype.K2 =  new b2Mat22();
-b2MouseJoint.prototype.m_localAnchor =  new b2Vec2();
-b2MouseJoint.prototype.m_target =  new b2Vec2();
-b2MouseJoint.prototype.m_impulse =  new b2Vec2();
-b2MouseJoint.prototype.m_mass =  new b2Mat22();
-b2MouseJoint.prototype.m_C =  new b2Vec2();
-b2MouseJoint.prototype.m_maxForce =  null;
-b2MouseJoint.prototype.m_frequencyHz =  null;
-b2MouseJoint.prototype.m_dampingRatio =  null;
-b2MouseJoint.prototype.m_beta =  null;
-b2MouseJoint.prototype.m_gamma =  null;
+// static attributes
 // methods
 b2MouseJoint.prototype.GetAnchorA = function () {
 		return this.m_target;
@@ -96,3 +82,17 @@ b2MouseJoint.prototype.GetDampingRatio = function () {
 b2MouseJoint.prototype.SetDampingRatio = function (ratio) {
 		this.m_dampingRatio = ratio;
 	}
+// attributes
+b2MouseJoint.prototype.K =  new b2Mat22();
+b2MouseJoint.prototype.K1 =  new b2Mat22();
+b2MouseJoint.prototype.K2 =  new b2Mat22();
+b2MouseJoint.prototype.m_localAnchor =  new b2Vec2();
+b2MouseJoint.prototype.m_target =  new b2Vec2();
+b2MouseJoint.prototype.m_impulse =  new b2Vec2();
+b2MouseJoint.prototype.m_mass =  new b2Mat22();
+b2MouseJoint.prototype.m_C =  new b2Vec2();
+b2MouseJoint.prototype.m_maxForce =  null;
+b2MouseJoint.prototype.m_frequencyHz =  null;
+b2MouseJoint.prototype.m_dampingRatio =  null;
+b2MouseJoint.prototype.m_beta =  null;
+b2MouseJoint.prototype.m_gamma =  null;

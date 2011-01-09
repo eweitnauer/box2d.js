@@ -22,8 +22,9 @@ b2BodyDef.prototype.__varz = function(){
 this.position =  new b2Vec2();
 this.linearVelocity =  new b2Vec2();
 }
-// static attributes
 // static methods
+// static attributes
+// methods
 // attributes
 b2BodyDef.prototype.type =  0;
 b2BodyDef.prototype.position =  new b2Vec2();
@@ -39,4 +40,3 @@ b2BodyDef.prototype.bullet =  null;
 b2BodyDef.prototype.active =  null;
 b2BodyDef.prototype.userData =  null;
 b2BodyDef.prototype.inertiaScale =  null;
-// methods

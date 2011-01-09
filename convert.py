@@ -37,17 +37,17 @@ def translate(klass):
         if not re.match("^\s*(\d+(\.\d+)?|null|true|false)\s*;\s*$", value):
             lines.append("this.%s = %s" % (name, value))
     lines.append("}")
-    lines.append("// static attributes")
-    for name, value in klass.svars:
-        lines.append("%s.%s = %s" % (klass.name, name, value))
     lines.append("// static methods")
     for name, value in klass.sfuncs:
         lines.append("%s.%s = %s" % (klass.name, name, value))
-    lines.append("// attributes")
-    for name, value in klass.varz:
-        lines.append("%s.prototype.%s = %s" % (klass.name, name, value))
+    lines.append("// static attributes")
+    for name, value in klass.svars:
+        lines.append("%s.%s = %s" % (klass.name, name, value))
     lines.append("// methods")
     for name, value in klass.funcs:
+        lines.append("%s.prototype.%s = %s" % (klass.name, name, value))
+    lines.append("// attributes")
+    for name, value in klass.varz:
         lines.append("%s.prototype.%s = %s" % (klass.name, name, value))
     code = "\n".join(lines)
     # remove type annotations

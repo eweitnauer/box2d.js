@@ -9,10 +9,6 @@ b2Shape.prototype.__constructor = function () {
 b2Shape.prototype.__varz = function(){
 this.e_unknownShape =  	-1;
 }
-// static attributes
-b2Shape.e_hitCollide =  1;
-b2Shape.e_missCollide =  0;
-b2Shape.e_startsInsideCollide =  -1;
 // static methods
 b2Shape.TestOverlap = function (shape1, transform1, shape2, transform2) {
 		var input = new b2DistanceInput();
@@ -29,14 +25,10 @@ b2Shape.TestOverlap = function (shape1, transform1, shape2, transform2) {
 		b2Distance.Distance(output, simplexCache, input);
 		return output.distance < 10.0 * Number.MIN_VALUE;
 	}
-// attributes
-b2Shape.prototype.m_type =  0;
-b2Shape.prototype.m_radius =  null;
-b2Shape.prototype.e_unknownShape =  	-1;
-b2Shape.prototype.e_circleShape =  	0;
-b2Shape.prototype.e_polygonShape =  	1;
-b2Shape.prototype.e_edgeShape =  2;
-b2Shape.prototype.e_shapeTypeCount =  	3;
+// static attributes
+b2Shape.e_hitCollide =  1;
+b2Shape.e_missCollide =  0;
+b2Shape.e_startsInsideCollide =  -1;
 // methods
 b2Shape.prototype.Copy = function () {
 		
@@ -63,3 +55,11 @@ b2Shape.prototype.ComputeSubmergedArea = function (
 				offset,
 				xf,
 				c) { return 0; }
+// attributes
+b2Shape.prototype.m_type =  0;
+b2Shape.prototype.m_radius =  null;
+b2Shape.prototype.e_unknownShape =  	-1;
+b2Shape.prototype.e_circleShape =  	0;
+b2Shape.prototype.e_polygonShape =  	1;
+b2Shape.prototype.e_edgeShape =  2;
+b2Shape.prototype.e_shapeTypeCount =  	3;

@@ -13,10 +13,8 @@ b2CircleShape.prototype.__constructor = function (radius ) {
 b2CircleShape.prototype.__varz = function(){
 this.m_p =  new b2Vec2();
 }
-// static attributes
 // static methods
-// attributes
-b2CircleShape.prototype.m_p =  new b2Vec2();
+// static attributes
 // methods
 b2CircleShape.prototype.Copy = function () {
 		var s = new b2CircleShape();
@@ -148,3 +146,5 @@ b2CircleShape.prototype.GetRadius = function () {
 b2CircleShape.prototype.SetRadius = function (radius) {
 		this.m_radius = radius;
 	}
+// attributes
+b2CircleShape.prototype.m_p =  new b2Vec2();

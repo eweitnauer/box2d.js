@@ -11,15 +11,8 @@ b2PairManager.prototype.__constructor = function () {
 	}
 b2PairManager.prototype.__varz = function(){
 }
-// static attributes
 // static methods
-// attributes
-b2PairManager.prototype.m_broadPhase =  null;
-b2PairManager.prototype.m_pairs =  null;
-b2PairManager.prototype.m_freePair =  null;
-b2PairManager.prototype.m_pairCount =  0;
-b2PairManager.prototype.m_pairBuffer =  null;
-b2PairManager.prototype.m_pairBufferCount =  0;
+// static attributes
 // methods
 b2PairManager.prototype.AddPair = function (proxy1, proxy2) {
 		var pair = proxy1.pairs[proxy2];
@@ -204,3 +197,10 @@ b2PairManager.prototype.Commit = function (callback) {
 			this.ValidateTable();
 		}	
 	}
+// attributes
+b2PairManager.prototype.m_broadPhase =  null;
+b2PairManager.prototype.m_pairs =  null;
+b2PairManager.prototype.m_freePair =  null;
+b2PairManager.prototype.m_pairCount =  0;
+b2PairManager.prototype.m_pairBuffer =  null;
+b2PairManager.prototype.m_pairBufferCount =  0;

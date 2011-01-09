@@ -8,7 +8,6 @@ b2EdgeAndCircleContact.prototype._super = function(){ b2Contact.prototype.__cons
 b2EdgeAndCircleContact.prototype.__constructor = function(){}
 b2EdgeAndCircleContact.prototype.__varz = function(){
 }
-// static attributes
 // static methods
 b2EdgeAndCircleContact.Create = function (allocator) {
 		return new b2EdgeAndCircleContact();
@@ -16,7 +15,7 @@ b2EdgeAndCircleContact.Create = function (allocator) {
 b2EdgeAndCircleContact.Destroy = function (contact, allocator) {
 		
 	}
-// attributes
+// static attributes
 // methods
 b2EdgeAndCircleContact.prototype.b2CollideEdgeAndCircle = function (manifold,
 	 edge, 
@@ -31,3 +30,4 @@ b2EdgeAndCircleContact.prototype.Reset = function (fixtureA, fixtureB) {
 		
 		
 	}
+// attributes

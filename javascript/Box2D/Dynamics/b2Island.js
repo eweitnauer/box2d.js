@@ -9,22 +9,9 @@ b2Island.prototype.__constructor = function () {
 	}
 b2Island.prototype.__varz = function(){
 }
+// static methods
 // static attributes
 b2Island.s_impulse =  new b2ContactImpulse();
-// static methods
-// attributes
-b2Island.prototype.m_allocator =  null;
-b2Island.prototype.m_listener =  null;
-b2Island.prototype.m_contactSolver =  null;
-b2Island.prototype.m_bodies =  null;
-b2Island.prototype.m_contacts =  null;
-b2Island.prototype.m_joints =  null;
-b2Island.prototype.m_bodyCount =  0;
-b2Island.prototype.m_jointCount =  0;
-b2Island.prototype.m_contactCount =  0;
-b2Island.prototype.m_bodyCapacity =  0;
-b2Island.prototype.m_contactCapacity =  0;
-b2Island.prototype.m_jointCapacity =  0;
 // methods
 b2Island.prototype.Initialize = function (
 	bodyCapacity,
@@ -367,3 +354,16 @@ b2Island.prototype.AddJoint = function (joint) {
 		
 		this.m_joints[this.m_jointCount++] = joint;
 	}
+// attributes
+b2Island.prototype.m_allocator =  null;
+b2Island.prototype.m_listener =  null;
+b2Island.prototype.m_contactSolver =  null;
+b2Island.prototype.m_bodies =  null;
+b2Island.prototype.m_contacts =  null;
+b2Island.prototype.m_joints =  null;
+b2Island.prototype.m_bodyCount =  0;
+b2Island.prototype.m_jointCount =  0;
+b2Island.prototype.m_contactCount =  0;
+b2Island.prototype.m_bodyCapacity =  0;
+b2Island.prototype.m_contactCapacity =  0;
+b2Island.prototype.m_jointCapacity =  0;

@@ -5,12 +5,8 @@ this.__constructor.apply(this, arguments);
 b2DistanceProxy.prototype.__constructor = function(){}
 b2DistanceProxy.prototype.__varz = function(){
 }
-// static attributes
 // static methods
-// attributes
-b2DistanceProxy.prototype.m_vertices =  null;
-b2DistanceProxy.prototype.m_count =  0;
-b2DistanceProxy.prototype.m_radius =  null;
+// static attributes
 // methods
 b2DistanceProxy.prototype.Set = function (shape) {
 			switch(shape.GetType())
@@ -71,3 +67,7 @@ b2DistanceProxy.prototype.GetVertex = function (index) {
 			b2Settings.b2Assert(0 <= index && index < this.m_count);
 			return this.m_vertices[index];
 		}
+// attributes
+b2DistanceProxy.prototype.m_vertices =  null;
+b2DistanceProxy.prototype.m_count =  0;
+b2DistanceProxy.prototype.m_radius =  null;

@@ -11,12 +11,12 @@ b2JointDef.prototype.__constructor = function () {
 	}
 b2JointDef.prototype.__varz = function(){
 }
-// static attributes
 // static methods
+// static attributes
+// methods
 // attributes
 b2JointDef.prototype.type =  0;
 b2JointDef.prototype.userData =  null;
 b2JointDef.prototype.bodyA =  null;
 b2JointDef.prototype.bodyB =  null;
 b2JointDef.prototype.collideConnected =  null;
-// methods

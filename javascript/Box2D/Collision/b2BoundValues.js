@@ -12,9 +12,9 @@ b2BoundValues.prototype.__constructor = function () {
 	}
 b2BoundValues.prototype.__varz = function(){
 }
-// static attributes
 // static methods
+// static attributes
+// methods
 // attributes
 b2BoundValues.prototype.lowerValues =  null;
 b2BoundValues.prototype.upperValues =  null;
-// methods

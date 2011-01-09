@@ -22,8 +22,16 @@ this.localAnchorA =  new b2Vec2();
 this.localAnchorB =  new b2Vec2();
 this.localAxisA =  new b2Vec2();
 }
-// static attributes
 // static methods
+// static attributes
+// methods
+b2LineJointDef.prototype.Initialize = function (bA, bB, anchor, axis) {
+		this.bodyA = bA;
+		this.bodyB = bB;
+		this.localAnchorA = this.bodyA.GetLocalPoint(anchor);
+		this.localAnchorB = this.bodyB.GetLocalPoint(anchor);
+		this.localAxisA = this.bodyA.GetLocalVector(axis);
+	}
 // attributes
 b2LineJointDef.prototype.localAnchorA =  new b2Vec2();
 b2LineJointDef.prototype.localAnchorB =  new b2Vec2();
@@ -34,11 +42,3 @@ b2LineJointDef.prototype.upperTranslation =  null;
 b2LineJointDef.prototype.enableMotor =  null;
 b2LineJointDef.prototype.maxMotorForce =  null;
 b2LineJointDef.prototype.motorSpeed =  null;
-// methods
-b2LineJointDef.prototype.Initialize = function (bA, bB, anchor, axis) {
-		this.bodyA = bA;
-		this.bodyB = bB;
-		this.localAnchorA = this.bodyA.GetLocalPoint(anchor);
-		this.localAnchorB = this.bodyB.GetLocalPoint(anchor);
-		this.localAxisA = this.bodyA.GetLocalVector(axis);
-	}

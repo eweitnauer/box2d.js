@@ -17,14 +17,8 @@ b2DistanceJointDef.prototype.__varz = function(){
 this.localAnchorA =  new b2Vec2();
 this.localAnchorB =  new b2Vec2();
 }
-// static attributes
 // static methods
-// attributes
-b2DistanceJointDef.prototype.localAnchorA =  new b2Vec2();
-b2DistanceJointDef.prototype.localAnchorB =  new b2Vec2();
-b2DistanceJointDef.prototype.length =  null;
-b2DistanceJointDef.prototype.frequencyHz =  null;
-b2DistanceJointDef.prototype.dampingRatio =  null;
+// static attributes
 // methods
 b2DistanceJointDef.prototype.Initialize = function (bA, bB,
 								anchorA, anchorB) {
@@ -38,3 +32,9 @@ b2DistanceJointDef.prototype.Initialize = function (bA, bB,
 		this.frequencyHz = 0.0;
 		this.dampingRatio = 0.0;
 	}
+// attributes
+b2DistanceJointDef.prototype.localAnchorA =  new b2Vec2();
+b2DistanceJointDef.prototype.localAnchorB =  new b2Vec2();
+b2DistanceJointDef.prototype.length =  null;
+b2DistanceJointDef.prototype.frequencyHz =  null;
+b2DistanceJointDef.prototype.dampingRatio =  null;

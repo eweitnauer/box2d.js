@@ -13,10 +13,10 @@ b2GearJointDef.prototype.__constructor = function () {
 	}
 b2GearJointDef.prototype.__varz = function(){
 }
-// static attributes
 // static methods
+// static attributes
+// methods
 // attributes
 b2GearJointDef.prototype.joint1 =  null;
 b2GearJointDef.prototype.joint2 =  null;
 b2GearJointDef.prototype.ratio =  null;
-// methods

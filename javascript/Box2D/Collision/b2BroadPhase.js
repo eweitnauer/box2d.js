@@ -35,10 +35,6 @@ this.m_querySortKeys =  new Array();
 this.m_queryResults =  new Array();
 this.m_quantizationFactor =  new b2Vec2();
 }
-// static attributes
-b2BroadPhase.s_validate =  false;
-b2BroadPhase.b2_invalid =  b2Settings.USHRT_MAX;
-b2BroadPhase.b2_nullEdge =  b2Settings.USHRT_MAX;
 // static methods
 b2BroadPhase.BinarySearch = function (bounds, count, value) {
 		var low = 0;
@@ -63,18 +59,10 @@ b2BroadPhase.BinarySearch = function (bounds, count, value) {
 		
 		return parseInt(low);
 	}
-// attributes
-b2BroadPhase.prototype.m_pairManager =  new b2PairManager();
-b2BroadPhase.prototype.m_proxyPool =  new Array();
-b2BroadPhase.prototype.m_freeProxy =  null;
-b2BroadPhase.prototype.m_bounds  =  null;
-b2BroadPhase.prototype.m_querySortKeys =  new Array();
-b2BroadPhase.prototype.m_queryResults =  new Array();
-b2BroadPhase.prototype.m_queryResultCount =  0;
-b2BroadPhase.prototype.m_worldAABB =  null;
-b2BroadPhase.prototype.m_quantizationFactor =  new b2Vec2();
-b2BroadPhase.prototype.m_proxyCount =  0;
-b2BroadPhase.prototype.m_timeStamp =  0;
+// static attributes
+b2BroadPhase.s_validate =  false;
+b2BroadPhase.b2_invalid =  b2Settings.USHRT_MAX;
+b2BroadPhase.b2_nullEdge =  b2Settings.USHRT_MAX;
 // methods
 b2BroadPhase.prototype.ComputeBounds = function (lowerValues, upperValues, aabb) {
 		
@@ -980,3 +968,15 @@ b2BroadPhase.prototype.TestOverlapBound = function (b, p) {
 		
 		return true;
 	}
+// attributes
+b2BroadPhase.prototype.m_pairManager =  new b2PairManager();
+b2BroadPhase.prototype.m_proxyPool =  new Array();
+b2BroadPhase.prototype.m_freeProxy =  null;
+b2BroadPhase.prototype.m_bounds  =  null;
+b2BroadPhase.prototype.m_querySortKeys =  new Array();
+b2BroadPhase.prototype.m_queryResults =  new Array();
+b2BroadPhase.prototype.m_queryResultCount =  0;
+b2BroadPhase.prototype.m_worldAABB =  null;
+b2BroadPhase.prototype.m_quantizationFactor =  new b2Vec2();
+b2BroadPhase.prototype.m_proxyCount =  0;
+b2BroadPhase.prototype.m_timeStamp =  0;

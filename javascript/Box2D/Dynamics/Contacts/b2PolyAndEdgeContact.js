@@ -8,14 +8,13 @@ b2PolyAndEdgeContact.prototype._super = function(){ b2Contact.prototype.__constr
 b2PolyAndEdgeContact.prototype.__constructor = function(){}
 b2PolyAndEdgeContact.prototype.__varz = function(){
 }
-// static attributes
 // static methods
 b2PolyAndEdgeContact.Create = function (allocator) {
 		return new b2PolyAndEdgeContact();
 	}
 b2PolyAndEdgeContact.Destroy = function (contact, allocator) {
 	}
-// attributes
+// static attributes
 // methods
 b2PolyAndEdgeContact.prototype.b2CollidePolyAndEdge = function (manifold,
 	 polygon, 
@@ -30,3 +29,4 @@ b2PolyAndEdgeContact.prototype.Reset = function (fixtureA, fixtureB) {
 		b2Settings.b2Assert(fixtureA.GetType() == b2Shape.e_polygonShape);
 		b2Settings.b2Assert(fixtureB.GetType() == b2Shape.e_edgeShape);
 	}
+// attributes

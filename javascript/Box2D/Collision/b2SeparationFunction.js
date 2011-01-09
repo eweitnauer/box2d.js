@@ -7,17 +7,11 @@ b2SeparationFunction.prototype.__varz = function(){
 this.m_localPoint =  new b2Vec2();
 this.m_axis =  new b2Vec2();
 }
+// static methods
 // static attributes
 b2SeparationFunction.e_points =  0x01;
 b2SeparationFunction.e_faceA =  0x02;
 b2SeparationFunction.e_faceB =  0x04;
-// static methods
-// attributes
-b2SeparationFunction.prototype.m_proxyA =  null;
-b2SeparationFunction.prototype.m_proxyB =  null;
-b2SeparationFunction.prototype.m_type =  0;
-b2SeparationFunction.prototype.m_localPoint =  new b2Vec2();
-b2SeparationFunction.prototype.m_axis =  new b2Vec2();
 // methods
 b2SeparationFunction.prototype.Initialize = function (cache,
 								proxyA, transformA,
@@ -298,3 +292,9 @@ b2SeparationFunction.prototype.Evaluate = function (transformA, transformB) {
 			return 0.0;
 		}
 	}
+// attributes
+b2SeparationFunction.prototype.m_proxyA =  null;
+b2SeparationFunction.prototype.m_proxyB =  null;
+b2SeparationFunction.prototype.m_type =  0;
+b2SeparationFunction.prototype.m_localPoint =  new b2Vec2();
+b2SeparationFunction.prototype.m_axis =  new b2Vec2();
