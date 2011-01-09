@@ -106,3 +106,144 @@ index aeb1a5c..f9c01e9 100644
  	}
  b2Vec3.prototype.SetV = function (v) {
  		this.x = v.x;
+diff --git a/javascript/Box2D/Collision/Features.js b/javascript/Box2D/Collision/Features.js
+index 6ed71c9..6cb4a8e 100644
+--- a/javascript/Box2D/Collision/Features.js
++++ b/javascript/Box2D/Collision/Features.js
+@@ -8,32 +8,37 @@ Features.prototype.__varz = function(){
+ // static attributes
+ // static methods
+ // attributes
++Features.prototype._referenceEdge =  0;
++Features.prototype._incidentEdge =  0;
++Features.prototype._incidentVertex =  0;
++Features.prototype._flip =  0;
++Features.prototype._m_id =  null;
+ // methods
+-Features.prototype.get = function () {
+-		return _referenceEdge;
+-	}
+-Features.prototype.set = function (value) {
+-		_referenceEdge = value;
+-		_m_id._key = (_m_id._key & 0xffffff00) | (_referenceEdge & 0x000000ff);
+-	}
+-Features.prototype.get = function () {
+-		return _incidentEdge;
+-	}
+-Features.prototype.set = function (value) {
+-		_incidentEdge = value;
+-		_m_id._key = (_m_id._key & 0xffff00ff) | ((_incidentEdge << 8) & 0x0000ff00);
+-	}
+-Features.prototype.get = function () {
+-		return _incidentVertex;
+-	}
+-Features.prototype.set = function (value) {
+-		_incidentVertex = value;
+-		_m_id._key = (_m_id._key & 0xff00ffff) | ((_incidentVertex << 16) & 0x00ff0000);
+-	}
+-Features.prototype.get = function () {
+-		return _flip;
+-	}
+-Features.prototype.set = function (value) {
+-		_flip = value;
+-		_m_id._key = (_m_id._key & 0x00ffffff) | ((_flip << 24) & 0xff000000);
+-	}
+\ No newline at end of file
++Features.prototype.__defineGetter__("referenceEdge", function() {
++        return this._referenceEdge;
++    });   
++Features.prototype.__defineSetter__("referenceEdge", function(value) {
++        this._referenceEdge = value;
++        this._m_id._key = (this._m_id._key & 0xffffff00) | (this._referenceEdge & 0x000000ff);
++    });
++Features.prototype.__defineGetter__("incidentEdge", function() {
++        return this._incidentEdge;
++    });
++Features.prototype.__defineSetter__("incidentEdge", function(value) {
++        this._incidentEdge = value;
++        this._m_id._key = (this._m_id._key & 0xffff00ff) | ((this._incidentEdge << 8) & 0x0000ff00);
++    });
++Features.prototype.__defineGetter__("incidentVertex", function() {
++        return this._incidentVertex;
++    });
++Features.prototype.__defineSetter__("incidentVertex", function(value) {
++        this._incidentVertex = value;
++        this._m_id._key = (this._m_id._key & 0xff00ffff) | ((this._incidentVertex << 16) & 0x00ff0000);
++    });
++Features.prototype.__defineGetter__("flip", function() {
++        return this._flip;
++    });
++Features.prototype.__defineSetter__("flip", function(value) {
++        this._flip = value;
++        this._m_id._key = (this._m_id._key & 0x00ffffff) | ((this._flip << 24) & 0xff000000);
++    });
+\ No newline at end of file
+diff --git a/javascript/Box2D/Collision/b2ContactID.js b/javascript/Box2D/Collision/b2ContactID.js
+index a31369e..b5c3e71 100644
+--- a/javascript/Box2D/Collision/b2ContactID.js
++++ b/javascript/Box2D/Collision/b2ContactID.js
+@@ -13,6 +13,7 @@ this.features =  new Features();
+ // static methods
+ // attributes
+ b2ContactID.prototype.features =  new Features();
++b2ContactID.prototype._key =  0;
+ // methods
+ b2ContactID.prototype.Set = function (id) {
+ 		key = id._key;
+@@ -22,13 +23,13 @@ b2ContactID.prototype.Copy = function () {
+ 		id.key = key;
+ 		return id;
+ 	}
+-b2ContactID.prototype.get = function () {
+-		return _key;
+-	}
+-b2ContactID.prototype.set = function (value) {
+-		_key = value;
+-		this.features._referenceEdge = _key & 0x000000ff;
+-		this.features._incidentEdge = ((_key & 0x0000ff00) >> 8) & 0x000000ff;
+-		this.features._incidentVertex = ((_key & 0x00ff0000) >> 16) & 0x000000ff;
+-		this.features._flip = ((_key & 0xff000000) >> 24) & 0x000000ff;
+-	}
+\ No newline at end of file
++b2ContactID.prototype.__defineSetter__("key", function () {
++        return this._key;
++    });
++b2ContactID.prototype.__defineSetter__("key", function(value) { 
++		this._key = value;
++		this.features._referenceEdge = this._key & 0x000000ff;
++		this.features._incidentEdge = ((this._key & 0x0000ff00) >> 8) & 0x000000ff;
++		this.features._incidentVertex = ((this._key & 0x00ff0000) >> 16) & 0x000000ff;
++		this.features._flip = ((this._key & 0xff000000) >> 24) & 0x000000ff;
++    });
+\ No newline at end of file
+diff --git a/javascript/Box2D/Common/b2Color.js b/javascript/Box2D/Common/b2Color.js
+index c0ea9c9..dbd2dcb 100644
+--- a/javascript/Box2D/Common/b2Color.js
++++ b/javascript/Box2D/Common/b2Color.js
+@@ -21,15 +21,16 @@ b2Color.prototype.Set = function (rr, gg, bb) {
+ 		this._g = parseInt(255 * b2Math.Clamp(gg, 0.0, 1.0));
+ 		this._b = parseInt(255 * b2Math.Clamp(bb, 0.0, 1.0));
+ 	}
+-b2Color.prototype.set = function (rr) {
++	
++b2Color.prototype.__defineSetter__("r", function(rr) {
+ 		this._r = parseInt(255 * b2Math.Clamp(rr, 0.0, 1.0));
+-	}
+-b2Color.prototype.set = function (gg) {
++	});
++b2Color.prototype.__defineSetter__("g", function(gg) {
+ 		this._g = parseInt(255 * b2Math.Clamp(gg, 0.0, 1.0));
+-	}
+-b2Color.prototype.set = function (bb) {
++	});
++b2Color.prototype.__defineSetter__("b", function(bb) {
+ 		this._b = parseInt(255 * b2Math.Clamp(bb, 0.0, 1.0));
+-	}
+-b2Color.prototype.get = function () {
++	});
++b2Color.prototype.__defineGetter__("color", function() {
+ 		return (this._r << 16) | (this._g << 8) | (this._b);
+-	}
+\ No newline at end of file
++	});
+\ No newline at end of file

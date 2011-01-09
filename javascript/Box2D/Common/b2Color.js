@@ -21,15 +21,16 @@ b2Color.prototype.Set = function (rr, gg, bb) {
 		this._g = parseInt(255 * b2Math.Clamp(gg, 0.0, 1.0));
 		this._b = parseInt(255 * b2Math.Clamp(bb, 0.0, 1.0));
 	}
-b2Color.prototype.set = function (rr) {
+	
+b2Color.prototype.__defineSetter__("r", function(rr) {
 		this._r = parseInt(255 * b2Math.Clamp(rr, 0.0, 1.0));
-	}
-b2Color.prototype.set = function (gg) {
+	});
+b2Color.prototype.__defineSetter__("g", function(gg) {
 		this._g = parseInt(255 * b2Math.Clamp(gg, 0.0, 1.0));
-	}
-b2Color.prototype.set = function (bb) {
+	});
+b2Color.prototype.__defineSetter__("b", function(bb) {
 		this._b = parseInt(255 * b2Math.Clamp(bb, 0.0, 1.0));
-	}
-b2Color.prototype.get = function () {
+	});
+b2Color.prototype.__defineGetter__("color", function() {
 		return (this._r << 16) | (this._g << 8) | (this._b);
-	}
+	});

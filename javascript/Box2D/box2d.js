@@ -2116,34 +2116,39 @@ Features.prototype.__constructor = function() {
 };
 Features.prototype.__varz = function() {
 };
-Features.prototype.get = function() {
-  return _referenceEdge
-};
-Features.prototype.set = function(value) {
-  _referenceEdge = value;
-  _m_id._key = _m_id._key & 4294967040 | _referenceEdge & 255
-};
-Features.prototype.get = function() {
-  return _incidentEdge
-};
-Features.prototype.set = function(value) {
-  _incidentEdge = value;
-  _m_id._key = _m_id._key & 4294902015 | _incidentEdge << 8 & 65280
-};
-Features.prototype.get = function() {
-  return _incidentVertex
-};
-Features.prototype.set = function(value) {
-  _incidentVertex = value;
-  _m_id._key = _m_id._key & 4278255615 | _incidentVertex << 16 & 16711680
-};
-Features.prototype.get = function() {
-  return _flip
-};
-Features.prototype.set = function(value) {
-  _flip = value;
-  _m_id._key = _m_id._key & 16777215 | _flip << 24 & 4278190080
-};var b2FilterData = function() {
+Features.prototype._referenceEdge = 0;
+Features.prototype._incidentEdge = 0;
+Features.prototype._incidentVertex = 0;
+Features.prototype._flip = 0;
+Features.prototype._m_id = null;
+Features.prototype.__defineGetter__("referenceEdge", function() {
+  return this._referenceEdge
+});
+Features.prototype.__defineSetter__("referenceEdge", function(value) {
+  this._referenceEdge = value;
+  this._m_id._key = this._m_id._key & 4294967040 | this._referenceEdge & 255
+});
+Features.prototype.__defineGetter__("incidentEdge", function() {
+  return this._incidentEdge
+});
+Features.prototype.__defineSetter__("incidentEdge", function(value) {
+  this._incidentEdge = value;
+  this._m_id._key = this._m_id._key & 4294902015 | this._incidentEdge << 8 & 65280
+});
+Features.prototype.__defineGetter__("incidentVertex", function() {
+  return this._incidentVertex
+});
+Features.prototype.__defineSetter__("incidentVertex", function(value) {
+  this._incidentVertex = value;
+  this._m_id._key = this._m_id._key & 4278255615 | this._incidentVertex << 16 & 16711680
+});
+Features.prototype.__defineGetter__("flip", function() {
+  return this._flip
+});
+Features.prototype.__defineSetter__("flip", function(value) {
+  this._flip = value;
+  this._m_id._key = this._m_id._key & 16777215 | this._flip << 24 & 4278190080
+});var b2FilterData = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -3664,6 +3669,7 @@ b2ContactID.prototype.__varz = function() {
   this.features = new Features
 };
 b2ContactID.prototype.features = new Features;
+b2ContactID.prototype._key = 0;
 b2ContactID.prototype.Set = function(id) {
   key = id._key
 };
@@ -3672,16 +3678,16 @@ b2ContactID.prototype.Copy = function() {
   id.key = key;
   return id
 };
-b2ContactID.prototype.get = function() {
-  return _key
-};
-b2ContactID.prototype.set = function(value) {
-  _key = value;
-  this.features._referenceEdge = _key & 255;
-  this.features._incidentEdge = (_key & 65280) >> 8 & 255;
-  this.features._incidentVertex = (_key & 16711680) >> 16 & 255;
-  this.features._flip = (_key & 4278190080) >> 24 & 255
-};var b2RevoluteJoint = function() {
+b2ContactID.prototype.__defineSetter__("key", function() {
+  return this._key
+});
+b2ContactID.prototype.__defineSetter__("key", function(value) {
+  this._key = value;
+  this.features._referenceEdge = this._key & 255;
+  this.features._incidentEdge = (this._key & 65280) >> 8 & 255;
+  this.features._incidentVertex = (this._key & 16711680) >> 16 & 255;
+  this.features._flip = (this._key & 4278190080) >> 24 & 255
+});var b2RevoluteJoint = function() {
   b2Joint.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -7172,18 +7178,18 @@ b2Color.prototype.Set = function(rr, gg, bb) {
   this._g = parseInt(255 * b2Math.Clamp(gg, 0, 1));
   this._b = parseInt(255 * b2Math.Clamp(bb, 0, 1))
 };
-b2Color.prototype.set = function(rr) {
+b2Color.prototype.__defineSetter__("r", function(rr) {
   this._r = parseInt(255 * b2Math.Clamp(rr, 0, 1))
-};
-b2Color.prototype.set = function(gg) {
+});
+b2Color.prototype.__defineSetter__("g", function(gg) {
   this._g = parseInt(255 * b2Math.Clamp(gg, 0, 1))
-};
-b2Color.prototype.set = function(bb) {
+});
+b2Color.prototype.__defineSetter__("b", function(bb) {
   this._b = parseInt(255 * b2Math.Clamp(bb, 0, 1))
-};
-b2Color.prototype.get = function() {
+});
+b2Color.prototype.__defineGetter__("color", function() {
   return this._r << 16 | this._g << 8 | this._b
-};var b2Distance = function() {
+});var b2Distance = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };

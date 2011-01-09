@@ -13,6 +13,7 @@ this.features =  new Features();
 // static methods
 // attributes
 b2ContactID.prototype.features =  new Features();
+b2ContactID.prototype._key =  0;
 // methods
 b2ContactID.prototype.Set = function (id) {
 		key = id._key;
@@ -22,13 +23,13 @@ b2ContactID.prototype.Copy = function () {
 		id.key = key;
 		return id;
 	}
-b2ContactID.prototype.get = function () {
-		return _key;
-	}
-b2ContactID.prototype.set = function (value) {
-		_key = value;
-		this.features._referenceEdge = _key & 0x000000ff;
-		this.features._incidentEdge = ((_key & 0x0000ff00) >> 8) & 0x000000ff;
-		this.features._incidentVertex = ((_key & 0x00ff0000) >> 16) & 0x000000ff;
-		this.features._flip = ((_key & 0xff000000) >> 24) & 0x000000ff;
-	}
+b2ContactID.prototype.__defineSetter__("key", function () {
+        return this._key;
+    });
+b2ContactID.prototype.__defineSetter__("key", function(value) { 
+		this._key = value;
+		this.features._referenceEdge = this._key & 0x000000ff;
+		this.features._incidentEdge = ((this._key & 0x0000ff00) >> 8) & 0x000000ff;
+		this.features._incidentVertex = ((this._key & 0x00ff0000) >> 16) & 0x000000ff;
+		this.features._flip = ((this._key & 0xff000000) >> 24) & 0x000000ff;
+    });
