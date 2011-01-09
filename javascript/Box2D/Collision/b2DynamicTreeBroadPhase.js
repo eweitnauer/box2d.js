@@ -67,7 +67,7 @@ b2DynamicTreeBroadPhase.prototype.UpdatePairs = function (callback) {
 		
 		for each(var queryProxy in this.m_moveBuffer)
 		{
-			function QueryCallback(proxy):Boolean
+			function QueryCallback(proxy)
 			{
 				
 				if (proxy == queryProxy)
@@ -80,8 +80,8 @@ b2DynamicTreeBroadPhase.prototype.UpdatePairs = function (callback) {
 				}
 				
 				var pair = this.m_pairBuffer[this.m_pairCount];
-				pair.proxyA = proxy < queryProxy?proxy;
-				pair.proxyB = proxy >= queryProxy?proxy;
+				pair.proxyA = proxy < queryProxy?proxy:queryProxy;
+				pair.proxyB = proxy >= queryProxy?proxy:queryProxy;
 				++this.m_pairCount;
 				
 				return true;

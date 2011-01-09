@@ -26,7 +26,7 @@ b2PolyAndEdgeContact.prototype.b2CollidePolyAndEdge = function (manifold,
 		
 	}
 b2PolyAndEdgeContact.prototype.Reset = function (fixtureA, fixtureB) {
-		super.Reset(fixtureA, fixtureB);
+		this._super.Reset(fixtureA, fixtureB);
 		b2Settings.b2Assert(fixtureA.GetType() == b2Shape.e_polygonShape);
 		b2Settings.b2Assert(fixtureB.GetType() == b2Shape.e_edgeShape);
 	}

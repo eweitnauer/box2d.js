@@ -19,7 +19,7 @@ b2CircleContact.Destroy = function (contact, allocator) {
 // attributes
 // methods
 b2CircleContact.prototype.Reset = function (fixtureA, fixtureB) {
-		super.Reset(fixtureA, fixtureB);
+		this._super.Reset(fixtureA, fixtureB);
 		
 		
 	}

@@ -545,7 +545,7 @@ b2Collision.CollidePolygonAndCircle = function (
 		}
 		
 		var vertIndex1 = normalIndex;
-		var vertIndex2 = vertIndex1 + 1 < vertexCount?vertIndex1 + 1;
+		var vertIndex2 = vertIndex1 + 1 < vertexCount?vertIndex1 + 1:0;
 		var v1 = vertices[vertIndex1];
 		var v2 = vertices[vertIndex2];
 		

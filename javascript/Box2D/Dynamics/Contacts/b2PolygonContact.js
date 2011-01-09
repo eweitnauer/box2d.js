@@ -21,7 +21,7 @@ b2PolygonContact.Destroy = function (contact, allocator) {
 // attributes
 // methods
 b2PolygonContact.prototype.Reset = function (fixtureA, fixtureB) {
-		super.Reset(fixtureA, fixtureB);
+		this._super.Reset(fixtureA, fixtureB);
 		
 		
 	}

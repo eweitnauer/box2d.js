@@ -750,7 +750,7 @@ b2ContactSolver.prototype.SolvePositionConstraints = function (baumgarte) {
 				var rBY = point.y - bodyB.m_sweep.c.y;
 				
 				
-				minSeparation = minSeparation < separation?minSeparation;
+				minSeparation = minSeparation < separation?minSeparation:separation;
 				
 				
 				var C = b2Math.Clamp(baumgarte * (separation + b2Settings.b2_linearSlop), -b2Settings.b2_maxLinearCorrection, 0.0);

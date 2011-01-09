@@ -35,11 +35,11 @@ b2AABB.prototype.GetExtents = function () {
 		 (this.upperBound.y - this.lowerBound.y) / 2);
 	}
 b2AABB.prototype.Contains = function (aabb) {
-		var result = true;
-		result &&= this.lowerBound.x <= aabb.lowerBound.x;
-		result &&= this.lowerBound.y <= aabb.lowerBound.y;
-		result &&= aabb.upperBound.x <= this.upperBound.x;
-		result &&= aabb.upperBound.y <= this.upperBound.y;
+		var result = true
+			&& (this.lowerBound.x <= aabb.lowerBound.x)
+			&& (this.lowerBound.y <= aabb.lowerBound.y)
+			&& (aabb.upperBound.x <= this.upperBound.x)
+			&& (aabb.upperBound.y <= this.upperBound.y);
 		return result;
 	}
 b2AABB.prototype.RayCast = function (output, input) {

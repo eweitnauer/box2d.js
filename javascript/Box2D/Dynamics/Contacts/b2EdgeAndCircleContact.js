@@ -27,7 +27,7 @@ b2EdgeAndCircleContact.prototype.b2CollideEdgeAndCircle = function (manifold,
 		
 	}
 b2EdgeAndCircleContact.prototype.Reset = function (fixtureA, fixtureB) {
-		super.Reset(fixtureA, fixtureB);
+		this._super.Reset(fixtureA, fixtureB);
 		
 		
 	}

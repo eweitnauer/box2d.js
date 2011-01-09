@@ -63,11 +63,13 @@ def parse(code):
     code = re.sub("([^a-zA-Z0-9]+)int\(", "\\1parseInt(", code)
     code = re.sub("([^a-zA-Z0-9]+)uint\(", "\\1parseInt(", code)
     # super -> this._super
-    code = re.sub("([^a-zA-Z0-9]+)super\(", "\\1this._super(", code)
+    code = re.sub("([^a-zA-Z0-9]+)super(\(|\.)", "\\1this._super\\2", code)
     # const -> var 
     code = re.sub(r"\bconst\b", "var", code)
     #remove type anotations
-    code = re.sub("(\w+):[ ]*(\w+|\\*)", "\\1", code)
+    code = re.sub("((var |\(|,)\s*[^:=\), ]+):[ ]*(\w+|\\*)", "\\1", code)
+    #remove function return types
+    code = re.sub("(function \w+\([^\)]*\))\s*:\w+", "\\1", code)
     #convert vectors to arrays
     ## new Vector.<Number>();
     code = re.sub(r"\bVector\b", "Array", code);
@@ -78,6 +80,9 @@ def parse(code):
     code = re.sub(r"\.<[^<>]*(<.*?>)?[^>]*>", "", code);
     ## remove override and virtual
     code = code.replace("override", "").replace("virtual", "").replace("\r", "")
+    ## obj is type
+    code = re.sub("(\w+) is (\w+)", "typeof \\1 === '\\2'", code)
+    
     # hack ...
     code = code.replace("var mid = ((low + high) / 2);", "var mid = Math.round((low + high) / 2);")
     code = code.replace("static public", "staticpublik")

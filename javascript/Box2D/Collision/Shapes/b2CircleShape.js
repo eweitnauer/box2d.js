@@ -22,8 +22,8 @@ b2CircleShape.prototype.Copy = function () {
 		return s;
 	}
 b2CircleShape.prototype.Set = function (other) {
-		super.Set(other);
-		if (other is b2CircleShape)
+		this._super.Set(other);
+		if (typeof other === 'b2CircleShape')
 		{
 			var other2 = other;
 			m_p.SetV(other2.m_p);

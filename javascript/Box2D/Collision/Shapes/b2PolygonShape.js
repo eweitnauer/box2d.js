@@ -116,8 +116,8 @@ b2PolygonShape.prototype.Copy = function () {
 		return s;
 	}
 b2PolygonShape.prototype.Set = function (other) {
-		super.Set(other);
-		if (other is b2PolygonShape)
+		this._super.Set(other);
+		if (typeof other === 'b2PolygonShape')
 		{
 			var other2 = other;
 			m_centroid.SetV(other2.m_centroid);

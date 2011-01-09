@@ -605,7 +605,7 @@ b2World.prototype.DrawDebugData = function () {
 	}
 b2World.prototype.QueryAABB = function (callback, aabb) {
 		var broadPhase = m_contactManager.m_broadPhase;
-		function WorldQueryWrapper(proxy):Boolean
+		function WorldQueryWrapper(proxy)
 		{
 			return callback(broadPhase.GetUserData(proxy));
 		}
@@ -618,7 +618,7 @@ b2World.prototype.QueryShape = function (callback, shape, transform ) {
 			transform.SetIdentity();
 		}
 		var broadPhase = m_contactManager.m_broadPhase;
-		function WorldQueryWrapper(proxy):Boolean
+		function WorldQueryWrapper(proxy)
 		{
 			var fixture = broadPhase.GetUserData(proxy)
 			if(b2Shape.TestOverlap(shape, transform, fixture.GetShape(), fixture.GetBody().GetTransform()))
@@ -631,7 +631,7 @@ b2World.prototype.QueryShape = function (callback, shape, transform ) {
 	}
 b2World.prototype.QueryPoint = function (callback, p) {
 		var broadPhase = m_contactManager.m_broadPhase;
-		function WorldQueryWrapper(proxy):Boolean
+		function WorldQueryWrapper(proxy)
 		{
 			var fixture = broadPhase.GetUserData(proxy)
 			if(fixture.TestPoint(p))
@@ -647,7 +647,7 @@ b2World.prototype.QueryPoint = function (callback, p) {
 b2World.prototype.RayCast = function (callback, point1, point2) {
 		var broadPhase = m_contactManager.m_broadPhase;
 		var output = new b2RayCastOutput;
-		function RayCastWrapper(input, proxy):Number
+		function RayCastWrapper(input, proxy)
 		{
 			var userData = broadPhase.GetUserData(proxy);
 			var fixture = userData;
@@ -667,7 +667,7 @@ b2World.prototype.RayCast = function (callback, point1, point2) {
 	}
 b2World.prototype.RayCastOne = function (point1, point2) {
 		var result;
-		function RayCastOneWrapper(fixture, point, normal, fraction):Number
+		function RayCastOneWrapper(fixture, point, normal, fraction)
 		{
 			result = fixture;
 			return fraction;
@@ -677,7 +677,7 @@ b2World.prototype.RayCastOne = function (point1, point2) {
 	}
 b2World.prototype.RayCastAll = function (point1, point2) {
 		var result = new Array();
-		function RayCastAllWrapper(fixture, point, normal, fraction):Number
+		function RayCastAllWrapper(fixture, point, normal, fraction)
 		{
 			result[result.length] = fixture;
 			return 1;
