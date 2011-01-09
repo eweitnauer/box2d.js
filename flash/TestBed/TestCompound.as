@@ -29,8 +29,6 @@ package TestBed{
 	import Box2D.Common.*;
 	import Box2D.Common.Math.*;
 	
-	
-	
 	public class TestCompound extends Test{
 		
 		public function TestCompound(){
@@ -44,110 +42,104 @@ package TestBed{
 			var x:Number;
 			
 			{
-				var cd1:b2CircleDef = new b2CircleDef();
-				cd1.radius = 15.0/m_physScale;
-				cd1.localPosition.Set(-15.0/m_physScale, 15.0/m_physScale);
-				cd1.density = 2.0;
+				var cd1:b2CircleShape = new b2CircleShape();
+				cd1.SetRadius(15.0/m_physScale);
+				cd1.SetLocalPosition(new b2Vec2( -15.0 / m_physScale, 15.0 / m_physScale));
 				
-				var cd2:b2CircleDef = new b2CircleDef();
-				cd2.radius = 15.0/m_physScale;
-				cd2.localPosition.Set(15.0/m_physScale, 15.0/m_physScale);
-				cd2.density = 0.0; // massless
+				var cd2:b2CircleShape = new b2CircleShape();
+				cd2.SetRadius(15.0/m_physScale);
+				cd2.SetLocalPosition(new b2Vec2(15.0 / m_physScale, 15.0 / m_physScale));
 				
 				bd = new b2BodyDef();
+				bd.type = b2Body.b2_dynamicBody;
 				
 				for (i = 0; i < 5; ++i)
 				{
-					x = 320.0 + b2Math.b2RandomRange(-3.0, 3.0);
+					x = 320.0 + b2Math.RandomRange(-3.0, 3.0);
 					bd.position.Set((x + 150.0)/m_physScale, (31.5 + 75.0 * -i + 300.0)/m_physScale);
-					bd.angle = b2Math.b2RandomRange(-Math.PI, Math.PI);
+					bd.angle = b2Math.RandomRange(-Math.PI, Math.PI);
 					body = m_world.CreateBody(bd);
-					body.CreateShape(cd1);
-					body.CreateShape(cd2);
-					body.SetMassFromShapes();
+					body.CreateFixture2(cd1, 2.0);
+					body.CreateFixture2(cd2, 0.0);
 				}
 			}
 			
 			{
-				var pd1:b2PolygonDef = new b2PolygonDef();
+				var pd1:b2PolygonShape = new b2PolygonShape();
 				pd1.SetAsBox(7.5/m_physScale, 15.0/m_physScale);
-				pd1.density = 2.0;
 				
-				var pd2:b2PolygonDef = new b2PolygonDef();
+				var pd2:b2PolygonShape = new b2PolygonShape();
 				pd2.SetAsOrientedBox(7.5/m_physScale, 15.0/m_physScale, new b2Vec2(0.0, -15.0/m_physScale), 0.5 * Math.PI);
-				pd2.density = 2.0;
 				
 				bd = new b2BodyDef();
+				bd.type = b2Body.b2_dynamicBody;
 				
 				for (i = 0; i < 5; ++i)
 				{
-					x = 320.0 + b2Math.b2RandomRange(-3.0, 3.0);
+					x = 320.0 + b2Math.RandomRange(-3.0, 3.0);
 					bd.position.Set((x - 150.0)/m_physScale, (31.5 + 75.0 * -i + 300)/m_physScale);
-					bd.angle = b2Math.b2RandomRange(-Math.PI, Math.PI);
+					bd.angle = b2Math.RandomRange(-Math.PI, Math.PI);
 					body = m_world.CreateBody(bd);
-					body.CreateShape(pd1);
-					body.CreateShape(pd2);
-					body.SetMassFromShapes();
+					body.CreateFixture2(pd1, 2.0);
+					body.CreateFixture2(pd2, 2.0);
 				}
 			}
 			
 			{
-				var xf1:b2XForm = new b2XForm();
+				var xf1:b2Transform = new b2Transform();
 				xf1.R.Set(0.3524 * Math.PI);
-				xf1.position = b2Math.b2MulMV(xf1.R, new b2Vec2(1.0, 0.0));
+				xf1.position = b2Math.MulMV(xf1.R, new b2Vec2(1.0, 0.0));
 				
-				var sd1:b2PolygonDef = new b2PolygonDef();
-				sd1.vertexCount = 3;
-				sd1.vertices[0] = b2Math.b2MulX(xf1, new b2Vec2(-30.0/m_physScale, 0.0));
-				sd1.vertices[1] = b2Math.b2MulX(xf1, new b2Vec2(30.0/m_physScale, 0.0));
-				sd1.vertices[2] = b2Math.b2MulX(xf1, new b2Vec2(0.0, 15.0/m_physScale));
-				sd1.density = 2.0;
+				var sd1:b2PolygonShape = new b2PolygonShape();
+				sd1.SetAsArray([
+					b2Math.MulX(xf1, new b2Vec2(-30.0/m_physScale, 0.0)),
+					b2Math.MulX(xf1, new b2Vec2(30.0/m_physScale, 0.0)),
+					b2Math.MulX(xf1, new b2Vec2(0.0, 15.0 / m_physScale)),
+					]);
 				
-				var xf2:b2XForm = new b2XForm();
+				var xf2:b2Transform = new b2Transform();
 				xf2.R.Set(-0.3524 * Math.PI);
-				xf2.position = b2Math.b2MulMV(xf2.R, new b2Vec2(-30.0/m_physScale, 0.0));
+				xf2.position = b2Math.MulMV(xf2.R, new b2Vec2(-30.0/m_physScale, 0.0));
 				
-				var sd2:b2PolygonDef = new b2PolygonDef();
-				sd2.vertexCount = 3;
-				sd2.vertices[0] = b2Math.b2MulX(xf2, new b2Vec2(-30.0/m_physScale, 0.0));
-				sd2.vertices[1] = b2Math.b2MulX(xf2, new b2Vec2(30.0/m_physScale, 0.0));
-				sd2.vertices[2] = b2Math.b2MulX(xf2, new b2Vec2(0.0, 15.0/m_physScale));
-				sd2.density = 2.0;
+				var sd2:b2PolygonShape = new b2PolygonShape();
+				sd2.SetAsArray([
+					b2Math.MulX(xf2, new b2Vec2(-30.0/m_physScale, 0.0)),
+					b2Math.MulX(xf2, new b2Vec2(30.0/m_physScale, 0.0)),
+					b2Math.MulX(xf2, new b2Vec2(0.0, 15.0 / m_physScale)),
+					]);
 				
 				bd = new b2BodyDef();
+				bd.type = b2Body.b2_dynamicBody;
+				bd.fixedRotation = true;
 				
 				for (i = 0; i < 5; ++i)
 				{
-					x = 320.0 + b2Math.b2RandomRange(-3.0, 3.0);
+					x = 320.0 + b2Math.RandomRange(-3.0, 3.0);
 					bd.position.Set(x/m_physScale, (-61.5 + 55.0 * -i + 300)/m_physScale);
 					bd.angle = 0.0;
 					body = m_world.CreateBody(bd);
-					body.CreateShape(sd1);
-					body.CreateShape(sd2);
-					body.SetMassFromShapes();
+					body.CreateFixture2(sd1, 2.0);
+					body.CreateFixture2(sd2, 2.0);
 				}
 			}
 			
 			{
-				var sd_bottom:b2PolygonDef = new b2PolygonDef();
+				var sd_bottom:b2PolygonShape = new b2PolygonShape();
 				sd_bottom.SetAsBox( 45.0/m_physScale, 4.5/m_physScale );
-				sd_bottom.density = 4.0;
 				
-				var sd_left:b2PolygonDef = new b2PolygonDef();
+				var sd_left:b2PolygonShape = new b2PolygonShape();
 				sd_left.SetAsOrientedBox(4.5/m_physScale, 81.0/m_physScale, new b2Vec2(-43.5/m_physScale, -70.5/m_physScale), -0.2);
-				sd_left.density = 4.0;
 				
-				var sd_right:b2PolygonDef = new b2PolygonDef();
+				var sd_right:b2PolygonShape = new b2PolygonShape();
 				sd_right.SetAsOrientedBox(4.5/m_physScale, 81.0/m_physScale, new b2Vec2(43.5/m_physScale, -70.5/m_physScale), 0.2);
-				sd_right.density = 4.0;
 				
 				bd = new b2BodyDef();
+				bd.type = b2Body.b2_dynamicBody;
 				bd.position.Set( 320.0/m_physScale, 300.0/m_physScale );
 				body = m_world.CreateBody(bd);
-				body.CreateShape(sd_bottom);
-				body.CreateShape(sd_left);
-				body.CreateShape(sd_right);
-				body.SetMassFromShapes();
+				body.CreateFixture2(sd_bottom, 4.0);
+				body.CreateFixture2(sd_left, 4.0);
+				body.CreateFixture2(sd_right, 4.0);
 			}
 			
 		}

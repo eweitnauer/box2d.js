@@ -36,7 +36,7 @@ package TestBed{
 	
 	
 	
-	public class Test{
+	public class Test {
 		
 		public function Test(){
 			
@@ -53,51 +53,47 @@ package TestBed{
 			var doSleep:Boolean = true;
 			
 			// Construct a world object
-			m_world = new b2World(worldAABB, gravity, doSleep);
+			m_world = new b2World(gravity, doSleep);
+			//m_world.SetBroadPhase(new b2BroadPhase(worldAABB));
+			m_world.SetWarmStarting(true);
 			// set debug draw
 			var dbgDraw:b2DebugDraw = new b2DebugDraw();
 			//var dbgSprite:Sprite = new Sprite();
 			//m_sprite.addChild(dbgSprite);
-			dbgDraw.m_sprite = m_sprite;
-			dbgDraw.m_drawScale = 30.0;
-			dbgDraw.m_fillAlpha = 0.3;
-			dbgDraw.m_lineThickness = 1.0;
-			dbgDraw.m_drawFlags = b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit;
+			dbgDraw.SetSprite(m_sprite);
+			dbgDraw.SetDrawScale(30.0);
+			dbgDraw.SetFillAlpha(0.3);
+			dbgDraw.SetLineThickness(1.0);
+			dbgDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
 			m_world.SetDebugDraw(dbgDraw);
 			
-			
 			// Create border of boxes
-			var wallSd:b2PolygonDef = new b2PolygonDef();
+			var wall:b2PolygonShape= new b2PolygonShape();
 			var wallBd:b2BodyDef = new b2BodyDef();
 			var wallB:b2Body;
 			
 			// Left
-			wallBd.position.Set(-95 / m_physScale, 360/m_physScale/2);
-			wallSd.SetAsBox(100/m_physScale, 400/m_physScale/2);
+			wallBd.position.Set( -95 / m_physScale, 360 / m_physScale / 2);
+			wall.SetAsBox(100/m_physScale, 400/m_physScale/2);
 			wallB = m_world.CreateBody(wallBd);
-			wallB.CreateShape(wallSd);
-			wallB.SetMassFromShapes();
+			wallB.CreateFixture2(wall);
 			// Right
-			wallBd.position.Set((640+95) / m_physScale, 360/m_physScale/2);
+			wallBd.position.Set((640 + 95) / m_physScale, 360 / m_physScale / 2);
 			wallB = m_world.CreateBody(wallBd);
-			wallB.CreateShape(wallSd);
-			wallB.SetMassFromShapes();
+			wallB.CreateFixture2(wall);
 			// Top
-			wallBd.position.Set(640/m_physScale/2, -95/m_physScale);
-			wallSd.SetAsBox(680/m_physScale/2, 100/m_physScale);
+			wallBd.position.Set(640 / m_physScale / 2, -95 / m_physScale);
+			wall.SetAsBox(680/m_physScale/2, 100/m_physScale);
 			wallB = m_world.CreateBody(wallBd);
-			wallB.CreateShape(wallSd);
-			wallB.SetMassFromShapes();
+			wallB.CreateFixture2(wall);
 			// Bottom
-			wallBd.position.Set(640/m_physScale/2, (360+95)/m_physScale);
+			wallBd.position.Set(640 / m_physScale / 2, (360 + 95) / m_physScale);
 			wallB = m_world.CreateBody(wallBd);
-			wallB.CreateShape(wallSd);
-			wallB.SetMassFromShapes();
+			wallB.CreateFixture2(wall);
 		}
 		
 		
-		public function Update():void{
-			
+		public function Update():void {
 			// Update mouse joint
 			UpdateMouseWorld()
 			MouseDestroy();
@@ -105,10 +101,13 @@ package TestBed{
 			
 			// Update physics
 			var physStart:uint = getTimer();
-			m_world.Step(m_timeStep, m_iterations);
+			m_world.Step(m_timeStep, m_velocityIterations, m_positionIterations);
+			m_world.ClearForces();
+			
 			Main.m_fpsCounter.updatePhys(physStart);
 			
 			// Render
+			m_world.DrawDebugData();
 			// joints
 			/*for (var jj:b2Joint = m_world.m_jointList; jj; jj = jj.m_next){
 				//DrawJoint(jj);
@@ -132,8 +131,9 @@ package TestBed{
 		public var m_world:b2World;
 		public var m_bomb:b2Body;
 		public var m_mouseJoint:b2MouseJoint;
-		public var m_iterations:int = 10;
-		public var m_timeStep:Number = 1/30;
+		public var m_velocityIterations:int = 10;
+		public var m_positionIterations:int = 10;
+		public var m_timeStep:Number = 1.0/30.0;
 		public var m_physScale:Number = 30;
 		// world mouse position
 		static public var mouseXWorldPhys:Number;
@@ -170,13 +170,13 @@ package TestBed{
 				if (body)
 				{
 					var md:b2MouseJointDef = new b2MouseJointDef();
-					md.body1 = m_world.GetGroundBody();
-					md.body2 = body;
+					md.bodyA = m_world.GetGroundBody();
+					md.bodyB = body;
 					md.target.Set(mouseXWorldPhys, mouseYWorldPhys);
+					md.collideConnected = true;
 					md.maxForce = 300.0 * body.GetMass();
-					md.timeStep = m_timeStep;
 					m_mouseJoint = m_world.CreateJoint(md) as b2MouseJoint;
-					body.WakeUp();
+					body.SetAwake(true);
 				}
 			}
 			
@@ -224,31 +224,31 @@ package TestBed{
 		// GetBodyAtMouse
 		//======================
 		private var mousePVec:b2Vec2 = new b2Vec2();
-		public function GetBodyAtMouse(includeStatic:Boolean=false):b2Body{
+		public function GetBodyAtMouse(includeStatic:Boolean = false):b2Body {
 			// Make a small box.
 			mousePVec.Set(mouseXWorldPhys, mouseYWorldPhys);
 			var aabb:b2AABB = new b2AABB();
 			aabb.lowerBound.Set(mouseXWorldPhys - 0.001, mouseYWorldPhys - 0.001);
 			aabb.upperBound.Set(mouseXWorldPhys + 0.001, mouseYWorldPhys + 0.001);
+			var body:b2Body = null;
+			var fixture:b2Fixture;
 			
 			// Query the world for overlapping shapes.
-			var k_maxCount:int = 10;
-			var shapes:Array = new Array();
-			var count:int = m_world.Query(aabb, shapes, k_maxCount);
-			var body:b2Body = null;
-			for (var i:int = 0; i < count; ++i)
+			function GetBodyCallback(fixture:b2Fixture):Boolean
 			{
-				if (shapes[i].GetBody().IsStatic() == false || includeStatic)
+				var shape:b2Shape = fixture.GetShape();
+				if (fixture.GetBody().GetType() != b2Body.b2_staticBody || includeStatic)
 				{
-					var tShape:b2Shape = shapes[i] as b2Shape;
-					var inside:Boolean = tShape.TestPoint(tShape.GetBody().GetXForm(), mousePVec);
+					var inside:Boolean = shape.TestPoint(fixture.GetBody().GetTransform(), mousePVec);
 					if (inside)
 					{
-						body = tShape.GetBody();
-						break;
+						body = fixture.GetBody();
+						return false;
 					}
 				}
+				return true;
 			}
+			m_world.QueryAABB(GetBodyCallback, aabb);
 			return body;
 		}
 		
