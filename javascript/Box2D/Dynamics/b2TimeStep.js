@@ -11,7 +11,14 @@ b2TimeStep.prototype.__varz = function(){
 b2TimeStep.prototype.dt =  null;
 b2TimeStep.prototype.inv_dt =  null;
 b2TimeStep.prototype.dtRatio =  null;
-b2TimeStep.prototype.maxIterations =  0;
+b2TimeStep.prototype.velocityIterations =  0;
+b2TimeStep.prototype.positionIterations =  0;
 b2TimeStep.prototype.warmStarting =  null;
-b2TimeStep.prototype.positionCorrection =  null;
 // methods
+b2TimeStep.prototype.Set = function (step) {
+		this.dt = step.dt;
+		this.inv_dt = step.inv_dt;
+		this.positionIterations = step.positionIterations;
+		this.velocityIterations = step.velocityIterations;
+		this.warmStarting = step.warmStarting;
+	}

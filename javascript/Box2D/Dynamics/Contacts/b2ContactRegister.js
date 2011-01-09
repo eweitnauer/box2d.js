@@ -11,4 +11,6 @@ b2ContactRegister.prototype.__varz = function(){
 b2ContactRegister.prototype.createFcn =  null;
 b2ContactRegister.prototype.destroyFcn =  null;
 b2ContactRegister.prototype.primary =  null;
+b2ContactRegister.prototype.pool =  null;
+b2ContactRegister.prototype.poolCount =  0;
 // methods

@@ -5,63 +5,59 @@ this.__constructor.apply(this, arguments);
 }
 extend(b2CircleShape.prototype, b2Shape.prototype)
 b2CircleShape.prototype._super = function(){ b2Shape.prototype.__constructor.apply(this, arguments) }
-b2CircleShape.prototype.__constructor = function (def) {
-		this._super(def);
-		
-		
-		var circleDef = def;
-		
-		this.m_type = b2Shape.e_circleShape;
-		this.m_localPosition.SetV(circleDef.localPosition);
-		this.m_radius = circleDef.radius;
-		
+b2CircleShape.prototype.__constructor = function (radius ) {
+		this._super();
+		m_type = e_circleShape;
+		m_radius = radius;
 	}
 b2CircleShape.prototype.__varz = function(){
-this.m_localPosition =  new b2Vec2();
 }
 // static attributes
 // static methods
 // attributes
-b2CircleShape.prototype.m_localPosition =  new b2Vec2();
-b2CircleShape.prototype.m_radius =  null;
 // methods
+b2CircleShape.prototype.Copy = function () {
+		var s = new b2CircleShape();
+		s.Set(this);
+		return s;
+	}
+b2CircleShape.prototype.Set = function (other) {
+		super.Set(other);
+		if (other is b2CircleShape)
+		{
+			var other2 = other;
+			m_p.SetV(other2.m_p);
+		}
+	}
 b2CircleShape.prototype.TestPoint = function (transform, p) {
 		
 		var tMat = transform.R;
-		var dX = transform.position.x + (tMat.col1.x * this.m_localPosition.x + tMat.col2.x * this.m_localPosition.y);
-		var dY = transform.position.y + (tMat.col1.y * this.m_localPosition.x + tMat.col2.y * this.m_localPosition.y);
+		var dX = transform.position.x + (tMat.col1.x * m_p.x + tMat.col2.x * m_p.y);
+		var dY = transform.position.y + (tMat.col1.y * m_p.x + tMat.col2.y * m_p.y);
 		
 		dX = p.x - dX;
 		dY = p.y - dY;
 		
-		return (dX*dX + dY*dY) <= this.m_radius * this.m_radius;
+		return (dX*dX + dY*dY) <= m_radius * m_radius;
 	}
-b2CircleShape.prototype.TestSegment = function (	transform,
-						lambda, 
-						normal, 
-						segment,
-						maxLambda) {
+b2CircleShape.prototype.RayCast = function (output, input, transform) {
 		
 		var tMat = transform.R;
-		var positionX = transform.position.x + (tMat.col1.x * this.m_localPosition.x + tMat.col2.x * this.m_localPosition.y);
-		var positionY = transform.position.y + (tMat.col1.y * this.m_localPosition.x + tMat.col2.y * this.m_localPosition.y);
+		var positionX = transform.position.x + (tMat.col1.x * m_p.x + tMat.col2.x * m_p.y);
+		var positionY = transform.position.y + (tMat.col1.y * m_p.x + tMat.col2.y * m_p.y);
 		
 		
-		var sX = segment.p1.x - positionX;
-		var sY = segment.p1.y - positionY;
+		var sX = input.p1.x - positionX;
+		var sY = input.p1.y - positionY;
 		
-		var b = (sX*sX + sY*sY) - this.m_radius * this.m_radius;
-		
-		
-		if (b < 0.0)
-		{
-			return false;
-		}
+		var b = (sX*sX + sY*sY) - m_radius * m_radius;
 		
 		
 		
-		var rX = segment.p2.x - segment.p1.x;
-		var rY = segment.p2.y - segment.p1.y;
+		
+		
+		var rX = input.p2.x - input.p1.x;
+		var rY = input.p2.y - input.p1.y;
 		
 		var c = (sX*rX + sY*rY);
 		
@@ -78,15 +74,14 @@ b2CircleShape.prototype.TestSegment = function (	transform,
 		var a = -(c + Math.sqrt(sigma));
 		
 		
-		if (0.0 <= a && a <= maxLambda * rr)
+		if (0.0 <= a && a <= input.maxFraction * rr)
 		{
 			a /= rr;
+			output.fraction = a;
 			
-			lambda[0] = a;
-			
-			normal.x = sX + a * rX;
-			normal.y = sY + a * rY;
-			normal.Normalize();
+			output.normal.x = sX + a * rX;
+			output.normal.y = sY + a * rY;
+			output.normal.Normalize();
 			return true;
 		}
 		
@@ -95,53 +90,59 @@ b2CircleShape.prototype.TestSegment = function (	transform,
 b2CircleShape.prototype.ComputeAABB = function (aabb, transform) {
 		
 		var tMat = transform.R;
-		var pX = transform.position.x + (tMat.col1.x * this.m_localPosition.x + tMat.col2.x * this.m_localPosition.y);
-		var pY = transform.position.y + (tMat.col1.y * this.m_localPosition.x + tMat.col2.y * this.m_localPosition.y);
-		aabb.lowerBound.Set(pX - this.m_radius, pY - this.m_radius);
-		aabb.upperBound.Set(pX + this.m_radius, pY + this.m_radius);
+		var pX = transform.position.x + (tMat.col1.x * m_p.x + tMat.col2.x * m_p.y);
+		var pY = transform.position.y + (tMat.col1.y * m_p.x + tMat.col2.y * m_p.y);
+		aabb.lowerBound.Set(pX - m_radius, pY - m_radius);
+		aabb.upperBound.Set(pX + m_radius, pY + m_radius);
 	}
-b2CircleShape.prototype.ComputeSweptAABB = function (	aabb,
-							transform1,
-							transform2) {
-		var tMat;
-		
-		tMat = transform1.R;
-		var p1X = transform1.position.x + (tMat.col1.x * this.m_localPosition.x + tMat.col2.x * this.m_localPosition.y);
-		var p1Y = transform1.position.y + (tMat.col1.y * this.m_localPosition.x + tMat.col2.y * this.m_localPosition.y);
-		
-		tMat = transform2.R;
-		var p2X = transform2.position.x + (tMat.col1.x * this.m_localPosition.x + tMat.col2.x * this.m_localPosition.y);
-		var p2Y = transform2.position.y + (tMat.col1.y * this.m_localPosition.x + tMat.col2.y * this.m_localPosition.y);
+b2CircleShape.prototype.ComputeMass = function (massData, density) {
+		massData.mass = density * b2Settings.b2_pi * m_radius * m_radius;
+		massData.center.SetV(m_p);
 		
 		
 		
-		
-		
-		aabb.lowerBound.Set((p1X < p2X ? p1X : p2X) - this.m_radius, (p1Y < p2Y ? p1Y : p2Y) - this.m_radius);
-		
-		aabb.upperBound.Set((p1X > p2X ? p1X : p2X) + this.m_radius, (p1Y > p2Y ? p1Y : p2Y) + this.m_radius);
+		massData.I = massData.mass * (0.5 * m_radius * m_radius + (m_p.x*m_p.x + m_p.y*m_p.y));
 	}
-b2CircleShape.prototype.ComputeMass = function (massData) {
-		massData.mass = this.m_density * b2Settings.b2_pi * this.m_radius * this.m_radius;
-		massData.center.SetV(this.m_localPosition);
+b2CircleShape.prototype.ComputeSubmergedArea = function (
+			normal,
+			offset,
+			xf,
+			c) {
+		var p = b2Math.MulX(xf, m_p);
+		var l = -(b2Math.Dot(normal, p) - offset);
+		
+		if (l < -m_radius + Number.MIN_VALUE)
+		{
+			
+			return 0;
+		}
+		if (l > m_radius)
+		{
+			
+			c.SetV(p);
+			return Math.PI * m_radius * m_radius;
+		}
 		
 		
+		var r2 = m_radius * m_radius;
+		var l2 = l * l;
+		var area = r2 *( Math.asin(l / m_radius) + Math.PI / 2) + l * Math.sqrt( r2 - l2 );
+		var com = -2 / 3 * Math.pow(r2 - l2, 1.5) / area;
 		
-		massData.I = massData.mass * (0.5 * this.m_radius * this.m_radius + (this.m_localPosition.x*this.m_localPosition.x + this.m_localPosition.y*this.m_localPosition.y));
+		c.x = p.x + normal.x * com;
+		c.y = p.y + normal.y * com;
+		
+		return area;
 	}
 b2CircleShape.prototype.GetLocalPosition = function () {
-		return this.m_localPosition;
+		return m_p;
+	}
+b2CircleShape.prototype.SetLocalPosition = function (position) {
+		m_p.SetV(position);
 	}
 b2CircleShape.prototype.GetRadius = function () {
-		return this.m_radius;
+		return m_radius;
 	}
-b2CircleShape.prototype.UpdateSweepRadius = function (center) {
-		
-		
-		
-		var dX = this.m_localPosition.x - center.x;
-		var dY = this.m_localPosition.y - center.y;
-		dX = Math.sqrt(dX*dX + dY*dY); 
-		
-		this.m_sweepRadius = dX + this.m_radius - b2Settings.b2_toiSlop;
+b2CircleShape.prototype.SetRadius = function (radius) {
+		m_radius = radius;
 	}

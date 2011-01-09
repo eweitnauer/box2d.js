@@ -12,5 +12,3 @@ b2NullContact.prototype.__varz = function(){
 // static methods
 // attributes
 // methods
-b2NullContact.prototype.Evaluate = function (l) {}
-b2NullContact.prototype.GetManifolds = function () { return null; }

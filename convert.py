@@ -68,6 +68,13 @@ def parse(code):
     code = re.sub(r"\bconst\b", "var", code)
     #remove type anotations
     code = re.sub("(\w+):[ ]*(\w+|\\*)", "\\1", code)
+    #convert vectors to arrays
+    ## new Vector.<Number>();
+    code = re.sub(r"\wVector\w", "Array", code);
+    # remove generics
+    ## new Vector.<Number>();
+    ## var lowerValues:Vector.<Number>;
+    code = re.sub(r"\.<.*?>", "", code);
     ## remove override and virtual
     code = code.replace("override", "").replace("virtual", "").replace("\r", "")
     # hack ...
@@ -89,8 +96,10 @@ def parse(code):
     code = "\n".join(lines)
 
     # find class
-    i = code.index("public class ")
-    aux = code[i+len("public class "):]
+    class_start = re.search("(public|internal) class ", code)
+    if not class_start:
+    	return None
+    aux = code[class_start.end(0):]
     i = min(aux.index(" "), aux.index("\n"), aux.index("{"))
     klass = aux[:i].strip()
     extends = None
@@ -163,13 +172,16 @@ for dirpath, dirnames, filenames in os.walk(source):
         src = os.path.join(dirpath, filename)
         code = open(src, "r").read()
         dest = os.path.join(target, filename.replace(".as", ".js"))
-        print "parsing", src
-        klass = parse(code)
-        print "translating", src
-        code = translate(klass)
-        # klass, path, dependencies (empty)
-        deps = klass.extends and [klass.extends] or []
-        classes[klass.name] = (klass, code, dest, deps)
+       	print "parsing", src
+       	klass = parse(code)
+       	if not klass:
+       		print "-> no class found"
+       		continue
+       	print "translating", src
+       	code = translate(klass)
+       	# klass, path, dependencies (empty)
+       	deps = klass.extends and [klass.extends] or []
+       	classes[klass.name] = (klass, code, dest, deps)
 
 def resolve(code, klass):
     for name, value in klass.svars + klass.sfuncs:

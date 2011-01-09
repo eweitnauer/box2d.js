@@ -9,21 +9,21 @@ b2Bound.prototype.__varz = function(){
 // static methods
 // attributes
 b2Bound.prototype.value =  0;
-b2Bound.prototype.proxyId =  0;
+b2Bound.prototype.proxy =  null;
 b2Bound.prototype.stabbingCount =  0;
 // methods
 b2Bound.prototype.IsLower = function () { return (this.value & 1) == 0; }
 b2Bound.prototype.IsUpper = function () { return (this.value & 1) == 1; }
 b2Bound.prototype.Swap = function (b) {
 		var tempValue = this.value;
-		var tempProxyId = this.proxyId;
+		var tempProxy = this.proxy;
 		var tempStabbingCount = this.stabbingCount;
 		
 		this.value = b.value;
-		this.proxyId = b.proxyId;
+		this.proxy = b.proxy;
 		this.stabbingCount = b.stabbingCount;
 		
 		b.value = tempValue;
-		b.proxyId = tempProxyId;
+		b.proxy = tempProxy;
 		b.stabbingCount = tempStabbingCount;
 	}

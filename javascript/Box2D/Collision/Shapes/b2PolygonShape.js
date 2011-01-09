@@ -5,100 +5,45 @@ this.__constructor.apply(this, arguments);
 }
 extend(b2PolygonShape.prototype, b2Shape.prototype)
 b2PolygonShape.prototype._super = function(){ b2Shape.prototype.__constructor.apply(this, arguments) }
-b2PolygonShape.prototype.__constructor = function (def) {
-		this._super(def);
+b2PolygonShape.prototype.__constructor = function () {
 		
 		
-		this.m_type = b2Shape.e_polygonShape;
-		var poly = def;
+		m_type = e_polygonShape;
 		
-		
-		this.m_vertexCount = poly.vertexCount;
-		
-		
-		var i = 0;
-		var i1 = i;
-		var i2 = i;
-		
-		
-		for (i = 0; i < this.m_vertexCount; ++i)
-		{
-			this.m_vertices[i] = poly.vertices[i].Copy();
-		}
-		
-		
-		for (i = 0; i < this.m_vertexCount; ++i)
-		{
-			i1 = i;
-			i2 = i + 1 < this.m_vertexCount ? i + 1 : 0;
-			
-			var edgeX = this.m_vertices[i2].x - this.m_vertices[i1].x;
-			var edgeY = this.m_vertices[i2].y - this.m_vertices[i1].y;
-			
-			
-			var len = Math.sqrt(edgeX*edgeX + edgeY*edgeY);
-			
-			this.m_normals[i] = new b2Vec2(edgeY/len, -edgeX/len);
-		}
-		
-		
-		
-		
-		this.m_centroid = b2PolygonShape.ComputeCentroid(poly.vertices, poly.vertexCount);
-		
-		
-		b2PolygonShape.ComputeOBB(this.m_obb, this.m_vertices, this.m_vertexCount);
-		
-		
-		
-		for (i = 0; i < this.m_vertexCount; ++i)
-		{
-			i1 = i - 1 >= 0 ? i - 1 : this.m_vertexCount - 1;
-			i2 = i;
-			
-			
-			var n1X = this.m_normals[i1].x;
-			var n1Y = this.m_normals[i1].y;
-			
-			var n2X = this.m_normals[i2].x;
-			var n2Y = this.m_normals[i2].y;
-			
-			var vX = this.m_vertices[i].x - this.m_centroid.x;
-			var vY = this.m_vertices[i].y - this.m_centroid.y;
-			
-			
-			var dX = (n1X*vX + n1Y*vY) - b2Settings.b2_toiSlop;
-			var dY = (n2X*vX + n2Y*vY) - b2Settings.b2_toiSlop;
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			var det = 1.0/(n1X * n2Y - n1Y * n2X);
-			
-			this.m_coreVertices[i] = new b2Vec2(	det * (n2Y * dX - n1Y * dY) + this.m_centroid.x, 
-											det * (n1X * dY - n2X * dX) + this.m_centroid.y);
-		}
+		m_centroid = new b2Vec2();
+		m_vertices = new Vector();
+		m_normals = new Vector();
 	}
 b2PolygonShape.prototype.__varz = function(){
-this.s_supportVec =  new b2Vec2();
-this.m_obb =  new b2OBB();
-this.m_vertices =  new Array(b2Settings.b2_maxPolygonVertices);
-this.m_normals =  new Array(b2Settings.b2_maxPolygonVertices);
-this.m_coreVertices =  new Array(b2Settings.b2_maxPolygonVertices);
 }
 // static attributes
-b2PolygonShape.s_computeMat =  new b2Mat22();
-b2PolygonShape.s_sweptAABB1 =  new b2AABB();
-b2PolygonShape.s_sweptAABB2 =  new b2AABB();
+b2PolygonShape.s_mat =  new b2Mat22();
 // static methods
+b2PolygonShape.AsArray = function (vertices, vertexCount) {
+		var polygonShape = new b2PolygonShape();
+		polygonShape.SetAsArray(vertices, vertexCount);
+		return polygonShape;
+	}
+b2PolygonShape.AsVector = function (vertices, vertexCount) {
+		var polygonShape = new b2PolygonShape();
+		polygonShape.SetAsVector(vertices, vertexCount);
+		return polygonShape;
+	}
+b2PolygonShape.AsBox = function (hx, hy) {
+		var polygonShape = new b2PolygonShape();
+		polygonShape.SetAsBox(hx, hy);
+		return polygonShape;
+	}
+b2PolygonShape.AsOrientedBox = function (hx, hy, center , angle ) {
+		var polygonShape = new b2PolygonShape();
+		polygonShape.SetAsOrientedBox(hx, hy, center, angle);
+		return polygonShape;
+	}
+b2PolygonShape.AsEdge = function (v1, v2) {
+		var polygonShape = new b2PolygonShape();
+		polygonShape.SetAsEdge(v1, v2);
+		return polygonShape;
+	}
 b2PolygonShape.ComputeCentroid = function (vs, count) {
 		
 		
@@ -152,91 +97,152 @@ b2PolygonShape.ComputeCentroid = function (vs, count) {
 		c.y *= 1.0 / area;
 		return c;
 	}
-b2PolygonShape.ComputeOBB = function (obb, vs, count) {
+// attributes
+// methods
+b2PolygonShape.prototype.Validate = function () {
+		
+		return false;
+	}
+b2PolygonShape.prototype.Reserve = function (count) {
+		for (var i = m_vertices.length; i < count; i++)
+		{
+			m_vertices[i] = new b2Vec2();
+			m_normals[i] = new b2Vec2();
+		}
+	}
+b2PolygonShape.prototype.Copy = function () {
+		var s = new b2PolygonShape();
+		s.Set(this);
+		return s;
+	}
+b2PolygonShape.prototype.Set = function (other) {
+		super.Set(other);
+		if (other is b2PolygonShape)
+		{
+			var other2 = other;
+			m_centroid.SetV(other2.m_centroid);
+			m_vertexCount = other2.m_vertexCount;
+			this.Reserve(m_vertexCount);
+			for (var i = 0; i < m_vertexCount; i++)
+			{
+				m_vertices[i].SetV(other2.m_vertices[i]);
+				m_normals[i].SetV(other2.m_normals[i]);
+			}
+		}
+	}
+b2PolygonShape.prototype.SetAsArray = function (vertices, vertexCount ) {
+		var v = new Vector();
+		for each(var tVec in vertices)
+		{
+			v.push(tVec);
+		}
+		this.SetAsVector(v, vertexCount);
+	}
+b2PolygonShape.prototype.SetAsVector = function (vertices, vertexCount ) {
+		if (vertexCount == 0)
+			vertexCount = vertices.length;
+			
+		b2Settings.b2Assert(2 <= vertexCount);
+		m_vertexCount = vertexCount;
+		
+		this.Reserve(vertexCount);
+		
 		var i = 0;
 		
-		var p = new Array(b2Settings.b2_maxPolygonVertices + 1);
-		for (i = 0; i < count; ++i)
-		{
-			p[i] = vs[i];
-		}
-		p[count] = p[0];
 		
-		var minArea = Number.MAX_VALUE;
-		
-		for (i = 1; i <= count; ++i)
+		for (i = 0; i < m_vertexCount; i++)
 		{
-			var root = p[parseInt(i-1)];
-			
-			var uxX = p[i].x - root.x;
-			var uxY = p[i].y - root.y;
-			
-			var length = Math.sqrt(uxX*uxX + uxY*uxY);
-			uxX /= length;
-			uxY /= length;
-			
-			
-			var uyX = -uxY;
-			var uyY = uxX;
-			
-			var lowerX = Number.MAX_VALUE;
-			var lowerY = Number.MAX_VALUE;
-			
-			var upperX = -Number.MAX_VALUE;
-			var upperY = -Number.MAX_VALUE;
-			
-			for (var j = 0; j < count; ++j)
-			{
-				
-				var dX = p[j].x - root.x;
-				var dY = p[j].y - root.y;
-				
-				
-				var rX = (uxX*dX + uxY*dY);
-				
-				var rY = (uyX*dX + uyY*dY);
-				
-				if (rX < lowerX) lowerX = rX;
-				if (rY < lowerY) lowerY = rY;
-				
-				if (rX > upperX) upperX = rX;
-				if (rY > upperY) upperY = rY;
-			}
-			
-			var area = (upperX - lowerX) * (upperY - lowerY);
-			if (area < 0.95 * minArea)
-			{
-				minArea = area;
-				
-				obb.R.col1.x = uxX;
-				obb.R.col1.y = uxY;
-				
-				obb.R.col2.x = uyX;
-				obb.R.col2.y = uyY;
-				
-				var centerX = 0.5 * (lowerX + upperX);
-				var centerY = 0.5 * (lowerY + upperY);
-				
-				var tMat = obb.R;
-				obb.center.x = root.x + (tMat.col1.x * centerX + tMat.col2.x * centerY);
-				obb.center.y = root.y + (tMat.col1.y * centerX + tMat.col2.y * centerY);
-				
-				obb.extents.x = 0.5 * (upperX - lowerX);
-				obb.extents.y = 0.5 * (upperY - lowerY);
-			}
+			m_vertices[i].SetV(vertices[i]);
 		}
 		
 		
+		for (i = 0; i < m_vertexCount; ++i)
+		{
+			var i1 = i;
+			var i2 = i + 1 < m_vertexCount ? i + 1 : 0;
+			var edge = b2Math.SubtractVV(m_vertices[i2], m_vertices[i1]);
+			b2Settings.b2Assert(edge.LengthSquared() > Number.MIN_VALUE );
+			m_normals[i].SetV(b2Math.CrossVF(edge, 1.0));
+			m_normals[i].Normalize();
+		}
+		
+
+		
+		
+		
+		
+			
+			
+			
+			
+			
+				
+				
+				
+					
+				
+				
+				
+				
+				
+				
+				
+			
+		
+
+
+		
+		m_centroid = b2PolygonShape.ComputeCentroid(m_vertices, m_vertexCount);
 	}
-// attributes
-b2PolygonShape.prototype.s_supportVec =  new b2Vec2();
-b2PolygonShape.prototype.m_centroid =  null;
-b2PolygonShape.prototype.m_obb =  new b2OBB();
-b2PolygonShape.prototype.m_vertices =  new Array(b2Settings.b2_maxPolygonVertices);
-b2PolygonShape.prototype.m_normals =  new Array(b2Settings.b2_maxPolygonVertices);
-b2PolygonShape.prototype.m_coreVertices =  new Array(b2Settings.b2_maxPolygonVertices);
-b2PolygonShape.prototype.m_vertexCount =  0;
-// methods
+b2PolygonShape.prototype.SetAsBox = function (hx, hy) {
+		m_vertexCount = 4;
+		this.Reserve(4);
+		m_vertices[0].Set(-hx, -hy);
+		m_vertices[1].Set( hx, -hy);
+		m_vertices[2].Set( hx, hy);
+		m_vertices[3].Set(-hx, hy);
+		m_normals[0].Set(0.0, -1.0);
+		m_normals[1].Set(1.0, 0.0);
+		m_normals[2].Set(0.0, 1.0);
+		m_normals[3].Set(-1.0, 0.0);
+		m_centroid.SetZero();
+	}
+b2PolygonShape.prototype.SetAsOrientedBox = function (hx, hy, center , angle ) {
+		m_vertexCount = 4;
+		this.Reserve(4);
+		m_vertices[0].Set(-hx, -hy);
+		m_vertices[1].Set( hx, -hy);
+		m_vertices[2].Set( hx, hy);
+		m_vertices[3].Set(-hx, hy);
+		m_normals[0].Set(0.0, -1.0);
+		m_normals[1].Set(1.0, 0.0);
+		m_normals[2].Set(0.0, 1.0);
+		m_normals[3].Set(-1.0, 0.0);
+		m_centroid = center;
+
+		var xf = new b2Transform();
+		xf.position = center;
+		xf.R.Set(angle);
+
+		
+		for (var i = 0; i < m_vertexCount; ++i)
+		{
+			m_vertices[i] = b2Math.MulX(xf, m_vertices[i]);
+			m_normals[i] = b2Math.MulMV(xf.R, m_normals[i]);
+		}
+	}
+b2PolygonShape.prototype.SetAsEdge = function (v1, v2) {
+		m_vertexCount = 2;
+		this.Reserve(2);
+		m_vertices[0].SetV(v1);
+		m_vertices[1].SetV(v2);
+		m_centroid.x = 0.5 * (v1.x + v2.x);
+		m_centroid.y = 0.5 * (v1.y + v2.y);
+		m_normals[0] = b2Math.CrossVF(b2Math.SubtractVV(v2, v1), 1.0);
+		m_normals[0].Normalize();
+		m_normals[1].x = -m_normals[0].x;
+		m_normals[1].y = -m_normals[0].y;
+	}
 b2PolygonShape.prototype.TestPoint = function (xf, p) {
 		var tVec;
 		
@@ -247,13 +253,13 @@ b2PolygonShape.prototype.TestPoint = function (xf, p) {
 		var pLocalX = (tX*tMat.col1.x + tY*tMat.col1.y);
 		var pLocalY = (tX*tMat.col2.x + tY*tMat.col2.y);
 		
-		for (var i = 0; i < this.m_vertexCount; ++i)
+		for (var i = 0; i < m_vertexCount; ++i)
 		{
 			
-			tVec = this.m_vertices[i];
+			tVec = m_vertices[i];
 			tX = pLocalX - tVec.x;
 			tY = pLocalY - tVec.y;
-			tVec = this.m_normals[i];
+			tVec = m_normals[i];
 			var dot = (tVec.x * tX + tVec.y * tY);
 			if (dot > 0.0)
 			{
@@ -263,13 +269,9 @@ b2PolygonShape.prototype.TestPoint = function (xf, p) {
 		
 		return true;
 	}
-b2PolygonShape.prototype.TestSegment = function ( xf,
-		lambda, 
-		normal, 
-		segment,
-		maxLambda) {
+b2PolygonShape.prototype.RayCast = function (output, input, transform) {
 		var lower = 0.0;
-		var upper = maxLambda;
+		var upper = input.maxFraction;
 		
 		var tX;
 		var tY;
@@ -277,15 +279,16 @@ b2PolygonShape.prototype.TestSegment = function ( xf,
 		var tVec;
 		
 		
-		tX = segment.p1.x - xf.position.x;
-		tY = segment.p1.y - xf.position.y;
-		tMat = xf.R;
+		
+		tX = input.p1.x - transform.position.x;
+		tY = input.p1.y - transform.position.y;
+		tMat = transform.R;
 		var p1X = (tX * tMat.col1.x + tY * tMat.col1.y);
 		var p1Y = (tX * tMat.col2.x + tY * tMat.col2.y);
 		
-		tX = segment.p2.x - xf.position.x;
-		tY = segment.p2.y - xf.position.y;
-		tMat = xf.R;
+		tX = input.p2.x - transform.position.x;
+		tY = input.p2.y - transform.position.y;
+		tMat = transform.R;
 		var p2X = (tX * tMat.col1.x + tY * tMat.col1.y);
 		var p2Y = (tX * tMat.col2.x + tY * tMat.col2.y);
 		
@@ -293,41 +296,50 @@ b2PolygonShape.prototype.TestSegment = function ( xf,
 		var dY = p2Y - p1Y;
 		var index = -1;
 		
-		for (var i = 0; i < this.m_vertexCount; ++i)
+		for (var i = 0; i < m_vertexCount; ++i)
 		{
 			
 			
 			
 			
 			
-			tVec = this.m_vertices[i];
+			tVec = m_vertices[i];
 			tX = tVec.x - p1X;
 			tY = tVec.y - p1Y;
-			tVec = this.m_normals[i];
+			tVec = m_normals[i];
 			var numerator = (tVec.x*tX + tVec.y*tY);
 			
-			var denominator = (tVec.x*dX + tVec.y*dY);
+			var denominator = (tVec.x * dX + tVec.y * dY);
 			
-			
-			
-			
-			
-			
-			if (denominator < 0.0 && numerator < lower * denominator)
+			if (denominator == 0.0)
+			{
+				if (numerator < 0.0)
+				{
+					return false;
+				}
+			}
+			else
 			{
 				
 				
-				lower = numerator / denominator;
-				index = i;
-			}
-			else if (denominator > 0.0 && numerator < upper * denominator)
-			{
 				
 				
-				upper = numerator / denominator;
+				if (denominator < 0.0 && numerator < lower * denominator)
+				{
+					
+					
+					lower = numerator / denominator;
+					index = i;
+				}
+				else if (denominator > 0.0 && numerator < upper * denominator)
+				{
+					
+					
+					upper = numerator / denominator;
+				}
 			}
 			
-			if (upper < lower)
+			if (upper < lower - Number.MIN_VALUE)
 			{
 				return false;
 			}
@@ -337,68 +349,43 @@ b2PolygonShape.prototype.TestSegment = function ( xf,
 		
 		if (index >= 0)
 		{
+			output.fraction = lower;
 			
-			lambda[0] = lower;
-			
-			tMat = xf.R;
-			tVec = this.m_normals[index];
-			normal.x = (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
-			normal.y = (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
+			tMat = transform.R;
+			tVec = m_normals[index];
+			output.normal.x = (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
+			output.normal.y = (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
 			return true;
 		}
 		
 		return false;
 	}
 b2PolygonShape.prototype.ComputeAABB = function (aabb, xf) {
-		var tMat;
-		var tVec;
 		
-		var R = b2PolygonShape.s_computeMat;
+		var tMat = xf.R;
+		var tVec = m_vertices[0];
+		var lowerX = xf.position.x + (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
+		var lowerY = xf.position.y + (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
+		var upperX = lowerX;
+		var upperY = lowerY;
 		
-		tMat = xf.R;
-		tVec = this.m_obb.R.col1;
-		
-		R.col1.x = (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
-		R.col1.y = (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
-		
-		tVec = this.m_obb.R.col2;
-		
-		R.col2.x = (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
-		R.col2.y = (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
-		
-		
-		R.Abs();
-		var absR = R;
-		
-		tVec = this.m_obb.extents;
-		var hX = (absR.col1.x * tVec.x + absR.col2.x * tVec.y);
-		var hY = (absR.col1.y * tVec.x + absR.col2.y * tVec.y);
-		
-		tMat = xf.R;
-		tVec = this.m_obb.center;
-		var positionX = xf.position.x + (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
-		var positionY = xf.position.y + (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
-		
-		aabb.lowerBound.Set(positionX - hX, positionY - hY);
-		
-		aabb.upperBound.Set(positionX + hX, positionY + hY);
+		for (var i = 1; i < m_vertexCount; ++i)
+		{
+			tVec = m_vertices[i];
+			var vX = xf.position.x + (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
+			var vY = xf.position.y + (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
+			lowerX = lowerX < vX ? lowerX : vX;
+			lowerY = lowerY < vY ? lowerY : vY;
+			upperX = upperX > vX ? upperX : vX;
+			upperY = upperY > vY ? upperY : vY;
+		}
+
+		aabb.lowerBound.x = lowerX - m_radius;
+		aabb.lowerBound.y = lowerY - m_radius;
+		aabb.upperBound.x = upperX + m_radius;
+		aabb.upperBound.y = upperY + m_radius;
 	}
-b2PolygonShape.prototype.ComputeSweptAABB = function (	aabb,
-		transform1,
-		transform2) {
-		
-		var aabb1 = b2PolygonShape.s_sweptAABB1;
-		var aabb2 = b2PolygonShape.s_sweptAABB2;
-		this.ComputeAABB(aabb1, transform1);
-		this.ComputeAABB(aabb2, transform2);
-		
-		aabb.lowerBound.Set((aabb1.lowerBound.x < aabb2.lowerBound.x ? aabb1.lowerBound.x : aabb2.lowerBound.x),
-							(aabb1.lowerBound.y < aabb2.lowerBound.y ? aabb1.lowerBound.y : aabb2.lowerBound.y));
-		
-		aabb.upperBound.Set((aabb1.upperBound.x > aabb2.upperBound.x ? aabb1.upperBound.x : aabb2.upperBound.x),
-							(aabb1.upperBound.y > aabb2.upperBound.y ? aabb1.upperBound.y : aabb2.upperBound.y));
-	}
-b2PolygonShape.prototype.ComputeMass = function (massData) {
+b2PolygonShape.prototype.ComputeMass = function (massData, density) {
 		
 		
 		
@@ -424,6 +411,16 @@ b2PolygonShape.prototype.ComputeMass = function (massData) {
 		
 		
 		
+		
+		
+		if (m_vertexCount == 2)
+		{
+			massData.center.x = 0.5 * (m_vertices[0].x + m_vertices[1].x);
+			massData.center.y = 0.5 * (m_vertices[0].y + m_vertices[1].y);
+			massData.mass = 0.0;
+			massData.I = 0.0;
+			return;
+		}
 		
 		
 		var centerX = 0.0;
@@ -440,15 +437,15 @@ b2PolygonShape.prototype.ComputeMass = function (massData) {
 		
 		var k_inv3 = 1.0 / 3.0;
 		
-		for (var i = 0; i < this.m_vertexCount; ++i)
+		for (var i = 0; i < m_vertexCount; ++i)
 		{
 			
 			
 			
 			
-			var p2 = this.m_vertices[i];
+			var p2 = m_vertices[i];
 			
-			var p3 = i + 1 < this.m_vertexCount ? this.m_vertices[parseInt(i+1)] : this.m_vertices[0];
+			var p3 = i + 1 < m_vertexCount ? m_vertices[parseInt(i+1)] : m_vertices[0];
 			
 			
 			var e1X = p2.x - p1X;
@@ -488,7 +485,7 @@ b2PolygonShape.prototype.ComputeMass = function (massData) {
 		}
 		
 		
-		massData.mass = this.m_density * area;
+		massData.mass = density * area;
 		
 		
 		
@@ -499,79 +496,152 @@ b2PolygonShape.prototype.ComputeMass = function (massData) {
 		massData.center.Set(centerX, centerY);
 		
 		
-		massData.I = this.m_density * I;
+		massData.I = density * I;
 	}
-b2PolygonShape.prototype.GetOBB = function () {
-		return this.m_obb;
-	}
-b2PolygonShape.prototype.GetCentroid = function () {
-		return this.m_centroid;
+b2PolygonShape.prototype.ComputeSubmergedArea = function (
+			normal,
+			offset,
+			xf,
+			c) {
+		
+		var normalL = b2Math.MulTMV(xf.R, normal);
+		var offsetL = offset - b2Math.Dot(normal, xf.position);
+		
+		var depths = new Vector();
+		var diveCount = 0;
+		var intoIndex = -1;
+		var outoIndex = -1;
+		
+		var lastSubmerged = false;
+		var i = 0;
+		for (i = 0; i < m_vertexCount;++i)
+		{
+			depths[i] = b2Math.Dot(normalL, m_vertices[i]) - offsetL;
+			var isSubmerged = depths[i] < -Number.MIN_VALUE;
+			if (i > 0)
+			{
+				if (isSubmerged)
+				{
+					if (!lastSubmerged)
+					{
+						intoIndex = i - 1;
+						diveCount++;
+					}
+				}
+				else
+				{
+					if (lastSubmerged)
+					{
+						outoIndex = i - 1;
+						diveCount++;
+					}
+				}
+			}
+			lastSubmerged = isSubmerged;
+		}
+		switch(diveCount)
+		{
+			case 0:
+			if (lastSubmerged )
+			{
+				
+				var md = new b2MassData();
+				this.ComputeMass(md, 1);
+				c.SetV(b2Math.MulX(xf, md.center));
+				return md.mass;
+			}
+			else
+			{
+				
+				return 0;
+			}
+			break;
+			case 1:
+			if (intoIndex == -1)
+			{
+				intoIndex = m_vertexCount - 1;
+			}
+			else
+			{
+				outoIndex = m_vertexCount - 1;
+			}
+			break;
+		}
+		var intoIndex2 = (intoIndex + 1) % m_vertexCount;
+		var outoIndex2 = (outoIndex + 1) % m_vertexCount;
+		var intoLamdda = (0 - depths[intoIndex]) / (depths[intoIndex2] - depths[intoIndex]);
+		var outoLamdda = (0 - depths[outoIndex]) / (depths[outoIndex2] - depths[outoIndex]);
+		
+		var intoVec = new b2Vec2(m_vertices[intoIndex].x * (1 - intoLamdda) + m_vertices[intoIndex2].x * intoLamdda,
+										m_vertices[intoIndex].y * (1 - intoLamdda) + m_vertices[intoIndex2].y * intoLamdda);
+		var outoVec = new b2Vec2(m_vertices[outoIndex].x * (1 - outoLamdda) + m_vertices[outoIndex2].x * outoLamdda,
+										m_vertices[outoIndex].y * (1 - outoLamdda) + m_vertices[outoIndex2].y * outoLamdda);
+										
+		
+		var area = 0;
+		var center = new b2Vec2();
+		var p2 = m_vertices[intoIndex2];
+		var p3;
+		
+		
+		i = intoIndex2;
+		while (i != outoIndex2)
+		{
+			i = (i + 1) % m_vertexCount;
+			if(i == outoIndex2)
+				p3 = outoVec
+			else
+				p3 = m_vertices[i];
+			
+			var triangleArea = 0.5 * ( (p2.x - intoVec.x) * (p3.y - intoVec.y) - (p2.y - intoVec.y) * (p3.x - intoVec.x) );
+			area += triangleArea;
+			
+			center.x += triangleArea * (intoVec.x + p2.x + p3.x) / 3;
+			center.y += triangleArea * (intoVec.y + p2.y + p3.y) / 3;
+			
+			p2 = p3;
+		}
+		
+		
+		center.Multiply(1 / area);
+		c.SetV(b2Math.MulX(xf, center));
+		
+		return area;
 	}
 b2PolygonShape.prototype.GetVertexCount = function () {
-		return this.m_vertexCount;
+		return m_vertexCount;
 	}
 b2PolygonShape.prototype.GetVertices = function () {
-		return this.m_vertices;
-	}
-b2PolygonShape.prototype.GetCoreVertices = function () {
-		return this.m_coreVertices;
+		return m_vertices;
 	}
 b2PolygonShape.prototype.GetNormals = function () {
-		return this.m_normals;
+		return m_normals;
 	}
-b2PolygonShape.prototype.GetFirstVertex = function (xf) {
-		return b2Math.b2MulX(xf, this.m_coreVertices[0]);
-	}
-b2PolygonShape.prototype.Centroid = function (xf) {
-		return b2Math.b2MulX(xf, this.m_centroid);
-	}
-b2PolygonShape.prototype.Support = function (xf, dX, dY) {
-		var tVec;
-		
-		var tMat;
-		
-		tMat = xf.R;
-		var dLocalX = (dX * tMat.col1.x + dY * tMat.col1.y);
-		var dLocalY = (dX * tMat.col2.x + dY * tMat.col2.y);
-		
+b2PolygonShape.prototype.GetSupport = function (d) {
 		var bestIndex = 0;
-		
-		tVec = this.m_coreVertices[0];
-		var bestValue = (tVec.x*dLocalX + tVec.y*dLocalY);
-		for (var i = 1; i < this.m_vertexCount; ++i)
+		var bestValue = m_vertices[0].x * d.x + m_vertices[0].y * d.y;
+		for (var i= 1; i < m_vertexCount; ++i)
 		{
-			
-			tVec = this.m_coreVertices[i];
-			var value = (tVec.x*dLocalX + tVec.y*dLocalY);
+			var value = m_vertices[i].x * d.x + m_vertices[i].y * d.y;
 			if (value > bestValue)
 			{
 				bestIndex = i;
 				bestValue = value;
 			}
 		}
-		
-		
-		tMat = xf.R;
-		tVec = this.m_coreVertices[bestIndex];
-		this.s_supportVec.x = xf.position.x + (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
-		this.s_supportVec.y = xf.position.y + (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
-		return this.s_supportVec;
-		
+		return bestIndex;
 	}
-b2PolygonShape.prototype.UpdateSweepRadius = function (center) {
-		var tVec;
-		
-		
-		
-		this.m_sweepRadius = 0.0;
-		for (var i = 0; i < this.m_vertexCount; ++i)
+b2PolygonShape.prototype.GetSupportVertex = function (d) {
+		var bestIndex = 0;
+		var bestValue = m_vertices[0].x * d.x + m_vertices[0].y * d.y;
+		for (var i= 1; i < m_vertexCount; ++i)
 		{
-			
-			tVec = this.m_coreVertices[i];
-			var dX = tVec.x - center.x;
-			var dY = tVec.y - center.y;
-			dX = Math.sqrt(dX*dX + dY*dY);
-			
-			if (dX > this.m_sweepRadius) this.m_sweepRadius = dX;
+			var value = m_vertices[i].x * d.x + m_vertices[i].y * d.y;
+			if (value > bestValue)
+			{
+				bestIndex = i;
+				bestValue = value;
+			}
 		}
+		return m_vertices[bestIndex];
 	}

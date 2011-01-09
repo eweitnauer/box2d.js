@@ -10,4 +10,4 @@ b2DestructionListener.prototype.__varz = function(){
 // attributes
 // methods
 b2DestructionListener.prototype.SayGoodbyeJoint = function (joint) {}
-b2DestructionListener.prototype.SayGoodbyeShape = function (shape) {}
+b2DestructionListener.prototype.SayGoodbyeFixture = function (fixture) {}

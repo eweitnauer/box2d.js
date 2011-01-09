@@ -6,19 +6,16 @@ b2Pair.prototype.__constructor = function(){}
 b2Pair.prototype.__varz = function(){
 }
 // static attributes
-b2Pair.b2_nullPair =  b2Settings.USHRT_MAX;
 b2Pair.b2_nullProxy =  b2Settings.USHRT_MAX;
-b2Pair.b2_tableCapacity =  b2Settings.b2_maxPairs;
-b2Pair.b2_tableMask =  b2Pair.b2_tableCapacity - 1;
 b2Pair.e_pairBuffered =  0x0001;
 b2Pair.e_pairRemoved =  0x0002;
 b2Pair.e_pairFinal =  0x0004;
 // static methods
 // attributes
 b2Pair.prototype.userData =  null;
-b2Pair.prototype.proxyId1 =  0;
-b2Pair.prototype.proxyId2 =  0;
-b2Pair.prototype.next =  0;
+b2Pair.prototype.proxy1 =  null;
+b2Pair.prototype.proxy2 =  null;
+b2Pair.prototype.next =  null;
 b2Pair.prototype.status =  0;
 // methods
 b2Pair.prototype.SetBuffered = function () { this.status |= b2Pair.e_pairBuffered; }

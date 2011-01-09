@@ -13,3 +13,7 @@ this.id =  new b2ContactID();
 ClipVertex.prototype.v =  new b2Vec2();
 ClipVertex.prototype.id =  new b2ContactID();
 // methods
+ClipVertex.prototype.Set = function (other) {
+		this.v.SetV(other.v);
+		this.id.Set(other.id);
+	}

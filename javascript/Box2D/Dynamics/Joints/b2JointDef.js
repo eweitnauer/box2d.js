@@ -5,8 +5,8 @@ this.__constructor.apply(this, arguments);
 b2JointDef.prototype.__constructor = function () {
 		this.type = b2Joint.e_unknownJoint;
 		this.userData = null;
-		this.body1 = null;
-		this.body2 = null;
+		this.bodyA = null;
+		this.bodyB = null;
 		this.collideConnected = false;
 	}
 b2JointDef.prototype.__varz = function(){
@@ -16,7 +16,7 @@ b2JointDef.prototype.__varz = function(){
 // attributes
 b2JointDef.prototype.type =  0;
 b2JointDef.prototype.userData =  null;
-b2JointDef.prototype.body1 =  null;
-b2JointDef.prototype.body2 =  null;
+b2JointDef.prototype.bodyA =  null;
+b2JointDef.prototype.bodyB =  null;
 b2JointDef.prototype.collideConnected =  null;
 // methods
