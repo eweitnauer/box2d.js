@@ -15,9 +15,9 @@ b2MouseJoint.prototype.__constructor = function (def) {
 		
 		this.m_target.SetV(def.target);
 		
-		var tX = this.m_target.x - m_bodyB.m_xf.position.x;
-		var tY = this.m_target.y - m_bodyB.m_xf.position.y;
-		var tMat = m_bodyB.m_xf.R;
+		var tX = this.m_target.x - this.m_bodyB.m_xf.position.x;
+		var tY = this.m_target.y - this.m_bodyB.m_xf.position.y;
+		var tMat = this.m_bodyB.m_xf.R;
 		this.m_localAnchor.x = (tX * tMat.col1.x + tY * tMat.col1.y);
 		this.m_localAnchor.y = (tX * tMat.col2.x + tY * tMat.col2.y);
 		
@@ -61,7 +61,7 @@ b2MouseJoint.prototype.GetAnchorA = function () {
 		return this.m_target;
 	}
 b2MouseJoint.prototype.GetAnchorB = function () {
-		return m_bodyB.GetWorldPoint(this.m_localAnchor);
+		return this.m_bodyB.GetWorldPoint(this.m_localAnchor);
 	}
 b2MouseJoint.prototype.GetReactionForce = function (inv_dt) {
 		return new b2Vec2(inv_dt * this.m_impulse.x, inv_dt * this.m_impulse.y);
@@ -73,8 +73,8 @@ b2MouseJoint.prototype.GetTarget = function () {
 		return this.m_target;
 	}
 b2MouseJoint.prototype.SetTarget = function (target) {
-		if (m_bodyB.IsAwake() == false){
-			m_bodyB.SetAwake(true);
+		if (this.m_bodyB.IsAwake() == false){
+			this.m_bodyB.SetAwake(true);
 		}
 		this.m_target = target;
 	}

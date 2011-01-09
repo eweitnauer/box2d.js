@@ -73,6 +73,8 @@ def parse(code):
     #convert vectors to arrays
     ## new Vector.<Number>();
     code = re.sub(r"\bVector\b", "Array", code);
+    ## new Dictionary
+    code = re.sub(r"\bDictionary\b", "Object", code);
     # remove generics
     ## new Vector.<Number>();
     ## var lowerValues:Vector.<Number>;
@@ -82,11 +84,15 @@ def parse(code):
     code = code.replace("override", "").replace("virtual", "").replace("\r", "")
     ## obj is type
     code = re.sub("(\w+) is (\w+)", "typeof \\1 === '\\2'", code)
-    
+    ## for..each loop
+    code = code.replace("for each(var ", "foreach(")
     # hack ...
     code = code.replace("var mid = ((low + high) / 2);", "var mid = Math.round((low + high) / 2);")
     code = code.replace("static public", "staticpublik")
     code = code.replace("static private", "staticprivat")
+    # hack
+    code = code.replace("b2internal var", "private var")
+    
     # hack for uints used in proxy
     code = code.replace("& 0x0000ffff", "% 65535")
     while "  " in code:

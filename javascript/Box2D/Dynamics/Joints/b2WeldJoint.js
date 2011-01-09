@@ -31,10 +31,10 @@ b2WeldJoint.prototype.m_impulse =  new b2Vec3();
 b2WeldJoint.prototype.m_mass =  new b2Mat33();
 // methods
 b2WeldJoint.prototype.GetAnchorA = function () {
-		return m_bodyA.GetWorldPoint(this.m_localAnchorA);
+		return this.m_bodyA.GetWorldPoint(this.m_localAnchorA);
 	}
 b2WeldJoint.prototype.GetAnchorB = function () {
-		return m_bodyB.GetWorldPoint(this.m_localAnchorB);
+		return this.m_bodyB.GetWorldPoint(this.m_localAnchorB);
 	}
 b2WeldJoint.prototype.GetReactionForce = function (inv_dt) {
 		return new b2Vec2(inv_dt * this.m_impulse.x, inv_dt * this.m_impulse.y);

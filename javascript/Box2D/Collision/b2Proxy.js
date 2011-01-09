@@ -6,7 +6,7 @@ b2Proxy.prototype.__constructor = function(){}
 b2Proxy.prototype.__varz = function(){
 this.lowerBounds =  new Array(2);
 this.upperBounds =  new Array(2);
-this.pairs =  new Dictionary();
+this.pairs =  new Object();
 }
 // static attributes
 // static methods
@@ -15,7 +15,7 @@ b2Proxy.prototype.lowerBounds =  new Array(2);
 b2Proxy.prototype.upperBounds =  new Array(2);
 b2Proxy.prototype.overlapCount =  0;
 b2Proxy.prototype.timeStamp =  0;
-b2Proxy.prototype.pairs =  new Dictionary();
+b2Proxy.prototype.pairs =  new Object();
 b2Proxy.prototype.next =  null;
 b2Proxy.prototype.userData =  null;
 // methods

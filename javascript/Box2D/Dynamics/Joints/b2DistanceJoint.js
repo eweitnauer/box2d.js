@@ -41,10 +41,10 @@ b2DistanceJoint.prototype.m_mass =  null;
 b2DistanceJoint.prototype.m_length =  null;
 // methods
 b2DistanceJoint.prototype.GetAnchorA = function () {
-		return m_bodyA.GetWorldPoint(this.m_localAnchor1);
+		return this.m_bodyA.GetWorldPoint(this.m_localAnchor1);
 	}
 b2DistanceJoint.prototype.GetAnchorB = function () {
-		return m_bodyB.GetWorldPoint(this.m_localAnchor2);
+		return this.m_bodyB.GetWorldPoint(this.m_localAnchor2);
 	}
 b2DistanceJoint.prototype.GetReactionForce = function (inv_dt) {
 		

@@ -14,7 +14,7 @@ b2PulleyJoint.prototype.__constructor = function (def) {
 		var tX;
 		var tY;
 		
-		this.m_ground = m_bodyA.m_world.m_groundBody;
+		this.m_ground = this.m_bodyA.m_world.m_groundBody;
 		
 		this.m_groundAnchor1.x = def.groundAnchorA.x - this.m_ground.m_xf.position.x;
 		this.m_groundAnchor1.y = def.groundAnchorA.y - this.m_ground.m_xf.position.y;
@@ -31,8 +31,8 @@ b2PulleyJoint.prototype.__constructor = function (def) {
 		
 		this.m_constant = def.lengthA + this.m_ratio * def.lengthB;
 		
-		this.m_maxLength1 = b2Math.Min(def.maxLengthA, this.m_constant - this.m_ratio * b2_minPulleyLength);
-		this.m_maxLength2 = b2Math.Min(def.maxLengthB, (this.m_constant - b2_minPulleyLength) / this.m_ratio);
+		this.m_maxLength1 = b2Math.Min(def.maxLengthA, this.m_constant - this.m_ratio * this.b2_minPulleyLength);
+		this.m_maxLength2 = b2Math.Min(def.maxLengthB, (this.m_constant - this.b2_minPulleyLength) / this.m_ratio);
 		
 		this.m_impulse = 0.0;
 		this.m_limitImpulse1 = 0.0;
@@ -70,12 +70,13 @@ b2PulleyJoint.prototype.m_limitImpulse2 =  null;
 b2PulleyJoint.prototype.m_state =  0;
 b2PulleyJoint.prototype.m_limitState1 =  0;
 b2PulleyJoint.prototype.m_limitState2 =  0;
+b2PulleyJoint.prototype.b2_minPulleyLength =  2.0;
 // methods
 b2PulleyJoint.prototype.GetAnchorA = function () {
-		return m_bodyA.GetWorldPoint(this.m_localAnchor1);
+		return this.m_bodyA.GetWorldPoint(this.m_localAnchor1);
 	}
 b2PulleyJoint.prototype.GetAnchorB = function () {
-		return m_bodyB.GetWorldPoint(this.m_localAnchor2);
+		return this.m_bodyB.GetWorldPoint(this.m_localAnchor2);
 	}
 b2PulleyJoint.prototype.GetReactionForce = function (inv_dt) {
 		
@@ -99,7 +100,7 @@ b2PulleyJoint.prototype.GetGroundAnchorB = function () {
 		return a;
 	}
 b2PulleyJoint.prototype.GetLength1 = function () {
-		var p = m_bodyA.GetWorldPoint(this.m_localAnchor1);
+		var p = this.m_bodyA.GetWorldPoint(this.m_localAnchor1);
 		
 		var sX = this.m_ground.m_xf.position.x + this.m_groundAnchor1.x;
 		var sY = this.m_ground.m_xf.position.y + this.m_groundAnchor1.y;
@@ -110,7 +111,7 @@ b2PulleyJoint.prototype.GetLength1 = function () {
 		return Math.sqrt(dX*dX + dY*dY);
 	}
 b2PulleyJoint.prototype.GetLength2 = function () {
-		var p = m_bodyB.GetWorldPoint(this.m_localAnchor2);
+		var p = this.m_bodyB.GetWorldPoint(this.m_localAnchor2);
 		
 		var sX = this.m_ground.m_xf.position.x + this.m_groundAnchor2.x;
 		var sY = this.m_ground.m_xf.position.y + this.m_groundAnchor2.y;

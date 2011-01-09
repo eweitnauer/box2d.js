@@ -3,12 +3,12 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 b2ContactManager.prototype.__constructor = function () {
-		m_world = null;
-		m_contactCount = 0;
-		m_contactFilter = b2ContactFilter.b2_defaultFilter;
-		m_contactListener = b2ContactListener.b2_defaultListener;
-		m_contactFactory = new b2ContactFactory(m_allocator);
-		m_broadPhase = new b2DynamicTreeBroadPhase();
+		this.m_world = null;
+		this.m_contactCount = 0;
+		this.m_contactFilter = b2ContactFilter.b2_defaultFilter;
+		this.m_contactListener = b2ContactListener.b2_defaultListener;
+		this.m_contactFactory = new b2ContactFactory(this.m_allocator);
+		this.m_broadPhase = new b2DynamicTreeBroadPhase();
 	}
 b2ContactManager.prototype.__varz = function(){
 }
@@ -16,6 +16,14 @@ b2ContactManager.prototype.__varz = function(){
 b2ContactManager.s_evalCP =  new b2ContactPoint();
 // static methods
 // attributes
+b2ContactManager.prototype.m_world =  null;
+b2ContactManager.prototype.m_broadPhase =  null;
+b2ContactManager.prototype.m_contactList =  null;
+b2ContactManager.prototype.m_contactCount =  0;
+b2ContactManager.prototype.m_contactFilter =  null;
+b2ContactManager.prototype.m_contactListener =  null;
+b2ContactManager.prototype.m_contactFactory =  null;
+b2ContactManager.prototype.m_allocator =  null;
 // methods
 b2ContactManager.prototype.AddPair = function (proxyUserDataA, proxyUserDataB) {
 		var fixtureA = proxyUserDataA;
@@ -51,13 +59,13 @@ b2ContactManager.prototype.AddPair = function (proxyUserDataA, proxyUserDataB) {
 		}
 		
 		
-		if (m_contactFilter.ShouldCollide(fixtureA, fixtureB) == false)
+		if (this.m_contactFilter.ShouldCollide(fixtureA, fixtureB) == false)
 		{
 			return;
 		}
 		
 		
-		var c = m_contactFactory.Create(fixtureA, fixtureB);
+		var c = this.m_contactFactory.Create(fixtureA, fixtureB);
 		
 		
 		fixtureA = c.GetFixtureA();
@@ -67,12 +75,12 @@ b2ContactManager.prototype.AddPair = function (proxyUserDataA, proxyUserDataB) {
 		
 		
 		c.m_prev = null;
-		c.m_next = m_world.m_contactList;
-		if (m_world.m_contactList != null)
+		c.m_next = this.m_world.m_contactList;
+		if (this.m_world.m_contactList != null)
 		{
-			m_world.m_contactList.m_prev = c;
+			this.m_world.m_contactList.m_prev = c;
 		}
-		m_world.m_contactList = c;
+		this.m_world.m_contactList = c;
 		
 		
 		
@@ -101,12 +109,12 @@ b2ContactManager.prototype.AddPair = function (proxyUserDataA, proxyUserDataB) {
 		}
 		bodyB.m_contactList = c.m_nodeB;
 		
-		++m_world.m_contactCount;
+		++this.m_world.m_contactCount;
 		return;
 		
 	}
 b2ContactManager.prototype.FindNewContacts = function () {
-		m_broadPhase.UpdatePairs(this.AddPair);
+		this.m_broadPhase.UpdatePairs(this.AddPair);
 	}
 b2ContactManager.prototype.Destroy = function (c) {
 		
@@ -117,7 +125,7 @@ b2ContactManager.prototype.Destroy = function (c) {
 		
 		if (c.IsTouching())
 		{
-			m_contactListener.EndContact(c);
+			this.m_contactListener.EndContact(c);
 		}
 		
 		
@@ -131,9 +139,9 @@ b2ContactManager.prototype.Destroy = function (c) {
 			c.m_next.m_prev = c.m_prev;
 		}
 		
-		if (c == m_world.m_contactList)
+		if (c == this.m_world.m_contactList)
 		{
-			m_world.m_contactList = c.m_next;
+			this.m_world.m_contactList = c.m_next;
 		}
 		
 		
@@ -169,12 +177,12 @@ b2ContactManager.prototype.Destroy = function (c) {
 		}
 		
 		
-		m_contactFactory.Destroy(c);
-		--m_contactCount;
+		this.m_contactFactory.Destroy(c);
+		--this.m_contactCount;
 	}
 b2ContactManager.prototype.Collide = function () {
 		
-		var c = m_world.m_contactList;
+		var c = this.m_world.m_contactList;
 		while (c)
 		{
 			var fixtureA = c.GetFixtureA();
@@ -200,7 +208,7 @@ b2ContactManager.prototype.Collide = function () {
 				}
 				
 				
-				if (m_contactFilter.ShouldCollide(fixtureA, fixtureB) == false)
+				if (this.m_contactFilter.ShouldCollide(fixtureA, fixtureB) == false)
 				{
 					cNuke = c;
 					c = cNuke.GetNext();
@@ -215,7 +223,7 @@ b2ContactManager.prototype.Collide = function () {
 			var proxyA = fixtureA.m_proxy;
 			var proxyB = fixtureB.m_proxy;
 			
-			var overlap = m_broadPhase.TestOverlap(proxyA, proxyB);
+			var overlap = this.m_broadPhase.TestOverlap(proxyA, proxyB);
 			
 			
 			if ( overlap == false)
@@ -226,7 +234,7 @@ b2ContactManager.prototype.Collide = function () {
 				continue;
 			}
 			
-			c.Update(m_contactListener);
+			c.Update(this.m_contactListener);
 			c = c.GetNext();
 		}
 	}

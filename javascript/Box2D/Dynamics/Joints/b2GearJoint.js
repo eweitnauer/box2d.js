@@ -26,7 +26,7 @@ b2GearJoint.prototype.__constructor = function (def) {
 		var coordinate2;
 		
 		this.m_ground1 = def.joint1.GetBodyA();
-		m_bodyA = def.joint1.GetBodyB();
+		this.m_bodyA = def.joint1.GetBodyB();
 		if (type1 == b2Joint.e_revoluteJoint)
 		{
 			this.m_revolute1 = def.joint1;
@@ -43,7 +43,7 @@ b2GearJoint.prototype.__constructor = function (def) {
 		}
 		
 		this.m_ground2 = def.joint2.GetBodyA();
-		m_bodyB = def.joint2.GetBodyB();
+		this.m_bodyB = def.joint2.GetBodyB();
 		if (type2 == b2Joint.e_revoluteJoint)
 		{
 			this.m_revolute2 = def.joint2;
@@ -94,11 +94,11 @@ b2GearJoint.prototype.m_impulse =  null;
 // methods
 b2GearJoint.prototype.GetAnchorA = function () {
 		
-		return m_bodyA.GetWorldPoint(this.m_localAnchor1);
+		return this.m_bodyA.GetWorldPoint(this.m_localAnchor1);
 	}
 b2GearJoint.prototype.GetAnchorB = function () {
 		
-		return m_bodyB.GetWorldPoint(this.m_localAnchor2);
+		return this.m_bodyB.GetWorldPoint(this.m_localAnchor2);
 	}
 b2GearJoint.prototype.GetReactionForce = function (inv_dt) {
 		
@@ -109,9 +109,9 @@ b2GearJoint.prototype.GetReactionForce = function (inv_dt) {
 b2GearJoint.prototype.GetReactionTorque = function (inv_dt) {
 		
 		
-		var tMat = m_bodyB.m_xf.R;
-		var rX = this.m_localAnchor1.x - m_bodyB.m_sweep.localCenter.x;
-		var rY = this.m_localAnchor1.y - m_bodyB.m_sweep.localCenter.y;
+		var tMat = this.m_bodyB.m_xf.R;
+		var rX = this.m_localAnchor1.x - this.m_bodyB.m_sweep.localCenter.x;
+		var rY = this.m_localAnchor1.y - this.m_bodyB.m_sweep.localCenter.y;
 		var tX = tMat.col1.x * rX + tMat.col2.x * rY;
 		rY = tMat.col1.y * rX + tMat.col2.y * rY;
 		rX = tX;

@@ -9,9 +9,9 @@ b2RevoluteJoint.prototype.__constructor = function (def) {
 		this._super(def);
 		
 		
-		m_localAnchor1.SetV(def.localAnchorA);
+		this.m_localAnchor1.SetV(def.localAnchorA);
 		
-		m_localAnchor2.SetV(def.localAnchorB);
+		this.m_localAnchor2.SetV(def.localAnchorB);
 		
 		this.m_referenceAngle = def.referenceAngle;
 		
@@ -24,7 +24,7 @@ b2RevoluteJoint.prototype.__constructor = function (def) {
 		this.m_motorSpeed = def.motorSpeed;
 		this.m_enableLimit = def.enableLimit;
 		this.m_enableMotor = def.enableMotor;
-		this.m_limitState = e_inactiveLimit;
+		this.m_limitState = this.e_inactiveLimit;
 	}
 b2RevoluteJoint.prototype.__varz = function(){
 this.K =  new b2Mat22();
@@ -34,6 +34,8 @@ this.K3 =  new b2Mat22();
 this.impulse3 =  new b2Vec3();
 this.impulse2 =  new b2Vec2();
 this.reduced =  new b2Vec2();
+this.m_localAnchor1 =  new b2Vec2();
+this.m_localAnchor2 =  new b2Vec2();
 this.m_impulse =  new b2Vec3();
 this.m_mass =  new b2Mat33();
 }
@@ -48,6 +50,8 @@ b2RevoluteJoint.prototype.K3 =  new b2Mat22();
 b2RevoluteJoint.prototype.impulse3 =  new b2Vec3();
 b2RevoluteJoint.prototype.impulse2 =  new b2Vec2();
 b2RevoluteJoint.prototype.reduced =  new b2Vec2();
+b2RevoluteJoint.prototype.m_localAnchor1 =  new b2Vec2();
+b2RevoluteJoint.prototype.m_localAnchor2 =  new b2Vec2();
 b2RevoluteJoint.prototype.m_impulse =  new b2Vec3();
 b2RevoluteJoint.prototype.m_motorImpulse =  null;
 b2RevoluteJoint.prototype.m_mass =  new b2Mat33();
@@ -62,10 +66,10 @@ b2RevoluteJoint.prototype.m_upperAngle =  null;
 b2RevoluteJoint.prototype.m_limitState =  0;
 // methods
 b2RevoluteJoint.prototype.GetAnchorA = function () {
-		return m_bodyA.GetWorldPoint(m_localAnchor1);
+		return this.m_bodyA.GetWorldPoint(this.m_localAnchor1);
 	}
 b2RevoluteJoint.prototype.GetAnchorB = function () {
-		return m_bodyB.GetWorldPoint(m_localAnchor2);
+		return this.m_bodyB.GetWorldPoint(this.m_localAnchor2);
 	}
 b2RevoluteJoint.prototype.GetReactionForce = function (inv_dt) {
 		return new b2Vec2(inv_dt * this.m_impulse.x, inv_dt * this.m_impulse.y);
@@ -76,12 +80,12 @@ b2RevoluteJoint.prototype.GetReactionTorque = function (inv_dt) {
 b2RevoluteJoint.prototype.GetJointAngle = function () {
 		
 		
-		return m_bodyB.m_sweep.a - m_bodyA.m_sweep.a - this.m_referenceAngle;
+		return this.m_bodyB.m_sweep.a - this.m_bodyA.m_sweep.a - this.m_referenceAngle;
 	}
 b2RevoluteJoint.prototype.GetJointSpeed = function () {
 		
 		
-		return m_bodyB.m_angularVelocity - m_bodyA.m_angularVelocity;
+		return this.m_bodyB.m_angularVelocity - this.m_bodyA.m_angularVelocity;
 	}
 b2RevoluteJoint.prototype.IsLimitEnabled = function () {
 		return this.m_enableLimit;
@@ -101,16 +105,16 @@ b2RevoluteJoint.prototype.SetLimits = function (lower, upper) {
 		this.m_upperAngle = upper;
 	}
 b2RevoluteJoint.prototype.IsMotorEnabled = function () {
-		m_bodyA.SetAwake(true);
-		m_bodyB.SetAwake(true);
+		this.m_bodyA.SetAwake(true);
+		this.m_bodyB.SetAwake(true);
 		return this.m_enableMotor;
 	}
 b2RevoluteJoint.prototype.EnableMotor = function (flag) {
 		this.m_enableMotor = flag;
 	}
 b2RevoluteJoint.prototype.SetMotorSpeed = function (speed) {
-		m_bodyA.SetAwake(true);
-		m_bodyB.SetAwake(true);
+		this.m_bodyA.SetAwake(true);
+		this.m_bodyB.SetAwake(true);
 		this.m_motorSpeed = speed;
 	}
 b2RevoluteJoint.prototype.GetMotorSpeed = function () {

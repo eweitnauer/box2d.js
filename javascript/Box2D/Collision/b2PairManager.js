@@ -3,9 +3,9 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 b2PairManager.prototype.__constructor = function () {
-		m_pairs = new Array();
+		this.m_pairs = new Array();
 		this.m_pairBuffer = new Array();
-		m_pairCount = 0;
+		this.m_pairCount = 0;
 		this.m_pairBufferCount = 0;
 		this.m_freePair = null;
 	}
@@ -15,7 +15,9 @@ b2PairManager.prototype.__varz = function(){
 // static methods
 // attributes
 b2PairManager.prototype.m_broadPhase =  null;
+b2PairManager.prototype.m_pairs =  null;
 b2PairManager.prototype.m_freePair =  null;
+b2PairManager.prototype.m_pairCount =  0;
 b2PairManager.prototype.m_pairBuffer =  null;
 b2PairManager.prototype.m_pairBufferCount =  0;
 // methods
@@ -28,7 +30,7 @@ b2PairManager.prototype.AddPair = function (proxy1, proxy2) {
 		if (this.m_freePair == null)
 		{
 			this.m_freePair = new b2Pair();
-			m_pairs.push(this.m_freePair);
+			this.m_pairs.push(this.m_freePair);
 		}
 		pair = this.m_freePair;
 		this.m_freePair = pair.next;
@@ -42,7 +44,7 @@ b2PairManager.prototype.AddPair = function (proxy1, proxy2) {
 		proxy1.pairs[proxy2] = pair;
 		proxy2.pairs[proxy1] = pair;
 				
-		++m_pairCount;
+		++this.m_pairCount;
 		
 		return pair;
 	}
@@ -70,7 +72,7 @@ b2PairManager.prototype.RemovePair = function (proxy1, proxy2) {
 		pair.status = 0;
 		
 		this.m_freePair = pair;
-		--m_pairCount;
+		--this.m_pairCount;
 		return userData;
 	}
 b2PairManager.prototype.Find = function (proxy1, proxy2) {

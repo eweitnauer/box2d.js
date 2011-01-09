@@ -6,6 +6,7 @@ b2ContactSolver.prototype.__constructor = function () {
 	}
 b2ContactSolver.prototype.__varz = function(){
 this.m_step =  new b2TimeStep();
+this.m_constraints =  new Array ();
 }
 // static attributes
 b2ContactSolver.s_worldManifold =  new b2WorldManifold();
@@ -14,6 +15,7 @@ b2ContactSolver.s_psm =  new b2PositionSolverManifold();
 // attributes
 b2ContactSolver.prototype.m_step =  new b2TimeStep();
 b2ContactSolver.prototype.m_allocator =  null;
+b2ContactSolver.prototype.m_constraints =  new Array ();
 b2ContactSolver.prototype.m_constraintCount =  0;
 // methods
 b2ContactSolver.prototype.Initialize = function (step, contacts, contactCount, allocator) {
@@ -30,9 +32,9 @@ b2ContactSolver.prototype.Initialize = function (step, contacts, contactCount, a
 		this.m_constraintCount = contactCount;
 
 		
-		while (m_constraints.length < this.m_constraintCount)
+		while (this.m_constraints.length < this.m_constraintCount)
 		{
-			m_constraints[m_constraints.length] = new b2ContactConstraint();
+			this.m_constraints[m_constraints.length] = new b2ContactConstraint();
 		}
 		
 		for (i = 0; i < contactCount; ++i)
@@ -67,7 +69,7 @@ b2ContactSolver.prototype.Initialize = function (step, contacts, contactCount, a
 			var normalX = b2ContactSolver.s_worldManifold.m_normal.x;
 			var normalY = b2ContactSolver.s_worldManifold.m_normal.y;
 			
-			var cc = m_constraints[ i ];
+			var cc = this.m_constraints[ i ];
 			cc.bodyA = bodyA; 
 			cc.bodyB = bodyB; 
 			cc.manifold = manifold; 
@@ -196,7 +198,7 @@ b2ContactSolver.prototype.InitVelocityConstraints = function (step) {
 		
 		for (var i = 0; i < this.m_constraintCount; ++i)
 		{
-			var c = m_constraints[ i ];
+			var c = this.m_constraints[ i ];
 			
 			var bodyA = c.bodyA;
 			var bodyB = c.bodyB;
@@ -279,7 +281,7 @@ b2ContactSolver.prototype.SolveVelocityConstraints = function () {
 		
 		for (var i = 0; i < this.m_constraintCount; ++i)
 		{
-			var c = m_constraints[ i ];
+			var c = this.m_constraints[ i ];
 			var bodyA = c.bodyA;
 			var bodyB = c.bodyB;
 			var wA = bodyA.m_angularVelocity;
@@ -706,7 +708,7 @@ b2ContactSolver.prototype.SolveVelocityConstraints = function () {
 b2ContactSolver.prototype.FinalizeVelocityConstraints = function () {
 		for (var i = 0; i < this.m_constraintCount; ++i)
 		{
-			var c = m_constraints[ i ];
+			var c = this.m_constraints[ i ];
 			var m = c.manifold;
 			
 			for (var j = 0; j < c.pointCount; ++j)
@@ -723,7 +725,7 @@ b2ContactSolver.prototype.SolvePositionConstraints = function (baumgarte) {
 		
 		for (var i = 0; i < this.m_constraintCount; i++)
 		{
-			var c = m_constraints[i];
+			var c = this.m_constraints[i];
 			var bodyA = c.bodyA;
 			var bodyB = c.bodyB;
 			

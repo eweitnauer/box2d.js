@@ -3,40 +3,52 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 b2Fixture.prototype.__constructor = function () {
-		m_aabb = new b2AABB();
-		m_userData = null;
-		m_body = null;
-		m_next = null;
+		this.m_aabb = new b2AABB();
+		this.m_userData = null;
+		this.m_body = null;
+		this.m_next = null;
 		
-		m_shape = null;
-		m_density = 0.0;
+		this.m_shape = null;
+		this.m_density = 0.0;
 		
-		m_friction = 0.0;
-		m_restitution = 0.0;
+		this.m_friction = 0.0;
+		this.m_restitution = 0.0;
 	}
 b2Fixture.prototype.__varz = function(){
+this.m_filter =  new b2FilterData();
 }
 // static attributes
 // static methods
 // attributes
 b2Fixture.prototype.m_massData =  null;
+b2Fixture.prototype.m_aabb =  null;
+b2Fixture.prototype.m_density =  null;
+b2Fixture.prototype.m_next =  null;
+b2Fixture.prototype.m_body =  null;
+b2Fixture.prototype.m_shape =  null;
+b2Fixture.prototype.m_friction =  null;
+b2Fixture.prototype.m_restitution =  null;
+b2Fixture.prototype.m_proxy =  null;
+b2Fixture.prototype.m_filter =  new b2FilterData();
+b2Fixture.prototype.m_isSensor =  null;
+b2Fixture.prototype.m_userData =  null;
 // methods
 b2Fixture.prototype.GetType = function () {
-		return m_shape.GetType();
+		return this.m_shape.GetType();
 	}
 b2Fixture.prototype.GetShape = function () {
-		return m_shape;
+		return this.m_shape;
 	}
 b2Fixture.prototype.SetSensor = function (sensor) {
-		if ( m_isSensor == sensor)
+		if ( this.m_isSensor == sensor)
 			return;
 			
-		m_isSensor = sensor;
+		this.m_isSensor = sensor;
 		
-		if (m_body == null)
+		if (this.m_body == null)
 			return;
 			
-		var edge = m_body.GetContactList();
+		var edge = this.m_body.GetContactList();
 		while (edge)
 		{
 			var contact = edge.contact;
@@ -49,15 +61,15 @@ b2Fixture.prototype.SetSensor = function (sensor) {
 		
 	}
 b2Fixture.prototype.IsSensor = function () {
-		return m_isSensor;
+		return this.m_isSensor;
 	}
 b2Fixture.prototype.SetFilterData = function (filter) {
-		m_filter = filter.Copy();
+		this.m_filter = filter.Copy();
 		
-		if (m_body)
+		if (this.m_body)
 			return;
 			
-		var edge = m_body.GetContactList();
+		var edge = this.m_body.GetContactList();
 		while (edge)
 		{
 			var contact = edge.contact;
@@ -69,53 +81,53 @@ b2Fixture.prototype.SetFilterData = function (filter) {
 		}
 	}
 b2Fixture.prototype.GetFilterData = function () {
-		return m_filter.Copy();
+		return this.m_filter.Copy();
 	}
 b2Fixture.prototype.GetBody = function () {
-		return m_body;
+		return this.m_body;
 	}
 b2Fixture.prototype.GetNext = function () {
-		return m_next;
+		return this.m_next;
 	}
 b2Fixture.prototype.GetUserData = function () {
-		return m_userData;
+		return this.m_userData;
 	}
 b2Fixture.prototype.SetUserData = function (data) {
-		m_userData = data;
+		this.m_userData = data;
 	}
 b2Fixture.prototype.TestPoint = function (p) {
-		return m_shape.TestPoint(m_body.GetTransform(), p);
+		return this.m_shape.TestPoint(this.m_body.GetTransform(), p);
 	}
 b2Fixture.prototype.RayCast = function (output, input) {
-		return m_shape.RayCast(output, input, m_body.GetTransform());
+		return this.m_shape.RayCast(output, input, this.m_body.GetTransform());
 	}
 b2Fixture.prototype.GetMassData = function (massData ) {
 		if ( massData == null )
 		{
 			massData = new b2MassData();
 		}
-		m_shape.ComputeMass(massData, m_density);
+		this.m_shape.ComputeMass(massData, this.m_density);
 		return massData;
 	}
 b2Fixture.prototype.SetDensity = function (density) {
 		
-		m_density = density;
+		this.m_density = density;
 	}
 b2Fixture.prototype.GetDensity = function () {
-		return m_density;
+		return this.m_density;
 	}
 b2Fixture.prototype.GetFriction = function () {
-		return m_friction;
+		return this.m_friction;
 	}
 b2Fixture.prototype.SetFriction = function (friction) {
-		m_friction = friction;
+		this.m_friction = friction;
 	}
 b2Fixture.prototype.GetRestitution = function () {
-		return m_restitution;
+		return this.m_restitution;
 	}
 b2Fixture.prototype.SetRestitution = function (restitution) {
-		m_restitution = restitution;
+		this.m_restitution = restitution;
 	}
 b2Fixture.prototype.GetAABB = function () {
-		return m_aabb;
+		return this.m_aabb;
 	}

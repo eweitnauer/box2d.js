@@ -8,6 +8,9 @@ b2Controller.prototype.__varz = function(){
 // static attributes
 // static methods
 // attributes
+b2Controller.prototype.m_next =  null;
+b2Controller.prototype.m_prev =  null;
+b2Controller.prototype.m_world =  null;
 // methods
 b2Controller.prototype.Step = function (step) {}
 b2Controller.prototype.Draw = function (debugDraw) { }
@@ -59,8 +62,8 @@ b2Controller.prototype.Clear = function () {
 		while (m_bodyList)
 			this.RemoveBody(m_bodyList.body);
 	}
-b2Controller.prototype.GetNext = function () {return m_next;}
-b2Controller.prototype.GetWorld = function () { return m_world; }
+b2Controller.prototype.GetNext = function () {return this.m_next;}
+b2Controller.prototype.GetWorld = function () { return this.m_world; }
 b2Controller.prototype.GetBodyList = function () {
 		return m_bodyList;
 	}

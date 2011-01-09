@@ -7,13 +7,13 @@ b2World.prototype.__constructor = function (gravity, doSleep) {
 		this.m_destructionListener = null;
 		this.m_debugDraw = null;
 		
-		m_bodyList = null;
-		m_contactList = null;
+		this.m_bodyList = null;
+		this.m_contactList = null;
 		this.m_jointList = null;
 		this.m_controllerList = null;
 		
 		this.m_bodyCount = 0;
-		m_contactCount = 0;
+		this.m_contactCount = 0;
 		this.m_jointCount = 0;
 		this.m_controllerCount = 0;
 		
@@ -25,13 +25,14 @@ b2World.prototype.__constructor = function (gravity, doSleep) {
 		
 		this.m_inv_dt0 = 0.0;
 		
-		m_contactManager.m_world = this;
+		this.m_contactManager.m_world = this;
 		
 		var bd = new b2BodyDef();
-		m_groundBody = this.CreateBody(bd);
+		this.m_groundBody = this.CreateBody(bd);
 	}
 b2World.prototype.__varz = function(){
 this.s_stack =  new Array();
+this.m_contactManager =  new b2ContactManager();
 this.m_contactSolver =  new b2ContactSolver();
 this.m_island =  new b2Island();
 }
@@ -50,15 +51,21 @@ b2World. m_continuousPhysics =  null;
 // static methods
 // attributes
 b2World.prototype.s_stack =  new Array();
+b2World.prototype.m_flags =  0;
+b2World.prototype.m_contactManager =  new b2ContactManager();
 b2World.prototype.m_contactSolver =  new b2ContactSolver();
 b2World.prototype.m_island =  new b2Island();
+b2World.prototype.m_bodyList =  null;
 b2World.prototype.m_jointList =  null;
+b2World.prototype.m_contactList =  null;
 b2World.prototype.m_bodyCount =  0;
+b2World.prototype.m_contactCount =  0;
 b2World.prototype.m_jointCount =  0;
 b2World.prototype.m_controllerList =  null;
 b2World.prototype.m_controllerCount =  0;
 b2World.prototype.m_gravity =  null;
 b2World.prototype.m_allowSleep =  null;
+b2World.prototype.m_groundBody =  null;
 b2World.prototype.m_destructionListener =  null;
 b2World.prototype.m_debugDraw =  null;
 b2World.prototype.m_inv_dt0 =  null;
@@ -67,18 +74,18 @@ b2World.prototype.SetDestructionListener = function (listener) {
 		this.m_destructionListener = listener;
 	}
 b2World.prototype.SetContactFilter = function (filter) {
-		m_contactManager.m_contactFilter = filter;
+		this.m_contactManager.m_contactFilter = filter;
 	}
 b2World.prototype.SetContactListener = function (listener) {
-		m_contactManager.m_contactListener = listener;
+		this.m_contactManager.m_contactListener = listener;
 	}
 b2World.prototype.SetDebugDraw = function (debugDraw) {
 		this.m_debugDraw = debugDraw;
 	}
 b2World.prototype.SetBroadPhase = function (broadPhase) {
-		var oldBroadPhase = m_contactManager.m_broadPhase;
-		m_contactManager.m_broadPhase = broadPhase;
-		for (var b = m_bodyList; b; b = b.m_next)
+		var oldBroadPhase = this.m_contactManager.m_broadPhase;
+		this.m_contactManager.m_broadPhase = broadPhase;
+		for (var b = this.m_bodyList; b; b = b.m_next)
 		{
 			for (var f = b.m_fixtureList; f; f = f.m_next)
 			{
@@ -87,10 +94,10 @@ b2World.prototype.SetBroadPhase = function (broadPhase) {
 		}
 	}
 b2World.prototype.Validate = function () {
-		m_contactManager.m_broadPhase.Validate();
+		this.m_contactManager.m_broadPhase.Validate();
 	}
 b2World.prototype.GetProxyCount = function () {
-		return m_contactManager.m_broadPhase.GetProxyCount();
+		return this.m_contactManager.m_broadPhase.GetProxyCount();
 	}
 b2World.prototype.CreateBody = function (def) {
 		
@@ -105,12 +112,12 @@ b2World.prototype.CreateBody = function (def) {
 		
 		
 		b.m_prev = null;
-		b.m_next = m_bodyList;
-		if (m_bodyList)
+		b.m_next = this.m_bodyList;
+		if (this.m_bodyList)
 		{
-			m_bodyList.m_prev = b;
+			this.m_bodyList.m_prev = b;
 		}
-		m_bodyList = b;
+		this.m_bodyList = b;
 		++this.m_bodyCount;
 		
 		return b;
@@ -155,7 +162,7 @@ b2World.prototype.DestroyBody = function (b) {
 		{
 			var ce0 = ce;
 			ce = ce.next;
-			m_contactManager.Destroy(ce0.contact);
+			this.m_contactManager.Destroy(ce0.contact);
 		}
 		b.m_contactList = null;
 		
@@ -172,7 +179,7 @@ b2World.prototype.DestroyBody = function (b) {
 				this.m_destructionListener.SayGoodbyeFixture(f0);
 			}
 			
-			f0.DestroyProxy(m_contactManager.m_broadPhase);
+			f0.DestroyProxy(this.m_contactManager.m_broadPhase);
 			f0.Destroy();
 			
 			
@@ -192,9 +199,9 @@ b2World.prototype.DestroyBody = function (b) {
 			b.m_next.m_prev = b.m_prev;
 		}
 		
-		if (b == m_bodyList)
+		if (b == this.m_bodyList)
 		{
-			m_bodyList = b.m_next;
+			this.m_bodyList = b.m_next;
 		}
 		
 		--this.m_bodyCount;
@@ -406,7 +413,7 @@ b2World.prototype.GetJointCount = function () {
 		return this.m_jointCount;
 	}
 b2World.prototype.GetContactCount = function () {
-		return m_contactCount;
+		return this.m_contactCount;
 	}
 b2World.prototype.SetGravity = function (gravity) {
 		this.m_gravity = gravity;
@@ -415,16 +422,16 @@ b2World.prototype.GetGravity = function () {
 		return this.m_gravity;
 	}
 b2World.prototype.GetGroundBody = function () {
-		return m_groundBody;
+		return this.m_groundBody;
 	}
 b2World.prototype.Step = function (dt, velocityIterations, positionIterations) {
-		if (m_flags & b2World.e_newFixture)
+		if (this.m_flags & b2World.e_newFixture)
 		{
-			m_contactManager.FindNewContacts();
-			m_flags &= ~b2World.e_newFixture;
+			this.m_contactManager.FindNewContacts();
+			this.m_flags &= ~b2World.e_newFixture;
 		}
 		
-		m_flags |= b2World.e_locked;
+		this.m_flags |= b2World.e_locked;
 		
 		var step = b2World.s_timestep2;
 		step.dt = dt;
@@ -444,7 +451,7 @@ b2World.prototype.Step = function (dt, velocityIterations, positionIterations) {
 		step.warmStarting =b2World. m_warmStarting;
 		
 		
-		m_contactManager.Collide();
+		this.m_contactManager.Collide();
 		
 		
 		if (step.dt > 0.0)
@@ -462,10 +469,10 @@ b2World.prototype.Step = function (dt, velocityIterations, positionIterations) {
 		{
 			this.m_inv_dt0 = step.inv_dt;
 		}
-		m_flags &= ~b2World.e_locked;
+		this.m_flags &= ~b2World.e_locked;
 	}
 b2World.prototype.ClearForces = function () {
-		for (var body = m_bodyList; body; body = body.m_next)
+		for (var body = this.m_bodyList; body; body = body.m_next)
 		{
 			body.m_force.SetZero();
 			body.m_torque = 0.0;
@@ -501,7 +508,7 @@ b2World.prototype.DrawDebugData = function () {
 			
 		if (flags & b2DebugDraw.e_shapeBit)
 		{
-			for (b = m_bodyList; b; b = b.m_next)
+			for (b = this.m_bodyList; b; b = b.m_next)
 			{
 				xf = b.m_xf;
 				for (f = b.GetFixtureList(); f; f = f.m_next)
@@ -555,7 +562,7 @@ b2World.prototype.DrawDebugData = function () {
 		if (flags & b2DebugDraw.e_pairBit)
 		{
 			color.Set(0.3, 0.9, 0.9);
-			for (var contact = m_contactManager.m_contactList; contact; contact = contact.GetNext())
+			for (var contact = this.m_contactManager.m_contactList; contact; contact = contact.GetNext())
 			{
 				var fixtureA = contact.GetFixtureA();
 				var fixtureB = contact.GetFixtureB();
@@ -569,11 +576,11 @@ b2World.prototype.DrawDebugData = function () {
 		
 		if (flags & b2DebugDraw.e_aabbBit)
 		{
-			bp = m_contactManager.m_broadPhase;
+			bp = this.m_contactManager.m_broadPhase;
 			
 			vs = [new b2Vec2(),new b2Vec2(),new b2Vec2(),new b2Vec2()];
 			
-			for (b= m_bodyList; b; b = b.GetNext())
+			for (b= this.m_bodyList; b; b = b.GetNext())
 			{
 				if (b.IsActive() == false)
 				{
@@ -594,7 +601,7 @@ b2World.prototype.DrawDebugData = function () {
 		
 		if (flags & b2DebugDraw.e_centerOfMassBit)
 		{
-			for (b = m_bodyList; b; b = b.m_next)
+			for (b = this.m_bodyList; b; b = b.m_next)
 			{
 				xf = b2World.s_xf;
 				xf.R = b.m_xf.R;
@@ -604,7 +611,7 @@ b2World.prototype.DrawDebugData = function () {
 		}
 	}
 b2World.prototype.QueryAABB = function (callback, aabb) {
-		var broadPhase = m_contactManager.m_broadPhase;
+		var broadPhase = this.m_contactManager.m_broadPhase;
 		function WorldQueryWrapper(proxy)
 		{
 			return callback(broadPhase.GetUserData(proxy));
@@ -617,7 +624,7 @@ b2World.prototype.QueryShape = function (callback, shape, transform ) {
 			transform = new b2Transform();
 			transform.SetIdentity();
 		}
-		var broadPhase = m_contactManager.m_broadPhase;
+		var broadPhase = this.m_contactManager.m_broadPhase;
 		function WorldQueryWrapper(proxy)
 		{
 			var fixture = broadPhase.GetUserData(proxy)
@@ -630,7 +637,7 @@ b2World.prototype.QueryShape = function (callback, shape, transform ) {
 		broadPhase.Query(WorldQueryWrapper, aabb);
 	}
 b2World.prototype.QueryPoint = function (callback, p) {
-		var broadPhase = m_contactManager.m_broadPhase;
+		var broadPhase = this.m_contactManager.m_broadPhase;
 		function WorldQueryWrapper(proxy)
 		{
 			var fixture = broadPhase.GetUserData(proxy)
@@ -645,7 +652,7 @@ b2World.prototype.QueryPoint = function (callback, p) {
 		broadPhase.Query(WorldQueryWrapper, aabb);
 	}
 b2World.prototype.RayCast = function (callback, point1, point2) {
-		var broadPhase = m_contactManager.m_broadPhase;
+		var broadPhase = this.m_contactManager.m_broadPhase;
 		var output = new b2RayCastOutput;
 		function RayCastWrapper(input, proxy)
 		{
@@ -686,14 +693,14 @@ b2World.prototype.RayCastAll = function (point1, point2) {
 		return result;
 	}
 b2World.prototype.GetBodyList = function () {
-		return m_bodyList;
+		return this.m_bodyList;
 	}
 b2World.prototype.GetJointList = function () {
 		return this.m_jointList;
 	}
 b2World.prototype.GetContactList = function () {
-		return m_contactList;
+		return this.m_contactList;
 	}
 b2World.prototype.IsLocked = function () {
-		return (m_flags & b2World.e_locked) > 0;
+		return (this.m_flags & b2World.e_locked) > 0;
 	}

@@ -65,7 +65,7 @@ b2DynamicTreeBroadPhase.prototype.GetProxyCount = function () {
 b2DynamicTreeBroadPhase.prototype.UpdatePairs = function (callback) {
 		this.m_pairCount = 0;
 		
-		for each(var queryProxy in this.m_moveBuffer)
+		foreach(queryProxy in this.m_moveBuffer)
 		{
 			function QueryCallback(proxy)
 			{

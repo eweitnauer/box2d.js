@@ -12,8 +12,8 @@ this.features =  new Features();
 // static attributes
 // static methods
 // attributes
-b2ContactID.prototype.features =  new Features();
 b2ContactID.prototype._key =  0;
+b2ContactID.prototype.features =  new Features();
 // methods
 b2ContactID.prototype.Set = function (id) {
 		key = id._key;
@@ -24,7 +24,7 @@ b2ContactID.prototype.Copy = function () {
 		return id;
 	}
 b2ContactID.prototype.__defineSetter__("key", function () {
-        return this._key;
+		return this._key;
     });
 b2ContactID.prototype.__defineSetter__("key", function(value) { 
 		this._key = value;

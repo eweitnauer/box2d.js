@@ -3,9 +3,9 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 b2Island.prototype.__constructor = function () {
-		m_bodies = new Array();
-		m_contacts = new Array();
-		m_joints = new Array();
+		this.m_bodies = new Array();
+		this.m_contacts = new Array();
+		this.m_joints = new Array();
 	}
 b2Island.prototype.__varz = function(){
 }
@@ -16,7 +16,15 @@ b2Island.s_impulse =  new b2ContactImpulse();
 b2Island.prototype.m_allocator =  null;
 b2Island.prototype.m_listener =  null;
 b2Island.prototype.m_contactSolver =  null;
+b2Island.prototype.m_bodies =  null;
+b2Island.prototype.m_contacts =  null;
+b2Island.prototype.m_joints =  null;
+b2Island.prototype.m_bodyCount =  0;
+b2Island.prototype.m_jointCount =  0;
+b2Island.prototype.m_contactCount =  0;
 b2Island.prototype.m_bodyCapacity =  0;
+b2Island.prototype.m_contactCapacity =  0;
+b2Island.prototype.m_jointCapacity =  0;
 // methods
 b2Island.prototype.Initialize = function (
 	bodyCapacity,
@@ -28,30 +36,30 @@ b2Island.prototype.Initialize = function (
 		var i = 0;
 		
 		this.m_bodyCapacity = bodyCapacity;
-		m_contactCapacity = contactCapacity;
-		m_jointCapacity	 = jointCapacity;
-		m_bodyCount = 0;
-		m_contactCount = 0;
-		m_jointCount = 0;
+		this.m_contactCapacity = contactCapacity;
+		this.m_jointCapacity	 = jointCapacity;
+		this.m_bodyCount = 0;
+		this.m_contactCount = 0;
+		this.m_jointCount = 0;
 		
 		this.m_allocator = allocator;
 		this.m_listener = listener;
 		this.m_contactSolver = contactSolver;
 		
-		for (i = m_bodies.length; i < bodyCapacity; i++)
-			m_bodies[i] = null;
+		for (i = this.m_bodies.length; i < bodyCapacity; i++)
+			this.m_bodies[i] = null;
 		
-		for (i = m_contacts.length; i < contactCapacity; i++)
-			m_contacts[i] = null;
+		for (i = this.m_contacts.length; i < contactCapacity; i++)
+			this.m_contacts[i] = null;
 		
-		for (i = m_joints.length; i < jointCapacity; i++)
-			m_joints[i] = null;
+		for (i = this.m_joints.length; i < jointCapacity; i++)
+			this.m_joints[i] = null;
 		
 	}
 b2Island.prototype.Clear = function () {
-		m_bodyCount = 0;
-		m_contactCount = 0;
-		m_jointCount = 0;
+		this.m_bodyCount = 0;
+		this.m_contactCount = 0;
+		this.m_jointCount = 0;
 	}
 b2Island.prototype.Solve = function (step, gravity, allowSleep) {
 		var i = 0;
@@ -60,9 +68,9 @@ b2Island.prototype.Solve = function (step, gravity, allowSleep) {
 		var joint;
 		
 		
-		for (i = 0; i < m_bodyCount; ++i)
+		for (i = 0; i < this.m_bodyCount; ++i)
 		{
-			b = m_bodies[i];
+			b = this.m_bodies[i];
 			
 			if (b.GetType() != b2Body.b2_dynamicBody)
 				continue;
@@ -84,24 +92,24 @@ b2Island.prototype.Solve = function (step, gravity, allowSleep) {
 			b.m_angularVelocity *= b2Math.Clamp(1.0 - step.dt * b.m_angularDamping, 0.0, 1.0);
 		}
 		
-		this.m_contactSolver.Initialize(step, m_contacts, m_contactCount, this.m_allocator);
+		this.m_contactSolver.Initialize(step, this.m_contacts, this.m_contactCount, this.m_allocator);
 		var contactSolver = this.m_contactSolver;
 
 		
 		contactSolver.InitVelocityConstraints(step);
 		
-		for (i = 0; i < m_jointCount; ++i)
+		for (i = 0; i < this.m_jointCount; ++i)
 		{
-			joint = m_joints[i];
+			joint = this.m_joints[i];
 			joint.InitVelocityConstraints(step);
 		}
 		
 		
 		for (i = 0; i < step.velocityIterations; ++i)
 		{	
-			for (j = 0; j < m_jointCount; ++j)
+			for (j = 0; j < this.m_jointCount; ++j)
 			{
-				joint = m_joints[j];
+				joint = this.m_joints[j];
 				joint.SolveVelocityConstraints(step);
 			}
 			
@@ -109,17 +117,17 @@ b2Island.prototype.Solve = function (step, gravity, allowSleep) {
 		}
 		
 		
-		for (i = 0; i < m_jointCount; ++i)
+		for (i = 0; i < this.m_jointCount; ++i)
 		{
-			joint = m_joints[i];
+			joint = this.m_joints[i];
 			joint.FinalizeVelocityConstraints();
 		}
 		contactSolver.FinalizeVelocityConstraints();
 		
 		
-		for (i = 0; i < m_bodyCount; ++i)
+		for (i = 0; i < this.m_bodyCount; ++i)
 		{
-			b = m_bodies[i];
+			b = this.m_bodies[i];
 			
 			if (b.GetType() == b2Body.b2_staticBody)
 				continue;
@@ -170,9 +178,9 @@ b2Island.prototype.Solve = function (step, gravity, allowSleep) {
 			var contactsOkay = contactSolver.SolvePositionConstraints(b2Settings.b2_contactBaumgarte);
 			
 			var jointsOkay = true;
-			for (j = 0; j < m_jointCount; ++j)
+			for (j = 0; j < this.m_jointCount; ++j)
 			{
-				joint = m_joints[j];
+				joint = this.m_joints[j];
 				var jointOkay = joint.SolvePositionConstraints(b2Settings.b2_contactBaumgarte);
 				jointsOkay = jointsOkay && jointOkay;
 			}
@@ -192,9 +200,9 @@ b2Island.prototype.Solve = function (step, gravity, allowSleep) {
 			var linTolSqr = b2Settings.b2_linearSleepTolerance * b2Settings.b2_linearSleepTolerance;
 			var angTolSqr = b2Settings.b2_angularSleepTolerance * b2Settings.b2_angularSleepTolerance;
 			
-			for (i = 0; i < m_bodyCount; ++i)
+			for (i = 0; i < this.m_bodyCount; ++i)
 			{
-				b = m_bodies[i];
+				b = this.m_bodies[i];
 				if (b.GetType() == b2Body.b2_staticBody)
 				{
 					continue;
@@ -222,9 +230,9 @@ b2Island.prototype.Solve = function (step, gravity, allowSleep) {
 			
 			if (minSleepTime >= b2Settings.b2_timeToSleep)
 			{
-				for (i = 0; i < m_bodyCount; ++i)
+				for (i = 0; i < this.m_bodyCount; ++i)
 				{
-					b = m_bodies[i]; 
+					b = this.m_bodies[i]; 
 					b.SetAwake(false);
 				}
 			}
@@ -233,7 +241,7 @@ b2Island.prototype.Solve = function (step, gravity, allowSleep) {
 b2Island.prototype.SolveTOI = function (subStep) {
 		var i = 0;
 		var j = 0;
-		this.m_contactSolver.Initialize(subStep, m_contacts, m_contactCount, this.m_allocator);
+		this.m_contactSolver.Initialize(subStep, this.m_contacts, this.m_contactCount, this.m_allocator);
 		var contactSolver = this.m_contactSolver;
 		
 		
@@ -241,9 +249,9 @@ b2Island.prototype.SolveTOI = function (subStep) {
 
 		
 		
-		for (i = 0; i < m_jointCount;++i)
+		for (i = 0; i < this.m_jointCount;++i)
 		{
-			m_joints[i].InitVelocityConstraints(subStep);
+			this.m_joints[i].InitVelocityConstraints(subStep);
 		}
 		
 		
@@ -251,9 +259,9 @@ b2Island.prototype.SolveTOI = function (subStep) {
 		for (i = 0; i < subStep.velocityIterations; ++i)
 		{
 			contactSolver.SolveVelocityConstraints();
-			for (j = 0; j < m_jointCount;++j)
+			for (j = 0; j < this.m_jointCount;++j)
 			{
-				m_joints[j].SolveVelocityConstraints(subStep);
+				this.m_joints[j].SolveVelocityConstraints(subStep);
 			}
 		}
 		
@@ -261,9 +269,9 @@ b2Island.prototype.SolveTOI = function (subStep) {
 		
 		
 		
-		for (i = 0; i < m_bodyCount; ++i)
+		for (i = 0; i < this.m_bodyCount; ++i)
 		{
-			var b = m_bodies[i];
+			var b = this.m_bodies[i];
 			
 			if (b.GetType() == b2Body.b2_staticBody)
 				continue;
@@ -314,9 +322,9 @@ b2Island.prototype.SolveTOI = function (subStep) {
 		{
 			var contactsOkay = contactSolver.SolvePositionConstraints(k_toiBaumgarte);
 			var jointsOkay = true;
-			for (j = 0; j < m_jointCount;++j)
+			for (j = 0; j < this.m_jointCount;++j)
 			{
-				var jointOkay = m_joints[j].SolvePositionConstraints(b2Settings.b2_contactBaumgarte);
+				var jointOkay = this.m_joints[j].SolvePositionConstraints(b2Settings.b2_contactBaumgarte);
 				jointsOkay = jointsOkay && jointOkay;
 			}
 			
@@ -333,9 +341,9 @@ b2Island.prototype.Report = function (constraints) {
 			return;
 		}
 		
-		for (var i = 0; i < m_contactCount; ++i)
+		for (var i = 0; i < this.m_contactCount; ++i)
 		{
-			var c = m_contacts[i];
+			var c = this.m_contacts[i];
 			var cc = constraints[ i ];
 			
 			for (var j = 0; j < cc.pointCount; ++j)
@@ -348,14 +356,14 @@ b2Island.prototype.Report = function (constraints) {
 	}
 b2Island.prototype.AddBody = function (body) {
 		
-		body.m_islandIndex = m_bodyCount;
-		m_bodies[m_bodyCount++] = body;
+		body.m_islandIndex = this.m_bodyCount;
+		this.m_bodies[this.m_bodyCount++] = body;
 	}
 b2Island.prototype.AddContact = function (contact) {
 		
-		m_contacts[m_contactCount++] = contact;
+		this.m_contacts[this.m_contactCount++] = contact;
 	}
 b2Island.prototype.AddJoint = function (joint) {
 		
-		m_joints[m_jointCount++] = joint;
+		this.m_joints[this.m_jointCount++] = joint;
 	}

@@ -12,13 +12,13 @@ b2PrismaticJoint.prototype.__constructor = function (def) {
 		var tX;
 		var tY;
 		
-		m_localAnchor1.SetV(def.localAnchorA);
-		m_localAnchor2.SetV(def.localAnchorB);
-		m_localXAxis1.SetV(def.localAxisA);
+		this.m_localAnchor1.SetV(def.localAnchorA);
+		this.m_localAnchor2.SetV(def.localAnchorB);
+		this.m_localXAxis1.SetV(def.localAxisA);
 		
 		
-		this.m_localYAxis1.x = -m_localXAxis1.y;
-		this.m_localYAxis1.y = m_localXAxis1.x;
+		this.m_localYAxis1.x = -this.m_localXAxis1.y;
+		this.m_localYAxis1.y = this.m_localXAxis1.x;
 		
 		this.m_refAngle = def.referenceAngle;
 		
@@ -32,12 +32,15 @@ b2PrismaticJoint.prototype.__constructor = function (def) {
 		this.m_motorSpeed = def.motorSpeed;
 		this.m_enableLimit = def.enableLimit;
 		this.m_enableMotor = def.enableMotor;
-		this.m_limitState = e_inactiveLimit;
+		this.m_limitState = this.e_inactiveLimit;
 		
 		this.m_axis.SetZero();
 		this.m_perp.SetZero();
 	}
 b2PrismaticJoint.prototype.__varz = function(){
+this.m_localAnchor1 =  new b2Vec2();
+this.m_localAnchor2 =  new b2Vec2();
+this.m_localXAxis1 =  new b2Vec2();
 this.m_localYAxis1 =  new b2Vec2();
 this.m_axis =  new b2Vec2();
 this.m_perp =  new b2Vec2();
@@ -47,6 +50,9 @@ this.m_impulse =  new b2Vec3();
 // static attributes
 // static methods
 // attributes
+b2PrismaticJoint.prototype.m_localAnchor1 =  new b2Vec2();
+b2PrismaticJoint.prototype.m_localAnchor2 =  new b2Vec2();
+b2PrismaticJoint.prototype.m_localXAxis1 =  new b2Vec2();
 b2PrismaticJoint.prototype.m_localYAxis1 =  new b2Vec2();
 b2PrismaticJoint.prototype.m_refAngle =  null;
 b2PrismaticJoint.prototype.m_axis =  new b2Vec2();
@@ -68,10 +74,10 @@ b2PrismaticJoint.prototype.m_enableMotor =  null;
 b2PrismaticJoint.prototype.m_limitState =  0;
 // methods
 b2PrismaticJoint.prototype.GetAnchorA = function () {
-		return m_bodyA.GetWorldPoint(m_localAnchor1);
+		return this.m_bodyA.GetWorldPoint(this.m_localAnchor1);
 	}
 b2PrismaticJoint.prototype.GetAnchorB = function () {
-		return m_bodyB.GetWorldPoint(m_localAnchor2);
+		return this.m_bodyB.GetWorldPoint(this.m_localAnchor2);
 	}
 b2PrismaticJoint.prototype.GetReactionForce = function (inv_dt) {
 		
@@ -82,40 +88,40 @@ b2PrismaticJoint.prototype.GetReactionTorque = function (inv_dt) {
 		return inv_dt * this.m_impulse.y;
 	}
 b2PrismaticJoint.prototype.GetJointTranslation = function () {
-		var bA = m_bodyA;
-		var bB = m_bodyB;
+		var bA = this.m_bodyA;
+		var bB = this.m_bodyB;
 		
 		var tMat;
 		
-		var p1 = bA.GetWorldPoint(m_localAnchor1);
-		var p2 = bB.GetWorldPoint(m_localAnchor2);
+		var p1 = bA.GetWorldPoint(this.m_localAnchor1);
+		var p2 = bB.GetWorldPoint(this.m_localAnchor2);
 		
 		var dX = p2.x - p1.x;
 		var dY = p2.y - p1.y;
 		
-		var axis = bA.GetWorldVector(m_localXAxis1);
+		var axis = bA.GetWorldVector(this.m_localXAxis1);
 		
 		
 		var translation = axis.x*dX + axis.y*dY;
 		return translation;
 	}
 b2PrismaticJoint.prototype.GetJointSpeed = function () {
-		var bA = m_bodyA;
-		var bB = m_bodyB;
+		var bA = this.m_bodyA;
+		var bB = this.m_bodyB;
 		
 		var tMat;
 		
 		
 		tMat = bA.m_xf.R;
-		var r1X = m_localAnchor1.x - bA.m_sweep.localCenter.x;
-		var r1Y = m_localAnchor1.y - bA.m_sweep.localCenter.y;
+		var r1X = this.m_localAnchor1.x - bA.m_sweep.localCenter.x;
+		var r1Y = this.m_localAnchor1.y - bA.m_sweep.localCenter.y;
 		var tX = (tMat.col1.x * r1X + tMat.col2.x * r1Y);
 		r1Y = (tMat.col1.y * r1X + tMat.col2.y * r1Y);
 		r1X = tX;
 		
 		tMat = bB.m_xf.R;
-		var r2X = m_localAnchor2.x - bB.m_sweep.localCenter.x;
-		var r2Y = m_localAnchor2.y - bB.m_sweep.localCenter.y;
+		var r2X = this.m_localAnchor2.x - bB.m_sweep.localCenter.x;
+		var r2Y = this.m_localAnchor2.y - bB.m_sweep.localCenter.y;
 		tX = (tMat.col1.x * r2X + tMat.col2.x * r2Y);
 		r2Y = (tMat.col1.y * r2X + tMat.col2.y * r2Y);
 		r2X = tX;
@@ -130,7 +136,7 @@ b2PrismaticJoint.prototype.GetJointSpeed = function () {
 		var dX = p2X - p1X;
 		var dY = p2Y - p1Y;
 		
-		var axis = bA.GetWorldVector(m_localXAxis1);
+		var axis = bA.GetWorldVector(this.m_localXAxis1);
 		
 		var v1 = bA.m_linearVelocity;
 		var v2 = bB.m_linearVelocity;
@@ -148,8 +154,8 @@ b2PrismaticJoint.prototype.IsLimitEnabled = function () {
 		return this.m_enableLimit;
 	}
 b2PrismaticJoint.prototype.EnableLimit = function (flag) {
-		m_bodyA.SetAwake(true);
-		m_bodyB.SetAwake(true);
+		this.m_bodyA.SetAwake(true);
+		this.m_bodyB.SetAwake(true);
 		this.m_enableLimit = flag;
 	}
 b2PrismaticJoint.prototype.GetLowerLimit = function () {
@@ -160,8 +166,8 @@ b2PrismaticJoint.prototype.GetUpperLimit = function () {
 	}
 b2PrismaticJoint.prototype.SetLimits = function (lower, upper) {
 		
-		m_bodyA.SetAwake(true);
-		m_bodyB.SetAwake(true);
+		this.m_bodyA.SetAwake(true);
+		this.m_bodyB.SetAwake(true);
 		this.m_lowerTranslation = lower;
 		this.m_upperTranslation = upper;
 	}
@@ -169,21 +175,21 @@ b2PrismaticJoint.prototype.IsMotorEnabled = function () {
 		return this.m_enableMotor;
 	}
 b2PrismaticJoint.prototype.EnableMotor = function (flag) {
-		m_bodyA.SetAwake(true);
-		m_bodyB.SetAwake(true);
+		this.m_bodyA.SetAwake(true);
+		this.m_bodyB.SetAwake(true);
 		this.m_enableMotor = flag;
 	}
 b2PrismaticJoint.prototype.SetMotorSpeed = function (speed) {
-		m_bodyA.SetAwake(true);
-		m_bodyB.SetAwake(true);
+		this.m_bodyA.SetAwake(true);
+		this.m_bodyB.SetAwake(true);
 		this.m_motorSpeed = speed;
 	}
 b2PrismaticJoint.prototype.GetMotorSpeed = function () {
 		return this.m_motorSpeed;
 	}
 b2PrismaticJoint.prototype.SetMaxMotorForce = function (force) {
-		m_bodyA.SetAwake(true);
-		m_bodyB.SetAwake(true);
+		this.m_bodyA.SetAwake(true);
+		this.m_bodyB.SetAwake(true);
 		this.m_maxMotorForce = force;
 	}
 b2PrismaticJoint.prototype.GetMotorForce = function () {

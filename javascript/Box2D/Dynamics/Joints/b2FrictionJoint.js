@@ -39,10 +39,10 @@ b2FrictionJoint.prototype.m_linearMass =  new b2Mat22();
 b2FrictionJoint.prototype.m_angularMass =  null;
 // methods
 b2FrictionJoint.prototype.GetAnchorA = function () {
-		return m_bodyA.GetWorldPoint(this.m_localAnchorA);
+		return this.m_bodyA.GetWorldPoint(this.m_localAnchorA);
 	}
 b2FrictionJoint.prototype.GetAnchorB = function () {
-		return m_bodyB.GetWorldPoint(this.m_localAnchorB);
+		return this.m_bodyB.GetWorldPoint(this.m_localAnchorB);
 	}
 b2FrictionJoint.prototype.GetReactionForce = function (inv_dt) {
 		return new b2Vec2(inv_dt * this.m_linearImpulse.x, inv_dt * this.m_linearImpulse.y);
