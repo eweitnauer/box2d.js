@@ -4,7 +4,7 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 extend(b2PolyAndCircleContact.prototype, b2Contact.prototype)
-b2PolyAndCircleContact.prototype._super = function(){ b2Contact.prototype.__constructor.apply(this, arguments) }
+b2PolyAndCircleContact.prototype._super = b2Contact.prototype;
 b2PolyAndCircleContact.prototype.__constructor = function(){}
 b2PolyAndCircleContact.prototype.__varz = function(){
 }
@@ -25,7 +25,7 @@ b2PolyAndCircleContact.prototype.Evaluate = function () {
 					this.m_fixtureB.GetShape(), bB.m_xf);
 	}
 b2PolyAndCircleContact.prototype.Reset = function (fixtureA, fixtureB) {
-		this._super.Reset(fixtureA, fixtureB);
+		this._super.Reset.apply(this, [fixtureA, fixtureB]);
 		b2Settings.b2Assert(fixtureA.GetType() == b2Shape.e_polygonShape);
 		b2Settings.b2Assert(fixtureB.GetType() == b2Shape.e_circleShape);
 	}

@@ -4,7 +4,7 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 extend(b2PolyAndEdgeContact.prototype, b2Contact.prototype)
-b2PolyAndEdgeContact.prototype._super = function(){ b2Contact.prototype.__constructor.apply(this, arguments) }
+b2PolyAndEdgeContact.prototype._super = b2Contact.prototype;
 b2PolyAndEdgeContact.prototype.__constructor = function(){}
 b2PolyAndEdgeContact.prototype.__varz = function(){
 }
@@ -33,7 +33,7 @@ b2PolyAndEdgeContact.prototype.b2CollidePolyAndEdge = function (manifold,
 		
 	}
 b2PolyAndEdgeContact.prototype.Reset = function (fixtureA, fixtureB) {
-		this._super.Reset(fixtureA, fixtureB);
+		this._super.Reset.apply(this, [fixtureA, fixtureB]);
 		b2Settings.b2Assert(fixtureA.GetType() == b2Shape.e_polygonShape);
 		b2Settings.b2Assert(fixtureB.GetType() == b2Shape.e_edgeShape);
 	}

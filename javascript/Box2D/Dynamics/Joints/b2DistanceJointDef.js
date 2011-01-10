@@ -4,7 +4,7 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 extend(b2DistanceJointDef.prototype, b2JointDef.prototype)
-b2DistanceJointDef.prototype._super = function(){ b2JointDef.prototype.__constructor.apply(this, arguments) }
+b2DistanceJointDef.prototype._super = b2JointDef.prototype;
 b2DistanceJointDef.prototype.__constructor = function () {
 		this.type = b2Joint.e_distanceJoint;
 		

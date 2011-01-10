@@ -4,7 +4,7 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 extend(b2PolygonShape.prototype, b2Shape.prototype)
-b2PolygonShape.prototype._super = function(){ b2Shape.prototype.__constructor.apply(this, arguments) }
+b2PolygonShape.prototype._super = b2Shape.prototype;
 b2PolygonShape.prototype.__constructor = function () {
 		
 		
@@ -190,8 +190,8 @@ b2PolygonShape.prototype.Copy = function () {
 		return s;
 	}
 b2PolygonShape.prototype.Set = function (other) {
-		this._super.Set(other);
-		if (typeof other === 'b2PolygonShape')
+		this._super.Set.apply(this, [other]);
+		if (other.isInstanceOf(b2PolygonShape))
 		{
 			var other2 = other;
 			this.m_centroid.SetV(other2.m_centroid);

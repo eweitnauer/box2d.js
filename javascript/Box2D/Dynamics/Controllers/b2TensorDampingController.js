@@ -4,7 +4,7 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 extend(b2TensorDampingController.prototype, b2Controller.prototype)
-b2TensorDampingController.prototype._super = function(){ b2Controller.prototype.__constructor.apply(this, arguments) }
+b2TensorDampingController.prototype._super = b2Controller.prototype;
 b2TensorDampingController.prototype.__constructor = function(){}
 b2TensorDampingController.prototype.__varz = function(){
 this.T =  new b2Mat22();

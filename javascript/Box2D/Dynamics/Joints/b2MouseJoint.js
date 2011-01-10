@@ -4,9 +4,9 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 extend(b2MouseJoint.prototype, b2Joint.prototype)
-b2MouseJoint.prototype._super = function(){ b2Joint.prototype.__constructor.apply(this, arguments) }
+b2MouseJoint.prototype._super = b2Joint.prototype;
 b2MouseJoint.prototype.__constructor = function (def) {
-		this._super(def);
+		this._super.__constructor.apply(this, [def]);
 		
 		
 		

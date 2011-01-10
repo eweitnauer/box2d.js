@@ -4,9 +4,9 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 extend(b2DistanceJoint.prototype, b2Joint.prototype)
-b2DistanceJoint.prototype._super = function(){ b2Joint.prototype.__constructor.apply(this, arguments) }
+b2DistanceJoint.prototype._super = b2Joint.prototype;
 b2DistanceJoint.prototype.__constructor = function (def) {
-		this._super(def);
+		this._super.__constructor.apply(this, [def]);
 		
 		var tMat;
 		var tX;

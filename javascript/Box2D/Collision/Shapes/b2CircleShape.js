@@ -4,9 +4,9 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 extend(b2CircleShape.prototype, b2Shape.prototype)
-b2CircleShape.prototype._super = function(){ b2Shape.prototype.__constructor.apply(this, arguments) }
+b2CircleShape.prototype._super = b2Shape.prototype;
 b2CircleShape.prototype.__constructor = function (radius ) {
-		this._super();
+		this._super.__constructor.apply(this, []);
 		this.m_type = b2Shape.e_circleShape;
 		this.m_radius = radius;
 	}
@@ -22,8 +22,8 @@ b2CircleShape.prototype.Copy = function () {
 		return s;
 	}
 b2CircleShape.prototype.Set = function (other) {
-		this._super.Set(other);
-		if (typeof other === 'b2CircleShape')
+		this._super.Set.apply(this, [other]);
+		if (other.isInstanceOf(b2CircleShape))
 		{
 			var other2 = other;
 			this.m_p.SetV(other2.m_p);

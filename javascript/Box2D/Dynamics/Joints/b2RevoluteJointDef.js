@@ -4,7 +4,7 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 extend(b2RevoluteJointDef.prototype, b2JointDef.prototype)
-b2RevoluteJointDef.prototype._super = function(){ b2JointDef.prototype.__constructor.apply(this, arguments) }
+b2RevoluteJointDef.prototype._super = b2JointDef.prototype;
 b2RevoluteJointDef.prototype.__constructor = function () {
 		this.type = b2Joint.e_revoluteJoint;
 		this.localAnchorA.Set(0.0, 0.0);

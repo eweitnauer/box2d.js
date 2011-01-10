@@ -30,7 +30,8 @@ def translate(klass):
     lines.append("}")
     if klass.extends:
         lines.append("extend(%s.prototype, %s.prototype)" % (klass.name, klass.extends));
-        lines.append("%s.prototype._super = function(){ %s.prototype.__constructor.apply(this, arguments) }" % (klass.name, klass.extends))
+        #lines.append("%s.prototype._super = function(){ %s.prototype.__constructor.apply(this, arguments) }" % (klass.name, klass.extends))
+        lines.append("%s.prototype._super = %s.prototype;" % (klass.name, klass.extends))
     lines.append("%s.prototype.__constructor = %s" % klass.constructor)
     lines.append("%s.prototype.__varz = function(){" % klass.name)
     for name, value in klass.varz:
@@ -54,6 +55,23 @@ def translate(klass):
     code = re.sub(r"([^ ]+)[ ]+as[ ]+\w+", "\\1", code)
     return code
 
+def modify_supercall(match):
+	result = "this._super."
+	if match.group(1):
+		result = result + match.group(1)
+	else:
+		result = result + "__constructor"
+	result = result + ".apply(this, ["
+	if match.group(2):
+		result = result + match.group(2)
+	result = result + "]);"
+	
+	return result		
+	
+def log(match):
+	print "###" + match.group(0)
+	return match.group(0)	
+
 def parse(code):
     # strip comments
     code = re.sub("(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|(//.*)", "", code)
@@ -62,8 +80,10 @@ def parse(code):
     # int/uint -> parseInt
     code = re.sub("([^a-zA-Z0-9]+)int\(", "\\1parseInt(", code)
     code = re.sub("([^a-zA-Z0-9]+)uint\(", "\\1parseInt(", code)
-    # super -> this._super
-    code = re.sub("([^a-zA-Z0-9]+)super(\(|\.)", "\\1this._super\\2", code)
+    # super calls including custructor
+    # super.method(a, b)
+    #       111111 2222
+    code = re.sub(r"\bsuper(?:\.(\w+))?\(\s*([^\)]*)\);", modify_supercall, code)
     # const -> var 
     code = re.sub(r"\bconst\b", "var", code)
     #remove type anotations
@@ -83,7 +103,8 @@ def parse(code):
     ## remove override and virtual
     code = code.replace("override", "").replace("virtual", "").replace("\r", "")
     ## obj is type
-    code = re.sub("(\w+) is (\w+)", "typeof \\1 === '\\2'", code)
+    code = re.sub("(\w+) is (\w+)", log, code)
+    code = re.sub("(\w+) is (\w+)", "\\1.isInstanceOf(\\2)", code)
     ## for..each loop
     code = code.replace("for each(var ", "foreach(")
     # hack ...

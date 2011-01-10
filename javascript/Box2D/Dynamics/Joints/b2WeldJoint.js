@@ -4,9 +4,9 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 extend(b2WeldJoint.prototype, b2Joint.prototype)
-b2WeldJoint.prototype._super = function(){ b2Joint.prototype.__constructor.apply(this, arguments) }
+b2WeldJoint.prototype._super = b2Joint.prototype;
 b2WeldJoint.prototype.__constructor = function (def) {
-		this._super(def);
+		this._super.__constructor.apply(this, [def]);
 		
 		this.m_localAnchorA.SetV(def.localAnchorA);
 		this.m_localAnchorB.SetV(def.localAnchorB);

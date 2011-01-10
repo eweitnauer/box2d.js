@@ -4,7 +4,7 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 extend(b2ConstantAccelController.prototype, b2Controller.prototype)
-b2ConstantAccelController.prototype._super = function(){ b2Controller.prototype.__constructor.apply(this, arguments) }
+b2ConstantAccelController.prototype._super = b2Controller.prototype;
 b2ConstantAccelController.prototype.__constructor = function(){}
 b2ConstantAccelController.prototype.__varz = function(){
 this.A =  new b2Vec2(0,0);

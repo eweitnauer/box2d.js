@@ -4,7 +4,7 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 extend(b2MouseJointDef.prototype, b2JointDef.prototype)
-b2MouseJointDef.prototype._super = function(){ b2JointDef.prototype.__constructor.apply(this, arguments) }
+b2MouseJointDef.prototype._super = b2JointDef.prototype;
 b2MouseJointDef.prototype.__constructor = function () {
 		this.type = b2Joint.e_mouseJoint;
 		this.maxForce = 0.0;

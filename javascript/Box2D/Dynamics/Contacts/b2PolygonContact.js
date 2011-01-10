@@ -4,7 +4,7 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 extend(b2PolygonContact.prototype, b2Contact.prototype)
-b2PolygonContact.prototype._super = function(){ b2Contact.prototype.__constructor.apply(this, arguments) }
+b2PolygonContact.prototype._super = b2Contact.prototype;
 b2PolygonContact.prototype.__constructor = function(){}
 b2PolygonContact.prototype.__varz = function(){
 }
@@ -28,7 +28,7 @@ b2PolygonContact.prototype.Evaluate = function () {
 					this.m_fixtureB.GetShape(), bB.m_xf);
 	}
 b2PolygonContact.prototype.Reset = function (fixtureA, fixtureB) {
-		this._super.Reset(fixtureA, fixtureB);
+		this._super.Reset.apply(this, [fixtureA, fixtureB]);
 		
 		
 	}

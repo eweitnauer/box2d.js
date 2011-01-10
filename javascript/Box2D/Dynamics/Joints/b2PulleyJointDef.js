@@ -4,7 +4,7 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 extend(b2PulleyJointDef.prototype, b2JointDef.prototype)
-b2PulleyJointDef.prototype._super = function(){ b2JointDef.prototype.__constructor.apply(this, arguments) }
+b2PulleyJointDef.prototype._super = b2JointDef.prototype;
 b2PulleyJointDef.prototype.__constructor = function () {
 		this.type = b2Joint.e_pulleyJoint;
 		this.groundAnchorA.Set(-1.0, 1.0);

@@ -4,9 +4,9 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 extend(b2EdgeShape.prototype, b2Shape.prototype)
-b2EdgeShape.prototype._super = function(){ b2Shape.prototype.__constructor.apply(this, arguments) }
+b2EdgeShape.prototype._super = b2Shape.prototype;
 b2EdgeShape.prototype.__constructor = function (v1, v2) {
-		this._super();
+		this._super.__constructor.apply(this, []);
 		this.m_type = b2Shape.e_edgeShape;
 		
 		this.m_prevEdge = null;
