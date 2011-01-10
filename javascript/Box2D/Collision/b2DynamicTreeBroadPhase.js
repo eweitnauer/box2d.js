@@ -12,7 +12,7 @@ this.m_pairBuffer =  new Array();
 // static attributes
 // methods
 b2DynamicTreeBroadPhase.prototype.BufferMove = function (proxy) {
-		this.m_moveBuffer[m_moveBuffer.length] = proxy;
+		this.m_moveBuffer[this.m_moveBuffer.length] = proxy;
 	}
 b2DynamicTreeBroadPhase.prototype.UnBufferMove = function (proxy) {
 		var i = this.m_moveBuffer.indexOf(proxy);

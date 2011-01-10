@@ -15,7 +15,7 @@ b2BroadPhase.prototype.__constructor = function (worldAABB) {
 		
 		this.m_bounds = new Array();
 		for (i = 0; i < 2; i++){
-			m_bounds[i] = new Array();
+			this.m_bounds[i] = new Array();
 		}
 		
 		
@@ -97,7 +97,7 @@ b2BroadPhase.prototype.TestOverlapValidate = function (p1, p2) {
 		
 		for (var axis = 0; axis < 2; ++axis)
 		{
-			var bounds = m_bounds[axis];
+			var bounds = this.m_bounds[axis];
 			
 			
 			
@@ -234,8 +234,8 @@ b2BroadPhase.prototype.CreateProxy = function (aabb, userData) {
 			for (i = 0; i < 2; i++)
 			{
 				j = this.m_proxyCount * 2;
-				m_bounds[i][j++] = new b2Bound();
-				m_bounds[i][j] = new b2Bound();
+				this.m_bounds[i][j++] = new b2Bound();
+				this.m_bounds[i][j] = new b2Bound();
 			}
 			
 		}
@@ -254,7 +254,7 @@ b2BroadPhase.prototype.CreateProxy = function (aabb, userData) {
 		
 		for (var axis = 0; axis < 2; ++axis)
 		{
-			var bounds = m_bounds[axis];
+			var bounds = this.m_bounds[axis];
 			var lowerIndex = 0;
 			var upperIndex = 0;
 			var lowerIndexOut = new Array();
@@ -338,7 +338,7 @@ b2BroadPhase.prototype.DestroyProxy = function (proxy_) {
 		
 		for (var axis = 0; axis < 2; ++axis)
 		{
-			var bounds = m_bounds[axis];
+			var bounds = this.m_bounds[axis];
 			
 			var lowerIndex = proxy.lowerBounds[axis];
 			var upperIndex = proxy.upperBounds[axis];
@@ -444,15 +444,15 @@ b2BroadPhase.prototype.MoveProxy = function (proxy_, aabb, displacement) {
 		var oldValues = new b2BoundValues();
 		for (axis = 0; axis < 2; ++axis)
 		{
-			bound = m_bounds[axis][proxy.lowerBounds[axis]];
+			bound = this.m_bounds[axis][proxy.lowerBounds[axis]];
 			oldValues.lowerValues[axis] = bound.value;
-			bound = m_bounds[axis][proxy.upperBounds[axis]];
+			bound = this.m_bounds[axis][proxy.upperBounds[axis]];
 			oldValues.upperValues[axis] = bound.value;
 		}
 		
 		for (axis = 0; axis < 2; ++axis)
 		{
-			var bounds = m_bounds[axis];
+			var bounds = this.m_bounds[axis];
 			
 			var lowerIndex = proxy.lowerBounds[axis];
 			var upperIndex = proxy.upperBounds[axis];
@@ -714,10 +714,10 @@ b2BroadPhase.prototype.GetUserData = function (proxy) {
 b2BroadPhase.prototype.GetFatAABB = function (proxy_) {
 		var aabb = new b2AABB();
 		var proxy = proxy_;
-		aabb.lowerBound.x = this.m_worldAABB.lowerBound.x + m_bounds[0][proxy.lowerBounds[0]].value / this.m_quantizationFactor.x;
-		aabb.lowerBound.y = this.m_worldAABB.lowerBound.y + m_bounds[1][proxy.lowerBounds[1]].value / this.m_quantizationFactor.y;
-		aabb.upperBound.x = this.m_worldAABB.lowerBound.x + m_bounds[0][proxy.upperBounds[0]].value / this.m_quantizationFactor.x;
-		aabb.upperBound.y = this.m_worldAABB.lowerBound.y + m_bounds[1][proxy.upperBounds[1]].value / this.m_quantizationFactor.y;
+		aabb.lowerBound.x = this.m_worldAABB.lowerBound.x + this.m_bounds[0][proxy.lowerBounds[0]].value / this.m_quantizationFactor.x;
+		aabb.lowerBound.y = this.m_worldAABB.lowerBound.y + this.m_bounds[1][proxy.lowerBounds[1]].value / this.m_quantizationFactor.y;
+		aabb.upperBound.x = this.m_worldAABB.lowerBound.x + this.m_bounds[0][proxy.upperBounds[0]].value / this.m_quantizationFactor.x;
+		aabb.upperBound.y = this.m_worldAABB.lowerBound.y + this.m_bounds[1][proxy.upperBounds[1]].value / this.m_quantizationFactor.y;
 		return aabb;
 	}
 b2BroadPhase.prototype.GetProxyCount = function () {
@@ -734,8 +734,8 @@ b2BroadPhase.prototype.Query = function (callback, aabb) {
 		lowerIndexOut.push(lowerIndex);
 		var upperIndexOut = new Array();
 		upperIndexOut.push(upperIndex);
-		this.QueryAxis(lowerIndexOut, upperIndexOut, lowerValues[0], upperValues[0], m_bounds[0], 2*this.m_proxyCount, 0);
-		this.QueryAxis(lowerIndexOut, upperIndexOut, lowerValues[1], upperValues[1], m_bounds[1], 2*this.m_proxyCount, 1);
+		this.QueryAxis(lowerIndexOut, upperIndexOut, lowerValues[0], upperValues[0], this.m_bounds[0], 2*this.m_proxyCount, 0);
+		this.QueryAxis(lowerIndexOut, upperIndexOut, lowerValues[1], upperValues[1], this.m_bounds[1], 2*this.m_proxyCount, 1);
 		
 		
 		
@@ -762,7 +762,7 @@ b2BroadPhase.prototype.Validate = function () {
 		
 		for (var axis = 0; axis < 2; ++axis)
 		{
-			var bounds = m_bounds[axis];
+			var bounds = this.m_bounds[axis];
 			
 			var boundCount = 2 * this.m_proxyCount;
 			var stabbingCount = 0;
@@ -833,10 +833,10 @@ b2BroadPhase.prototype.RayCast = function (callback, input) {
 		lowerIndexOut.push(lowerIndex);
 		var upperIndexOut = new Array();
 		upperIndexOut.push(upperIndex);
-		this.QueryAxis(lowerIndexOut, upperIndexOut, startValues[0], startValues2[0], m_bounds[0], 2*this.m_proxyCount, 0);
+		this.QueryAxis(lowerIndexOut, upperIndexOut, startValues[0], startValues2[0], this.m_bounds[0], 2*this.m_proxyCount, 0);
 		if(sx>=0)	xIndex = upperIndexOut[0]-1;
 		else		xIndex = lowerIndexOut[0];
-		this.QueryAxis(lowerIndexOut, upperIndexOut, startValues[1], startValues2[1], m_bounds[1], 2*this.m_proxyCount, 1);
+		this.QueryAxis(lowerIndexOut, upperIndexOut, startValues[1], startValues2[1], this.m_bounds[1], 2*this.m_proxyCount, 1);
 		if(sy>=0)	yIndex = upperIndexOut[0]-1;
 		else		yIndex = lowerIndexOut[0];
 			
@@ -855,14 +855,14 @@ b2BroadPhase.prototype.RayCast = function (callback, input) {
 			if(xIndex<0||xIndex>=this.m_proxyCount*2)
 				break;
 			if(sx!=0){
-				xProgress = (m_bounds[0][xIndex].value - p1x) / dx;
+				xProgress = (this.m_bounds[0][xIndex].value - p1x) / dx;
 			}
 			
 			yIndex += sy >= 0?1: -1;
 			if(yIndex<0||yIndex>=this.m_proxyCount*2)
 				break;
 			if(sy!=0){
-				yProgress = (m_bounds[1][yIndex].value - p1y) / dy;	
+				yProgress = (this.m_bounds[1][yIndex].value - p1y) / dy;	
 			}
 			for (;; )
 			{	
@@ -871,9 +871,9 @@ b2BroadPhase.prototype.RayCast = function (callback, input) {
 						break;
 					
 					
-					if(sx>0?m_bounds[0][xIndex].IsLower():m_bounds[0][xIndex].IsUpper()){
+					if(sx>0?this.m_bounds[0][xIndex].IsLower():this.m_bounds[0][xIndex].IsUpper()){
 						
-						proxy = m_bounds[0][xIndex].proxy;
+						proxy = this.m_bounds[0][xIndex].proxy;
 						if(sy>=0){
 							if(proxy.lowerBounds[1]<=yIndex-1&&proxy.upperBounds[1]>=yIndex){
 								
@@ -901,15 +901,15 @@ b2BroadPhase.prototype.RayCast = function (callback, input) {
 						if(xIndex<0)
 							break;
 					}
-					xProgress = (m_bounds[0][xIndex].value - p1x) / dx;
+					xProgress = (this.m_bounds[0][xIndex].value - p1x) / dx;
 				}else{
 					if(yProgress>subInput.maxFraction)
 						break;
 					
 					
-					if(sy>0?m_bounds[1][yIndex].IsLower():m_bounds[1][yIndex].IsUpper()){
+					if(sy>0?this.m_bounds[1][yIndex].IsLower():this.m_bounds[1][yIndex].IsUpper()){
 						
-						proxy = m_bounds[1][yIndex].proxy;
+						proxy = this.m_bounds[1][yIndex].proxy;
 						if(sx>=0){
 							if(proxy.lowerBounds[0]<=xIndex-1&&proxy.upperBounds[0]>=xIndex){
 								
@@ -937,7 +937,7 @@ b2BroadPhase.prototype.RayCast = function (callback, input) {
 						if(yIndex<0)
 							break;
 					}
-					yProgress = (m_bounds[1][yIndex].value - p1y) / dy;
+					yProgress = (this.m_bounds[1][yIndex].value - p1y) / dy;
 				}
 			}
 			break;
@@ -952,7 +952,7 @@ b2BroadPhase.prototype.RayCast = function (callback, input) {
 b2BroadPhase.prototype.TestOverlapBound = function (b, p) {
 		for (var axis = 0; axis < 2; ++axis)
 		{
-			var bounds = m_bounds[axis];
+			var bounds = this.m_bounds[axis];
 			
 			
 			
@@ -972,7 +972,7 @@ b2BroadPhase.prototype.TestOverlapBound = function (b, p) {
 b2BroadPhase.prototype.m_pairManager =  new b2PairManager();
 b2BroadPhase.prototype.m_proxyPool =  new Array();
 b2BroadPhase.prototype.m_freeProxy =  null;
-b2BroadPhase.prototype.m_bounds  =  null;
+b2BroadPhase.prototype.m_bounds =  null;
 b2BroadPhase.prototype.m_querySortKeys =  new Array();
 b2BroadPhase.prototype.m_queryResults =  new Array();
 b2BroadPhase.prototype.m_queryResultCount =  0;

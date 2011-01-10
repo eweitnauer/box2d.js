@@ -17,8 +17,8 @@ b2World.prototype.__constructor = function (gravity, doSleep) {
 		this.m_jointCount = 0;
 		this.m_controllerCount = 0;
 		
-		m_warmStarting = true;
-		m_continuousPhysics = true;
+		b2World.m_warmStarting = true;
+		b2World.m_continuousPhysics = true;
 		
 		this.m_allowSleep = doSleep;
 		this.m_gravity = gravity;
@@ -47,8 +47,8 @@ b2World.e_newFixture =  0x0001;
 b2World.e_locked =  0x0002;
 b2World.s_xf =  new b2Transform();
 b2World.s_jointColor =  new b2Color(0.5, 0.8, 0.8);
-b2World. m_warmStarting =  null;
-b2World. m_continuousPhysics =  null;
+b2World.m_warmStarting =  null;
+b2World.m_continuousPhysics =  null;
 // methods
 b2World.prototype.Solve = function (step) {
 		var b;
@@ -994,8 +994,8 @@ b2World.prototype.DestroyController = function (controller) {
 			this.m_controllerList = controller.m_next;
 		--this.m_controllerCount;
 	}
-b2World.prototype.SetWarmStarting = function (flag) {b2World. m_warmStarting = flag; }
-b2World.prototype.SetContinuousPhysics = function (flag) {b2World. m_continuousPhysics = flag; }
+b2World.prototype.SetWarmStarting = function (flag) { b2World.m_warmStarting = flag; }
+b2World.prototype.SetContinuousPhysics = function (flag) { b2World.m_continuousPhysics = flag; }
 b2World.prototype.GetBodyCount = function () {
 		return this.m_bodyCount;
 	}
@@ -1038,7 +1038,7 @@ b2World.prototype.Step = function (dt, velocityIterations, positionIterations) {
 		
 		step.dtRatio = this.m_inv_dt0 * dt;
 		
-		step.warmStarting =b2World. m_warmStarting;
+		step.warmStarting = b2World.m_warmStarting;
 		
 		
 		this.m_contactManager.Collide();
@@ -1050,7 +1050,7 @@ b2World.prototype.Step = function (dt, velocityIterations, positionIterations) {
 		}
 		
 		
-		if (m_continuousPhysics && step.dt > 0.0)
+		if (b2World.m_continuousPhysics && step.dt > 0.0)
 		{
 			this.SolveTOI(step);
 		}

@@ -68,10 +68,6 @@ def modify_supercall(match):
 	
 	return result		
 	
-def log(match):
-	print "###" + match.group(0)
-	return match.group(0)	
-
 def parse(code):
     # strip comments
     code = re.sub("(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|(//.*)", "", code)
@@ -103,7 +99,6 @@ def parse(code):
     ## remove override and virtual
     code = code.replace("override", "").replace("virtual", "").replace("\r", "")
     ## obj is type
-    code = re.sub("(\w+) is (\w+)", log, code)
     code = re.sub("(\w+) is (\w+)", "\\1.isInstanceOf(\\2)", code)
     ## for..each loop
     code = code.replace("for each(var ", "foreach(")
@@ -166,7 +161,7 @@ def getvars(code, prefix):
             i = min(code.index(";"), code.index("\n"))
             body = code[:i] + ";"
         else:
-            name = code[:i]
+            name = code[:i].strip()
             body = " null;"
         # support var foo, bar = x;
         if "," in name:
@@ -220,7 +215,7 @@ def resolve(code, klass):
         code = re.sub("([^a-zA-Z0-9_.])(%s)([^a-zA-Z0-9_])" % name, "\\1" +
                 klass.name + ".\\2\\3", code)
     for name, value in klass.varz + klass.funcs:
-        code = re.sub("([^a-zA-Z0-9_.])(%s)([^a-zA-Z0-9_])" % name, "\\1this.\\2\\3", code)
+        code = re.sub(r"([^a-zA-Z0-9_\.])(%s)\b" % name, "\\1this.\\2", code)
 
     if klass.extends:
         return resolve(code, classes[klass.extends][0])

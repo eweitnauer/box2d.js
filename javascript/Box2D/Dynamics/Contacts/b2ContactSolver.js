@@ -29,7 +29,7 @@ b2ContactSolver.prototype.Initialize = function (step, contacts, contactCount, a
 		
 		while (this.m_constraints.length < this.m_constraintCount)
 		{
-			this.m_constraints[m_constraints.length] = new b2ContactConstraint();
+			this.m_constraints[this.m_constraints.length] = new b2ContactConstraint();
 		}
 		
 		for (i = 0; i < contactCount; ++i)
