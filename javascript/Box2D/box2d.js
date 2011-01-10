@@ -4016,8 +4016,9 @@ b2PolygonShape.prototype.Set = function(other) {
 };
 b2PolygonShape.prototype.SetAsArray = function(vertices, vertexCount) {
   var v = new Array;
-  foreach(tVec in vertices);
-  v.push(tVec);
+  for(var i = 0, tVec = null;i < vertices.length, tVec = vertices[i];i++) {
+    v.push(tVec)
+  }
   this.SetAsVector(v, vertexCount)
 };
 b2PolygonShape.prototype.SetAsVector = function(vertices, vertexCount) {
@@ -4599,22 +4600,23 @@ b2DynamicTreeBroadPhase.prototype.GetProxyCount = function() {
 };
 b2DynamicTreeBroadPhase.prototype.UpdatePairs = function(callback) {
   this.m_pairCount = 0;
-  foreach(queryProxy in this.m_moveBuffer);
-  function QueryCallback(proxy) {
-    if(proxy == queryProxy) {
+  for(var i = 0, queryProxy = null;i < this.m_moveBuffer.length, queryProxy = this.m_moveBuffer[i];i++) {
+    function QueryCallback(proxy) {
+      if(proxy == queryProxy) {
+        return true
+      }
+      if(this.m_pairCount == this.m_pairBuffer.length) {
+        this.m_pairBuffer[this.m_pairCount] = new b2DynamicTreePair
+      }
+      var pair = this.m_pairBuffer[this.m_pairCount];
+      pair.proxyA = proxy < queryProxy ? proxy : queryProxy;
+      pair.proxyB = proxy >= queryProxy ? proxy : queryProxy;
+      ++this.m_pairCount;
       return true
     }
-    if(this.m_pairCount == this.m_pairBuffer.length) {
-      this.m_pairBuffer[this.m_pairCount] = new b2DynamicTreePair
-    }
-    var pair = this.m_pairBuffer[this.m_pairCount];
-    pair.proxyA = proxy < queryProxy ? proxy : queryProxy;
-    pair.proxyB = proxy >= queryProxy ? proxy : queryProxy;
-    ++this.m_pairCount;
-    return true
+    var fatAABB = this.m_tree.GetFatAABB(queryProxy);
+    this.m_tree.Query(QueryCallback, fatAABB)
   }
-  var fatAABB = this.m_tree.GetFatAABB(queryProxy);
-  this.m_tree.Query(QueryCallback, fatAABB);
   this.m_moveBuffer.length = 0;
   for(var i = 0;i < this.m_pairCount;) {
     var primaryPair = this.m_pairBuffer[i];

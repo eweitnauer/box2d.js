@@ -206,7 +206,7 @@ b2PolygonShape.prototype.Set = function (other) {
 	}
 b2PolygonShape.prototype.SetAsArray = function (vertices, vertexCount ) {
 		var v = new Array();
-		foreach(tVec in vertices)
+		for(var i=0, tVec=null;i<vertices.length, tVec=vertices[i]; i++)
 		{
 			v.push(tVec);
 		}

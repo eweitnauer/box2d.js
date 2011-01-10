@@ -100,8 +100,11 @@ def parse(code):
     code = code.replace("override", "").replace("virtual", "").replace("\r", "")
     ## obj is type
     code = re.sub("(\w+) is (\w+)", "\\1.isInstanceOf(\\2)", code)
-    ## for..each loop
-    code = code.replace("for each(var ", "foreach(")
+    ## for each(var queryProxy in m_moveBuffer)
+    #               1111111111    222222222222
+    # for(var i=0, queryProxy=null;i<this.m_moveBuffer.length, queryProxy=this.m_moveBuffer[i]; i++)
+    code = re.sub(r"for each\(var (\w+) in (\w+)\)", r"for(var i=0, \1=null;i<\2.length, \1=\2[i]; i++)", code)
+    
     # hack ...
     code = code.replace("var mid = ((low + high) / 2);", "var mid = Math.round((low + high) / 2);")
     code = code.replace("b2internal", "private")
