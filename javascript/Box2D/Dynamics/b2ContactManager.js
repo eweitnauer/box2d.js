@@ -105,7 +105,10 @@ b2ContactManager.prototype.AddPair = function (proxyUserDataA, proxyUserDataB) {
 		
 	}
 b2ContactManager.prototype.FindNewContacts = function () {
-		this.m_broadPhase.UpdatePairs(this.AddPair);
+		var that = this;
+		this.m_broadPhase.UpdatePairs(function(a,b){
+			return that.AddPair(a, b);
+			});
 	}
 b2ContactManager.prototype.Destroy = function (c) {
 		

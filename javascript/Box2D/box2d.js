@@ -558,6 +558,7 @@ b2DistanceProxy.prototype.m_radius = null;var b2ContactFactory = function() {
 b2ContactFactory.prototype.__constructor = function() {
 };
 b2ContactFactory.prototype.__varz = function() {
+  this.InitializeRegisters()
 };
 b2ContactFactory.prototype.AddType = function(createFcn, destroyFcn, type1, type2) {
   this.m_registers[type1][type2].createFcn = createFcn;
@@ -4601,17 +4602,18 @@ b2DynamicTreeBroadPhase.prototype.GetProxyCount = function() {
 b2DynamicTreeBroadPhase.prototype.UpdatePairs = function(callback) {
   this.m_pairCount = 0;
   for(var i = 0, queryProxy = null;i < this.m_moveBuffer.length, queryProxy = this.m_moveBuffer[i];i++) {
+    var that = this;
     function QueryCallback(proxy) {
       if(proxy == queryProxy) {
         return true
       }
-      if(this.m_pairCount == this.m_pairBuffer.length) {
-        this.m_pairBuffer[this.m_pairCount] = new b2DynamicTreePair
+      if(that.m_pairCount == that.m_pairBuffer.length) {
+        that.m_pairBuffer[that.m_pairCount] = new b2DynamicTreePair
       }
-      var pair = this.m_pairBuffer[this.m_pairCount];
+      var pair = that.m_pairBuffer[that.m_pairCount];
       pair.proxyA = proxy < queryProxy ? proxy : queryProxy;
       pair.proxyB = proxy >= queryProxy ? proxy : queryProxy;
-      ++this.m_pairCount;
+      ++that.m_pairCount;
       return true
     }
     var fatAABB = this.m_tree.GetFatAABB(queryProxy);
@@ -10255,7 +10257,10 @@ b2ContactManager.prototype.AddPair = function(proxyUserDataA, proxyUserDataB) {
   return
 };
 b2ContactManager.prototype.FindNewContacts = function() {
-  this.m_broadPhase.UpdatePairs(this.AddPair)
+  var that = this;
+  this.m_broadPhase.UpdatePairs(function(a, b) {
+    return that.AddPair(a, b)
+  })
 };
 b2ContactManager.prototype.Destroy = function(c) {
   var fixtureA = c.GetFixtureA();

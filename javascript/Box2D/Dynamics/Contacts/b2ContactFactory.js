@@ -4,6 +4,7 @@ this.__constructor.apply(this, arguments);
 }
 b2ContactFactory.prototype.__constructor = function(){}
 b2ContactFactory.prototype.__varz = function(){
+	this.InitializeRegisters()
 }
 // static methods
 // static attributes

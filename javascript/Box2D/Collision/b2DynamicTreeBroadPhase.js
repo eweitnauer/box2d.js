@@ -61,6 +61,7 @@ b2DynamicTreeBroadPhase.prototype.UpdatePairs = function (callback) {
 		
 		for(var i=0, queryProxy=null;i<this.m_moveBuffer.length, queryProxy=this.m_moveBuffer[i]; i++)
 		{
+			var that = this;
 			function QueryCallback(proxy)
 			{
 				
@@ -68,15 +69,15 @@ b2DynamicTreeBroadPhase.prototype.UpdatePairs = function (callback) {
 					return true;
 					
 				
-				if (this.m_pairCount == this.m_pairBuffer.length)
+				if (that.m_pairCount == that.m_pairBuffer.length)
 				{
-					this.m_pairBuffer[this.m_pairCount] = new b2DynamicTreePair();
+					that.m_pairBuffer[that.m_pairCount] = new b2DynamicTreePair();
 				}
 				
-				var pair = this.m_pairBuffer[this.m_pairCount];
+				var pair = that.m_pairBuffer[that.m_pairCount];
 				pair.proxyA = proxy < queryProxy?proxy:queryProxy;
 				pair.proxyB = proxy >= queryProxy?proxy:queryProxy;
-				++this.m_pairCount;
+				++that.m_pairCount;
 				
 				return true;
 			}

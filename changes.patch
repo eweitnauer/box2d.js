@@ -226,3 +226,63 @@ index 2034474..38c3c8d 100644
  // attributes
  b2Color.prototype._r =  0;
  b2Color.prototype._g =  0;
+diff --git a/javascript/Box2D/Collision/b2DynamicTreeBroadPhase.js b/javascript/Box2D/Collision/b2DynamicTreeBroadPhase.js
+index e990ced..c2ca788 100644
+--- a/javascript/Box2D/Collision/b2DynamicTreeBroadPhase.js
++++ b/javascript/Box2D/Collision/b2DynamicTreeBroadPhase.js
+@@ -61,6 +61,7 @@ b2DynamicTreeBroadPhase.prototype.UpdatePairs = function (callback) {
+ 		
+ 		for(var i=0, queryProxy=null;i<this.m_moveBuffer.length, queryProxy=this.m_moveBuffer[i]; i++)
+ 		{
++			var that = this;
+ 			function QueryCallback(proxy)
+ 			{
+ 				
+@@ -68,15 +69,15 @@ b2DynamicTreeBroadPhase.prototype.UpdatePairs = function (callback) {
+ 					return true;
+ 					
+ 				
+-				if (this.m_pairCount == this.m_pairBuffer.length)
++				if (that.m_pairCount == that.m_pairBuffer.length)
+ 				{
+-					this.m_pairBuffer[this.m_pairCount] = new b2DynamicTreePair();
++					that.m_pairBuffer[that.m_pairCount] = new b2DynamicTreePair();
+ 				}
+ 				
+-				var pair = this.m_pairBuffer[this.m_pairCount];
++				var pair = that.m_pairBuffer[that.m_pairCount];
+ 				pair.proxyA = proxy < queryProxy?proxy:queryProxy;
+ 				pair.proxyB = proxy >= queryProxy?proxy:queryProxy;
+-				++this.m_pairCount;
++				++that.m_pairCount;
+ 				
+ 				return true;
+ 			}
+diff --git a/javascript/Box2D/Dynamics/Contacts/b2ContactFactory.js b/javascript/Box2D/Dynamics/Contacts/b2ContactFactory.js
+index 7cd147c..a464c59 100644
+--- a/javascript/Box2D/Dynamics/Contacts/b2ContactFactory.js
++++ b/javascript/Box2D/Dynamics/Contacts/b2ContactFactory.js
+@@ -4,6 +4,7 @@ this.__constructor.apply(this, arguments);
+ }
+ b2ContactFactory.prototype.__constructor = function(){}
+ b2ContactFactory.prototype.__varz = function(){
++	this.InitializeRegisters()
+ }
+ // static methods
+ // static attributes
+diff --git a/javascript/Box2D/Dynamics/b2ContactManager.js b/javascript/Box2D/Dynamics/b2ContactManager.js
+index b601fbf..dd5b875 100644
+--- a/javascript/Box2D/Dynamics/b2ContactManager.js
++++ b/javascript/Box2D/Dynamics/b2ContactManager.js
+@@ -105,7 +105,10 @@ b2ContactManager.prototype.AddPair = function (proxyUserDataA, proxyUserDataB) {
+ 		
+ 	}
+ b2ContactManager.prototype.FindNewContacts = function () {
+-		this.m_broadPhase.UpdatePairs(this.AddPair);
++		var that = this;
++		this.m_broadPhase.UpdatePairs(function(a,b){
++			return that.AddPair(a, b);
++			});
+ 	}
+ b2ContactManager.prototype.Destroy = function (c) {
+ 		
