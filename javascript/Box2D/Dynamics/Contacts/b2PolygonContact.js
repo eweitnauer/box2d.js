@@ -19,6 +19,14 @@ b2PolygonContact.Destroy = function (contact, allocator) {
 	}
 // static attributes
 // methods
+b2PolygonContact.prototype.Evaluate = function () {
+		var bA = this.m_fixtureA.GetBody();
+		var bB = this.m_fixtureB.GetBody();
+
+		b2Collision.CollidePolygons(this.m_manifold, 
+					this.m_fixtureA.GetShape(), bA.m_xf, 
+					this.m_fixtureB.GetShape(), bB.m_xf);
+	}
 b2PolygonContact.prototype.Reset = function (fixtureA, fixtureB) {
 		this._super.Reset(fixtureA, fixtureB);
 		

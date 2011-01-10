@@ -20,8 +20,104 @@ this.m_localCenterA =  new b2Vec2();
 this.m_localCenterB =  new b2Vec2();
 }
 // static methods
+b2Joint.Create = function (def, allocator) {
+		var joint = null;
+		
+		switch (def.type)
+		{
+		case b2Joint.e_distanceJoint:
+			{
+				
+				joint = new b2DistanceJoint(def);
+			}
+			break;
+		
+		case b2Joint.e_mouseJoint:
+			{
+				
+				joint = new b2MouseJoint(def);
+			}
+			break;
+		
+		case b2Joint.e_prismaticJoint:
+			{
+				
+				joint = new b2PrismaticJoint(def);
+			}
+			break;
+		
+		case b2Joint.e_revoluteJoint:
+			{
+				
+				joint = new b2RevoluteJoint(def);
+			}
+			break;
+		
+		case b2Joint.e_pulleyJoint:
+			{
+				
+				joint = new b2PulleyJoint(def);
+			}
+			break;
+		
+		case b2Joint.e_gearJoint:
+			{
+				
+				joint = new b2GearJoint(def);
+			}
+			break;
+		
+		case b2Joint.e_lineJoint:
+			{
+				
+				joint = new b2LineJoint(def);
+			}
+			break;
+			
+		case b2Joint.e_weldJoint:
+			{
+				
+				joint = new b2WeldJoint(def);
+			}
+			break;
+			
+		case b2Joint.e_frictionJoint:
+			{
+				
+				joint = new b2FrictionJoint(def);
+			}
+			break;
+			
+		default:
+			
+			break;
+		}
+		
+		return joint;
+	}
+b2Joint.Destroy = function (joint, allocator) {
+		
+	}
 // static attributes
+b2Joint.e_unknownJoint =  0;
+b2Joint.e_revoluteJoint =  1;
+b2Joint.e_prismaticJoint =  2;
+b2Joint.e_distanceJoint =  3;
+b2Joint.e_pulleyJoint =  4;
+b2Joint.e_mouseJoint =  5;
+b2Joint.e_gearJoint =  6;
+b2Joint.e_lineJoint =  7;
+b2Joint.e_weldJoint =  8;
+b2Joint.e_frictionJoint =  9;
+b2Joint.e_inactiveLimit =  0;
+b2Joint.e_atLowerLimit =  1;
+b2Joint.e_atUpperLimit =  2;
+b2Joint.e_equalLimits =  3;
 // methods
+b2Joint.prototype.InitVelocityConstraints = function (step) {}
+b2Joint.prototype.SolveVelocityConstraints = function (step) { }
+b2Joint.prototype.FinalizeVelocityConstraints = function () {}
+b2Joint.prototype.SolvePositionConstraints = function (baumgarte) { return false }
 b2Joint.prototype.GetType = function () {
 		return this.m_type;
 	}
@@ -64,17 +160,3 @@ b2Joint.prototype.m_invMassA =  null;
 b2Joint.prototype.m_invMassB =  null;
 b2Joint.prototype.m_invIA =  null;
 b2Joint.prototype.m_invIB =  null;
-b2Joint.prototype.e_unknownJoint =  0;
-b2Joint.prototype.e_revoluteJoint =  1;
-b2Joint.prototype.e_prismaticJoint =  2;
-b2Joint.prototype.e_distanceJoint =  3;
-b2Joint.prototype.e_pulleyJoint =  4;
-b2Joint.prototype.e_mouseJoint =  5;
-b2Joint.prototype.e_gearJoint =  6;
-b2Joint.prototype.e_lineJoint =  7;
-b2Joint.prototype.e_weldJoint =  8;
-b2Joint.prototype.e_frictionJoint =  9;
-b2Joint.prototype.e_inactiveLimit =  0;
-b2Joint.prototype.e_atLowerLimit =  1;
-b2Joint.prototype.e_atUpperLimit =  2;
-b2Joint.prototype.e_equalLimits =  3;

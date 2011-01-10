@@ -8,6 +8,37 @@ b2ContactFactory.prototype.__varz = function(){
 // static methods
 // static attributes
 // methods
+b2ContactFactory.prototype.AddType = function (createFcn, destroyFcn, type1, type2) {
+		
+		
+		
+		this.m_registers[type1][type2].createFcn = createFcn;
+		this.m_registers[type1][type2].destroyFcn = destroyFcn;
+		this.m_registers[type1][type2].primary = true;
+		
+		if (type1 != type2)
+		{
+			this.m_registers[type2][type1].createFcn = createFcn;
+			this.m_registers[type2][type1].destroyFcn = destroyFcn;
+			this.m_registers[type2][type1].primary = false;
+		}
+	}
+b2ContactFactory.prototype.InitializeRegisters = function () {
+		this.m_registers = new Array(b2Shape.e_shapeTypeCount);
+		for (var i = 0; i < b2Shape.e_shapeTypeCount; i++){
+			this.m_registers[i] = new Array(b2Shape.e_shapeTypeCount);
+			for (var j = 0; j < b2Shape.e_shapeTypeCount; j++){
+				this.m_registers[i][j] = new b2ContactRegister();
+			}
+		}
+		
+		this.AddType(b2CircleContact.Create, b2CircleContact.Destroy, b2Shape.e_circleShape, b2Shape.e_circleShape);
+		this.AddType(b2PolyAndCircleContact.Create, b2PolyAndCircleContact.Destroy, b2Shape.e_polygonShape, b2Shape.e_circleShape);
+		this.AddType(b2PolygonContact.Create, b2PolygonContact.Destroy, b2Shape.e_polygonShape, b2Shape.e_polygonShape);
+		
+		this.AddType(b2EdgeAndCircleContact.Create, b2EdgeAndCircleContact.Destroy, b2Shape.e_edgeShape, b2Shape.e_circleShape);
+		this.AddType(b2PolyAndEdgeContact.Create, b2PolyAndEdgeContact.Destroy, b2Shape.e_polygonShape, b2Shape.e_edgeShape);
+	}
 b2ContactFactory.prototype.Create = function (fixtureA, fixtureB) {
 		var type1 = fixtureA.GetType();
 		var type2 = fixtureB.GetType();

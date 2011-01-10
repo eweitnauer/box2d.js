@@ -17,6 +17,14 @@ b2CircleContact.Destroy = function (contact, allocator) {
 	}
 // static attributes
 // methods
+b2CircleContact.prototype.Evaluate = function () {
+		var bA = this.m_fixtureA.GetBody();
+		var bB = this.m_fixtureB.GetBody();
+		
+		b2Collision.CollideCircles(this.m_manifold, 
+					this.m_fixtureA.GetShape(), bA.m_xf, 
+					this.m_fixtureB.GetShape(), bB.m_xf);
+	}
 b2CircleContact.prototype.Reset = function (fixtureA, fixtureB) {
 		this._super.Reset(fixtureA, fixtureB);
 		

@@ -7,7 +7,7 @@ extend(b2CircleShape.prototype, b2Shape.prototype)
 b2CircleShape.prototype._super = function(){ b2Shape.prototype.__constructor.apply(this, arguments) }
 b2CircleShape.prototype.__constructor = function (radius ) {
 		this._super();
-		this.m_type = this.e_circleShape;
+		this.m_type = b2Shape.e_circleShape;
 		this.m_radius = radius;
 	}
 b2CircleShape.prototype.__varz = function(){

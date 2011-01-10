@@ -16,6 +16,14 @@ b2PolyAndEdgeContact.Destroy = function (contact, allocator) {
 	}
 // static attributes
 // methods
+b2PolyAndEdgeContact.prototype.Evaluate = function () {
+		var bA = this.m_fixtureA.GetBody();
+		var bB = this.m_fixtureB.GetBody();
+		
+		this.b2CollidePolyAndEdge(this.m_manifold,
+					this.m_fixtureA.GetShape(), bA.m_xf, 
+					this.m_fixtureB.GetShape(), bB.m_xf);
+	}
 b2PolyAndEdgeContact.prototype.b2CollidePolyAndEdge = function (manifold,
 	 polygon, 
 	 xf1,

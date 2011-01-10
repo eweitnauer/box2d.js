@@ -20,6 +20,60 @@ this.m_filter =  new b2FilterData();
 // static methods
 // static attributes
 // methods
+b2Fixture.prototype.Create = function ( body, xf, def) {
+		this.m_userData = def.userData;
+		this.m_friction = def.friction;
+		this.m_restitution = def.restitution;
+		
+		this.m_body = body;
+		this.m_next = null;
+		
+		this.m_filter = def.filter.Copy();
+		
+		this.m_isSensor = def.isSensor;
+		
+		this.m_shape = def.shape.Copy();
+		
+		this.m_density = def.density;
+	}
+b2Fixture.prototype.Destroy = function () {
+		
+		
+		
+		
+		this.m_shape = null;
+	}
+b2Fixture.prototype.CreateProxy = function (broadPhase, xf) {
+		
+		
+		
+		this.m_shape.ComputeAABB(this.m_aabb, xf);
+		this.m_proxy = broadPhase.CreateProxy(this.m_aabb, this);
+	}
+b2Fixture.prototype.DestroyProxy = function (broadPhase) {
+		if (this.m_proxy == null)
+		{
+			return;
+		}
+		
+		
+		broadPhase.DestroyProxy(this.m_proxy);
+		this.m_proxy = null;
+	}
+b2Fixture.prototype.Synchronize = function (broadPhase, transform1, transform2) {
+		if (!this.m_proxy)
+			return;
+			
+		
+		var aabb1 = new b2AABB();
+		var aabb2 = new b2AABB();
+		this.m_shape.ComputeAABB(aabb1, transform1);
+		this.m_shape.ComputeAABB(aabb2, transform2);
+		
+		this.m_aabb.Combine(aabb1, aabb2);
+		var displacement = b2Math.SubtractVV(transform2.position, transform1.position);
+		broadPhase.MoveProxy(this.m_proxy, this.m_aabb, displacement);
+	}
 b2Fixture.prototype.GetType = function () {
 		return this.m_shape.GetType();
 	}

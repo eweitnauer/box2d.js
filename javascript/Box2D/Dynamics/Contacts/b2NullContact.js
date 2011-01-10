@@ -11,4 +11,5 @@ b2NullContact.prototype.__varz = function(){
 // static methods
 // static attributes
 // methods
+b2NullContact.prototype.Evaluate = function () {}
 // attributes

@@ -17,6 +17,13 @@ b2EdgeAndCircleContact.Destroy = function (contact, allocator) {
 	}
 // static attributes
 // methods
+b2EdgeAndCircleContact.prototype.Evaluate = function () {
+		var bA = this.m_fixtureA.GetBody();
+		var bB = this.m_fixtureB.GetBody();
+		this.b2CollideEdgeAndCircle(this.m_manifold,
+					this.m_fixtureA.GetShape(), bA.m_xf,
+					this.m_fixtureB.GetShape(), bB.m_xf);
+	}
 b2EdgeAndCircleContact.prototype.b2CollideEdgeAndCircle = function (manifold,
 	 edge, 
 	 xf1,

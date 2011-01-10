@@ -8,7 +8,7 @@ b2PolygonShape.prototype._super = function(){ b2Shape.prototype.__constructor.ap
 b2PolygonShape.prototype.__constructor = function () {
 		
 		
-		this.m_type = this.e_polygonShape;
+		this.m_type = b2Shape.e_polygonShape;
 		
 		this.m_centroid = new b2Vec2();
 		this.m_vertices = new Array();
@@ -94,6 +94,81 @@ b2PolygonShape.ComputeCentroid = function (vs, count) {
 		c.x *= 1.0 / area;
 		c.y *= 1.0 / area;
 		return c;
+	}
+b2PolygonShape.ComputeOBB = function (obb, vs, count) {
+		var i = 0;
+		var p = new Array(count + 1);
+		for (i = 0; i < count; ++i)
+		{
+			p[i] = vs[i];
+		}
+		p[count] = p[0];
+		
+		var minArea = Number.MAX_VALUE;
+		
+		for (i = 1; i <= count; ++i)
+		{
+			var root = p[parseInt(i-1)];
+			
+			var uxX = p[i].x - root.x;
+			var uxY = p[i].y - root.y;
+			
+			var length = Math.sqrt(uxX*uxX + uxY*uxY);
+			uxX /= length;
+			uxY /= length;
+			
+			
+			var uyX = -uxY;
+			var uyY = uxX;
+			
+			var lowerX = Number.MAX_VALUE;
+			var lowerY = Number.MAX_VALUE;
+			
+			var upperX = -Number.MAX_VALUE;
+			var upperY = -Number.MAX_VALUE;
+			
+			for (var j = 0; j < count; ++j)
+			{
+				
+				var dX = p[j].x - root.x;
+				var dY = p[j].y - root.y;
+				
+				
+				var rX = (uxX*dX + uxY*dY);
+				
+				var rY = (uyX*dX + uyY*dY);
+				
+				if (rX < lowerX) lowerX = rX;
+				if (rY < lowerY) lowerY = rY;
+				
+				if (rX > upperX) upperX = rX;
+				if (rY > upperY) upperY = rY;
+			}
+			
+			var area = (upperX - lowerX) * (upperY - lowerY);
+			if (area < 0.95 * minArea)
+			{
+				minArea = area;
+				
+				obb.R.col1.x = uxX;
+				obb.R.col1.y = uxY;
+				
+				obb.R.col2.x = uyX;
+				obb.R.col2.y = uyY;
+				
+				var centerX = 0.5 * (lowerX + upperX);
+				var centerY = 0.5 * (lowerY + upperY);
+				
+				var tMat = obb.R;
+				obb.center.x = root.x + (tMat.col1.x * centerX + tMat.col2.x * centerY);
+				obb.center.y = root.y + (tMat.col1.y * centerX + tMat.col2.y * centerY);
+				
+				obb.extents.x = 0.5 * (upperX - lowerX);
+				obb.extents.y = 0.5 * (upperY - lowerY);
+			}
+		}
+		
+		
 	}
 // static attributes
 b2PolygonShape.s_mat =  new b2Mat22();

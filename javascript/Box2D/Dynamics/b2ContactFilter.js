@@ -4,10 +4,10 @@ this.__constructor.apply(this, arguments);
 }
 b2ContactFilter.prototype.__constructor = function(){}
 b2ContactFilter.prototype.__varz = function(){
-this.b2_defaultFilter =  new b2ContactFilter();
 }
 // static methods
 // static attributes
+b2ContactFilter.b2_defaultFilter =  new b2ContactFilter();
 // methods
 b2ContactFilter.prototype.ShouldCollide = function (fixtureA, fixtureB) {
 		var filter1 = fixtureA.GetFilterData();
@@ -27,4 +27,3 @@ b2ContactFilter.prototype.RayCollide = function (userData, fixture) {
 		return this.ShouldCollide(userData,fixture);
 	}
 // attributes
-b2ContactFilter.prototype.b2_defaultFilter =  new b2ContactFilter();

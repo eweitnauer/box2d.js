@@ -3,11 +3,10 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 b2Shape.prototype.__constructor = function () {
-		this.m_type = this.e_unknownShape;
+		this.m_type = b2Shape.e_unknownShape;
 		this.m_radius = b2Settings.b2_linearSlop;
 	}
 b2Shape.prototype.__varz = function(){
-this.e_unknownShape =  	-1;
 }
 // static methods
 b2Shape.TestOverlap = function (shape1, transform1, shape2, transform2) {
@@ -29,6 +28,11 @@ b2Shape.TestOverlap = function (shape1, transform1, shape2, transform2) {
 b2Shape.e_hitCollide =  1;
 b2Shape.e_missCollide =  0;
 b2Shape.e_startsInsideCollide =  -1;
+b2Shape.e_unknownShape =  	-1;
+b2Shape.e_circleShape =  	0;
+b2Shape.e_polygonShape =  	1;
+b2Shape.e_edgeShape =  2;
+b2Shape.e_shapeTypeCount =  	3;
 // methods
 b2Shape.prototype.Copy = function () {
 		
@@ -58,8 +62,3 @@ b2Shape.prototype.ComputeSubmergedArea = function (
 // attributes
 b2Shape.prototype.m_type =  0;
 b2Shape.prototype.m_radius =  null;
-b2Shape.prototype.e_unknownShape =  	-1;
-b2Shape.prototype.e_circleShape =  	0;
-b2Shape.prototype.e_polygonShape =  	1;
-b2Shape.prototype.e_edgeShape =  2;
-b2Shape.prototype.e_shapeTypeCount =  	3;

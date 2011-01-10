@@ -17,23 +17,23 @@ b2Body.prototype.__constructor = function (bd, world) {
 		
 		if (bd.bullet )
 		{
-			this.m_flags |= this.e_bulletFlag;
+			this.m_flags |= b2Body.e_bulletFlag;
 		}
 		if (bd.fixedRotation)
 		{
-			this.m_flags |= this.e_fixedRotationFlag;
+			this.m_flags |= b2Body.e_fixedRotationFlag;
 		}
 		if (bd.allowSleep)
 		{
-			this.m_flags |= this.e_allowSleepFlag;
+			this.m_flags |= b2Body.e_allowSleepFlag;
 		}
 		if (bd.awake)
 		{
-			this.m_flags |= this.e_awakeFlag;
+			this.m_flags |= b2Body.e_awakeFlag;
 		}
 		if (bd.active)
 		{
-			this.m_flags |= this.e_activeFlag;
+			this.m_flags |= b2Body.e_activeFlag;
 		}
 		
 		this.m_world = world;
@@ -105,12 +105,6 @@ this.m_xf =  new b2Transform();
 this.m_sweep =  new b2Sweep();
 this.m_linearVelocity =  new b2Vec2();
 this.m_force =  new b2Vec2();
-this.e_islandFlag =  0x0001;
-this.e_awakeFlag =  0x0002;
-this.e_allowSleepFlag =  0x0004;
-this.e_bulletFlag =  0x0008;
-this.e_fixedRotationFlag =  0x0010;
-this.e_activeFlag =  0x0020;
 }
 // static methods
 // static attributes
@@ -118,6 +112,12 @@ b2Body.b2_staticBody =  0;
 b2Body.b2_kinematicBody =  1;
 b2Body.b2_dynamicBody =  2;
 b2Body.s_xf1 =  new b2Transform();
+b2Body.e_islandFlag =  0x0001;
+b2Body.e_awakeFlag =  0x0002;
+b2Body.e_allowSleepFlag =  0x0004;
+b2Body.e_bulletFlag =  0x0008;
+b2Body.e_fixedRotationFlag =  0x0010;
+b2Body.e_activeFlag =  0x0020;
 // methods
 b2Body.prototype.connectEdges = function (s1, s2, angle1) {
 		var angle2 = Math.atan2(s2.GetDirectionVector().y, s2.GetDirectionVector().x);
@@ -132,6 +132,56 @@ b2Body.prototype.connectEdges = function (s1, s2, angle1) {
 		s1.SetNextEdge(s2, core, cornerDir, convex);
 		s2.SetPrevEdge(s1, core, cornerDir, convex);
 		return angle2;
+	}
+b2Body.prototype.SynchronizeFixtures = function () {
+		
+		var xf1 = b2Body.s_xf1;
+		xf1.R.Set(this.m_sweep.a0);
+		
+		var tMat = xf1.R;
+		var tVec = this.m_sweep.localCenter;
+		xf1.position.x = this.m_sweep.c0.x - (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
+		xf1.position.y = this.m_sweep.c0.y - (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
+		
+		var f;
+		var broadPhase = this.m_world.m_contactManager.m_broadPhase;
+		for (f = this.m_fixtureList; f; f = f.m_next)
+		{
+			f.Synchronize(broadPhase, xf1, this.m_xf);
+		}
+	}
+b2Body.prototype.SynchronizeTransform = function () {
+		this.m_xf.R.Set(this.m_sweep.a);
+		
+		var tMat = this.m_xf.R;
+		var tVec = this.m_sweep.localCenter;
+		this.m_xf.position.x = this.m_sweep.c.x - (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
+		this.m_xf.position.y = this.m_sweep.c.y - (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
+	}
+b2Body.prototype.ShouldCollide = function (other) {
+		
+		if (this.m_type != b2Body.b2_dynamicBody && other.m_type != b2Body.b2_dynamicBody )
+		{
+			return false;
+		}
+		
+		for (var jn = this.m_jointList; jn; jn = jn.next)
+		{
+			if (jn.other == other)
+			if (jn.joint.m_collideConnected == false)
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+b2Body.prototype.Advance = function (t) {
+		
+		this.m_sweep.Advance(t);
+		this.m_sweep.c.SetV(this.m_sweep.c0);
+		this.m_sweep.a = this.m_sweep.a0;
+		this.SynchronizeTransform();
 	}
 b2Body.prototype.CreateFixture = function (def) {
 		
@@ -148,7 +198,7 @@ b2Body.prototype.CreateFixture = function (def) {
 		var fixture = new b2Fixture();
 		fixture.Create(this, this.m_xf, def);
 		
-		if ( this.m_flags & this.e_activeFlag )
+		if ( this.m_flags & b2Body.e_activeFlag )
 		{
 			var broadPhase = this.m_world.m_contactManager.m_broadPhase;
 			fixture.CreateProxy(broadPhase, this.m_xf);
@@ -228,7 +278,7 @@ b2Body.prototype.DestroyFixture = function (fixture) {
 			}
 		}
 		
-		if ( this.m_flags & this.e_activeFlag )
+		if ( this.m_flags & b2Body.e_activeFlag )
 		{
 			var broadPhase = this.m_world.m_contactManager.m_broadPhase;
 			fixture.DestroyProxy(broadPhase);
@@ -330,13 +380,13 @@ b2Body.prototype.GetAngularVelocity = function () {
 b2Body.prototype.GetDefinition = function () {
 		var bd = new b2BodyDef();
 		bd.type = this.GetType();
-		bd.allowSleep = (this.m_flags & this.e_allowSleepFlag) == this.e_allowSleepFlag;
+		bd.allowSleep = (this.m_flags & b2Body.e_allowSleepFlag) == b2Body.e_allowSleepFlag;
 		bd.angle = this.GetAngle();
 		bd.angularDamping = this.m_angularDamping;
 		bd.angularVelocity = this.m_angularVelocity;
-		bd.fixedRotation = (this.m_flags & this.e_fixedRotationFlag) == this.e_fixedRotationFlag;
-		bd.bullet = (this.m_flags & this.e_bulletFlag) == this.e_bulletFlag;
-		bd.awake = (this.m_flags & this.e_awakeFlag) == this.e_awakeFlag;
+		bd.fixedRotation = (this.m_flags & b2Body.e_fixedRotationFlag) == b2Body.e_fixedRotationFlag;
+		bd.bullet = (this.m_flags & b2Body.e_bulletFlag) == b2Body.e_bulletFlag;
+		bd.awake = (this.m_flags & b2Body.e_awakeFlag) == b2Body.e_awakeFlag;
 		bd.linearDamping = this.m_linearDamping;
 		bd.linearVelocity.SetV(this.GetLinearVelocity());
 		bd.position = this.GetPosition();
@@ -487,7 +537,7 @@ b2Body.prototype.Merge = function (other) {
 		
 		body1.ResetMassData();
 		
-		SynchronizeFixtures();
+		this.SynchronizeFixtures();
 	}
 b2Body.prototype.GetMass = function () {
 		return this.m_mass;
@@ -525,7 +575,7 @@ b2Body.prototype.SetMassData = function (massData) {
 		}
 		this.m_invMass = 1.0 / this.m_mass;
 		
-		if (massData.I > 0.0 && (this.m_flags & this.e_fixedRotationFlag) == 0)
+		if (massData.I > 0.0 && (this.m_flags & b2Body.e_fixedRotationFlag) == 0)
 		{
 			
 			this.m_I = massData.I - this.m_mass * (massData.center.x * massData.center.x + massData.center.y * massData.center.y);
@@ -589,7 +639,7 @@ b2Body.prototype.ResetMassData = function () {
 			this.m_invMass = 1.0;
 		}
 		
-		if (this.m_I > 0.0 && (this.m_flags & this.e_fixedRotationFlag) == 0)
+		if (this.m_I > 0.0 && (this.m_flags & b2Body.e_fixedRotationFlag) == 0)
 		{
 			
 			this.m_I -= this.m_mass * (center.x * center.x + center.y * center.y);
@@ -691,36 +741,36 @@ b2Body.prototype.GetType = function () {
 b2Body.prototype.SetBullet = function (flag) {
 		if (flag)
 		{
-			this.m_flags |= this.e_bulletFlag;
+			this.m_flags |= b2Body.e_bulletFlag;
 		}
 		else
 		{
-			this.m_flags &= ~this.e_bulletFlag;
+			this.m_flags &= ~b2Body.e_bulletFlag;
 		}
 	}
 b2Body.prototype.IsBullet = function () {
-		return (this.m_flags & this.e_bulletFlag) == this.e_bulletFlag;
+		return (this.m_flags & b2Body.e_bulletFlag) == b2Body.e_bulletFlag;
 	}
 b2Body.prototype.SetSleepingAllowed = function (flag) {
 		if (flag)
 		{
-			this.m_flags |= this.e_allowSleepFlag;
+			this.m_flags |= b2Body.e_allowSleepFlag;
 		}
 		else
 		{
-			this.m_flags &= ~this.e_allowSleepFlag;
+			this.m_flags &= ~b2Body.e_allowSleepFlag;
 			this.SetAwake(true);
 		}
 	}
 b2Body.prototype.SetAwake = function (flag) {
 		if (flag)
 		{
-			this.m_flags |= this.e_awakeFlag;
+			this.m_flags |= b2Body.e_awakeFlag;
 			this.m_sleepTime = 0.0;
 		}
 		else
 		{
-			this.m_flags &= ~this.e_awakeFlag;
+			this.m_flags &= ~b2Body.e_awakeFlag;
 			this.m_sleepTime = 0.0;
 			this.m_linearVelocity.SetZero();
 			this.m_angularVelocity = 0.0;
@@ -729,22 +779,22 @@ b2Body.prototype.SetAwake = function (flag) {
 		}
 	}
 b2Body.prototype.IsAwake = function () {
-		return (this.m_flags & this.e_awakeFlag) == this.e_awakeFlag;
+		return (this.m_flags & b2Body.e_awakeFlag) == b2Body.e_awakeFlag;
 	}
 b2Body.prototype.SetFixedRotation = function (fixed) {
 		if(fixed)
 		{
-			this.m_flags |= this.e_fixedRotationFlag;
+			this.m_flags |= b2Body.e_fixedRotationFlag;
 		}
 		else
 		{
-			this.m_flags &= ~this.e_fixedRotationFlag;
+			this.m_flags &= ~b2Body.e_fixedRotationFlag;
 		}
 		
 		this.ResetMassData();
 	}
 b2Body.prototype.IsFixedRotation = function () {
-		return (this.m_flags & this.e_fixedRotationFlag)==this.e_fixedRotationFlag;
+		return (this.m_flags & b2Body.e_fixedRotationFlag)==b2Body.e_fixedRotationFlag;
 	}
 b2Body.prototype.SetActive = function ( flag ) {
 		if (flag == this.IsActive())
@@ -756,7 +806,7 @@ b2Body.prototype.SetActive = function ( flag ) {
 		var f;
 		if (flag)
 		{
-			this.m_flags |= this.e_activeFlag;
+			this.m_flags |= b2Body.e_activeFlag;
 
 			
 			broadPhase = this.m_world.m_contactManager.m_broadPhase;
@@ -768,7 +818,7 @@ b2Body.prototype.SetActive = function ( flag ) {
 		}
 		else
 		{
-			this.m_flags &= ~this.e_activeFlag;
+			this.m_flags &= ~b2Body.e_activeFlag;
 
 			
 			broadPhase = this.m_world.m_contactManager.m_broadPhase;
@@ -789,10 +839,10 @@ b2Body.prototype.SetActive = function ( flag ) {
 		}
 	}
 b2Body.prototype.IsActive = function () {
-		return (this.m_flags & this.e_activeFlag) == this.e_activeFlag;
+		return (this.m_flags & b2Body.e_activeFlag) == b2Body.e_activeFlag;
 	}
 b2Body.prototype.IsSleepingAllowed = function () {
-		return(this.m_flags & this.e_allowSleepFlag) == this.e_allowSleepFlag;
+		return(this.m_flags & b2Body.e_allowSleepFlag) == b2Body.e_allowSleepFlag;
 	}
 b2Body.prototype.GetFixtureList = function () {
 		return this.m_fixtureList;
@@ -846,9 +896,3 @@ b2Body.prototype.m_linearDamping =  null;
 b2Body.prototype.m_angularDamping =  null;
 b2Body.prototype.m_sleepTime =  null;
 b2Body.prototype.m_userData =  null;
-b2Body.prototype.e_islandFlag =  0x0001;
-b2Body.prototype.e_awakeFlag =  0x0002;
-b2Body.prototype.e_allowSleepFlag =  0x0004;
-b2Body.prototype.e_bulletFlag =  0x0008;
-b2Body.prototype.e_fixedRotationFlag =  0x0010;
-b2Body.prototype.e_activeFlag =  0x0020;

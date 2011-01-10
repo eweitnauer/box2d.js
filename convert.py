@@ -88,10 +88,9 @@ def parse(code):
     code = code.replace("for each(var ", "foreach(")
     # hack ...
     code = code.replace("var mid = ((low + high) / 2);", "var mid = Math.round((low + high) / 2);")
+    code = code.replace("b2internal", "private")
     code = code.replace("static public", "staticpublik")
     code = code.replace("static private", "staticprivat")
-    # hack
-    code = code.replace("b2internal var", "private var")
     
     # hack for uints used in proxy
     code = code.replace("& 0x0000ffff", "% 65535")

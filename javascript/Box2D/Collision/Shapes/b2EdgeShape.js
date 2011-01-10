@@ -7,7 +7,7 @@ extend(b2EdgeShape.prototype, b2Shape.prototype)
 b2EdgeShape.prototype._super = function(){ b2Shape.prototype.__constructor.apply(this, arguments) }
 b2EdgeShape.prototype.__constructor = function (v1, v2) {
 		this._super();
-		this.m_type = this.e_edgeShape;
+		this.m_type = b2Shape.e_edgeShape;
 		
 		this.m_prevEdge = null;
 		this.m_nextEdge = null;
@@ -41,6 +41,18 @@ this.m_cornerDir2 =  new b2Vec2();
 // static methods
 // static attributes
 // methods
+b2EdgeShape.prototype.SetPrevEdge = function (edge, core, cornerDir, convex) {
+		this.m_prevEdge = edge;
+		this.m_coreV1 = core;
+		this.m_cornerDir1 = cornerDir;
+		this.m_cornerConvex1 = convex;
+	}
+b2EdgeShape.prototype.SetNextEdge = function (edge, core, cornerDir, convex) {
+		this.m_nextEdge = edge;
+		this.m_coreV2 = core;
+		this.m_cornerDir2 = cornerDir;
+		this.m_cornerConvex2 = convex;
+	}
 b2EdgeShape.prototype.TestPoint = function (transform, p) {
 		return false;
 	}
