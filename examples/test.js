@@ -28,10 +28,11 @@ groundBody.h = 5.0;
 var bodies = [groundBody];
 var explosionParticles = [];
 
-function spawn(x, y) {
+function spawn(x, y, a) {
     var bodyDef = new b2BodyDef();
     bodyDef.type = b2Body.b2_dynamicBody;
     bodyDef.position.Set(x, y);
+    bodyDef.angle = a;
     var body = world.CreateBody(bodyDef);
     body.w = 1.0;
     body.h = 1.0;
@@ -81,7 +82,7 @@ $(canvas).click(function (e){
 //debugger;
 
 for(var i = 0; i < 50; i ++) {
-    spawn(c_width/2 + Math.sin(i/10) * 8, c_height + i * 2.4);
+    spawn(c_width/2 + Math.sin(i/10) * 8, c_height + i * 2.4, 0);
 }
 
 var frame = 0;

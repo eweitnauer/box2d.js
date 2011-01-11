@@ -19,8 +19,3 @@ commit
 	git merge --no-ff <Box2DAS-Version>
 	git push origin master
 	git branch -d <Box2DAS-Version>
-
-
-TODO: static attributes later than methods
-TODO: derive dependencies from attribute initializers
-TODO: fix is-operator

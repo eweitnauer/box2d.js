@@ -234,10 +234,17 @@ for name in classes:
 # build deps
 for klass in classes:
     klass, code, dest, deps = classes[klass]
+    # hack
+    if klass.name=="b2Collision":
+    	deps.append("ClipVertex")
+
     for name, value in klass.varz + klass.svars + [klass.constructor]:
         for klass2 in classes:
             if klass2 == klass.name:
                 continue
+            if klass2 == klass.extends and not klass2 in deps:
+            	deps.append(klass2)
+            	continue    
             if klass2 in value and not klass2 in deps:
                 deps.append(klass2)
                 
