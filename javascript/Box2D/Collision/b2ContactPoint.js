@@ -9,8 +9,9 @@ this.velocity =  new b2Vec2();
 this.normal =  new b2Vec2();
 this.id =  new b2ContactID();
 }
-// static attributes
 // static methods
+// static attributes
+// methods
 // attributes
 b2ContactPoint.prototype.shape1 =  null;
 b2ContactPoint.prototype.shape2 =  null;
@@ -21,4 +22,3 @@ b2ContactPoint.prototype.separation =  null;
 b2ContactPoint.prototype.friction =  null;
 b2ContactPoint.prototype.restitution =  null;
 b2ContactPoint.prototype.id =  new b2ContactID();
-// methods

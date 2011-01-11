@@ -5,14 +5,13 @@ this.__constructor.apply(this, arguments);
 b2ContactFilter.prototype.__constructor = function(){}
 b2ContactFilter.prototype.__varz = function(){
 }
+// static methods
 // static attributes
 b2ContactFilter.b2_defaultFilter =  new b2ContactFilter();
-// static methods
-// attributes
 // methods
-b2ContactFilter.prototype.ShouldCollide = function (shape1, shape2) {
-		var filter1 = shape1.GetFilterData();
-		var filter2 = shape2.GetFilterData();
+b2ContactFilter.prototype.ShouldCollide = function (fixtureA, fixtureB) {
+		var filter1 = fixtureA.GetFilterData();
+		var filter2 = fixtureB.GetFilterData();
 		
 		if (filter1.groupIndex == filter2.groupIndex && filter1.groupIndex != 0)
 		{
@@ -22,3 +21,9 @@ b2ContactFilter.prototype.ShouldCollide = function (shape1, shape2) {
 		var collide = (filter1.maskBits & filter2.categoryBits) != 0 && (filter1.categoryBits & filter2.maskBits) != 0;
 		return collide;
 	}
+b2ContactFilter.prototype.RayCollide = function (userData, fixture) {
+		if(!userData)
+			return true;
+		return this.ShouldCollide(userData,fixture);
+	}
+// attributes

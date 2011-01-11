@@ -7,11 +7,8 @@ b2Segment.prototype.__varz = function(){
 this.p1 =  new b2Vec2();
 this.p2 =  new b2Vec2();
 }
-// static attributes
 // static methods
-// attributes
-b2Segment.prototype.p1 =  new b2Vec2();
-b2Segment.prototype.p2 =  new b2Vec2();
+// static attributes
 // methods
 b2Segment.prototype.TestSegment = function (lambda, 
 								normal, 
@@ -66,3 +63,32 @@ b2Segment.prototype.TestSegment = function (lambda,
 		
 		return false;
 	}
+b2Segment.prototype.Extend = function (aabb) {
+		this.ExtendForward(aabb);
+		this.ExtendBackward(aabb);
+	}
+b2Segment.prototype.ExtendForward = function (aabb) {
+		var dX = this.p2.x-this.p1.x;
+		var dY = this.p2.y-this.p1.y;
+		
+		var lambda = Math.min(	dX>0?(aabb.upperBound.x-this.p1.x)/dX: dX<0?(aabb.lowerBound.x-this.p1.x)/dX:Number.POSITIVE_INFINITY,
+										dY>0?(aabb.upperBound.y-this.p1.y)/dY: dY<0?(aabb.lowerBound.y-this.p1.y)/dY:Number.POSITIVE_INFINITY);
+		
+		this.p2.x = this.p1.x + dX * lambda;
+		this.p2.y = this.p1.y + dY * lambda;
+		
+	}
+b2Segment.prototype.ExtendBackward = function (aabb) {
+		var dX = -this.p2.x+this.p1.x;
+		var dY = -this.p2.y+this.p1.y;
+		
+		var lambda = Math.min(	dX>0?(aabb.upperBound.x-this.p2.x)/dX: dX<0?(aabb.lowerBound.x-this.p2.x)/dX:Number.POSITIVE_INFINITY,
+										dY>0?(aabb.upperBound.y-this.p2.y)/dY: dY<0?(aabb.lowerBound.y-this.p2.y)/dY:Number.POSITIVE_INFINITY);
+		
+		this.p1.x = this.p2.x + dX * lambda;
+		this.p1.y = this.p2.y + dY * lambda;
+		
+	}
+// attributes
+b2Segment.prototype.p1 =  new b2Vec2();
+b2Segment.prototype.p2 =  new b2Vec2();

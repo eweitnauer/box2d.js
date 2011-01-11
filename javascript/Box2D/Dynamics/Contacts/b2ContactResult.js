@@ -8,8 +8,9 @@ this.position =  new b2Vec2();
 this.normal =  new b2Vec2();
 this.id =  new b2ContactID();
 }
-// static attributes
 // static methods
+// static attributes
+// methods
 // attributes
 b2ContactResult.prototype.shape1 =  null;
 b2ContactResult.prototype.shape2 =  null;
@@ -18,4 +19,3 @@ b2ContactResult.prototype.normal =  new b2Vec2();
 b2ContactResult.prototype.normalImpulse =  null;
 b2ContactResult.prototype.tangentImpulse =  null;
 b2ContactResult.prototype.id =  new b2ContactID();
-// methods

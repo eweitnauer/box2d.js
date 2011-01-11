@@ -4,12 +4,12 @@ this.__varz();
 this.__constructor.apply(this, arguments);
 }
 extend(b2PrismaticJointDef.prototype, b2JointDef.prototype)
-b2PrismaticJointDef.prototype._super = function(){ b2JointDef.prototype.__constructor.apply(this, arguments) }
+b2PrismaticJointDef.prototype._super = b2JointDef.prototype;
 b2PrismaticJointDef.prototype.__constructor = function () {
 		this.type = b2Joint.e_prismaticJoint;
 		
 		
-		this.localAxis1.Set(1.0, 0.0);
+		this.localAxisA.Set(1.0, 0.0);
 		this.referenceAngle = 0.0;
 		this.enableLimit = false;
 		this.lowerTranslation = 0.0;
@@ -19,16 +19,25 @@ b2PrismaticJointDef.prototype.__constructor = function () {
 		this.motorSpeed = 0.0;
 	}
 b2PrismaticJointDef.prototype.__varz = function(){
-this.localAnchor1 =  new b2Vec2();
-this.localAnchor2 =  new b2Vec2();
-this.localAxis1 =  new b2Vec2();
+this.localAnchorA =  new b2Vec2();
+this.localAnchorB =  new b2Vec2();
+this.localAxisA =  new b2Vec2();
 }
-// static attributes
 // static methods
+// static attributes
+// methods
+b2PrismaticJointDef.prototype.Initialize = function (bA, bB, anchor, axis) {
+		this.bodyA = bA;
+		this.bodyB = bB;
+		this.localAnchorA = this.bodyA.GetLocalPoint(anchor);
+		this.localAnchorB = this.bodyB.GetLocalPoint(anchor);
+		this.localAxisA = this.bodyA.GetLocalVector(axis);
+		this.referenceAngle = this.bodyB.GetAngle() - this.bodyA.GetAngle();
+	}
 // attributes
-b2PrismaticJointDef.prototype.localAnchor1 =  new b2Vec2();
-b2PrismaticJointDef.prototype.localAnchor2 =  new b2Vec2();
-b2PrismaticJointDef.prototype.localAxis1 =  new b2Vec2();
+b2PrismaticJointDef.prototype.localAnchorA =  new b2Vec2();
+b2PrismaticJointDef.prototype.localAnchorB =  new b2Vec2();
+b2PrismaticJointDef.prototype.localAxisA =  new b2Vec2();
 b2PrismaticJointDef.prototype.referenceAngle =  null;
 b2PrismaticJointDef.prototype.enableLimit =  null;
 b2PrismaticJointDef.prototype.lowerTranslation =  null;
@@ -36,12 +45,3 @@ b2PrismaticJointDef.prototype.upperTranslation =  null;
 b2PrismaticJointDef.prototype.enableMotor =  null;
 b2PrismaticJointDef.prototype.maxMotorForce =  null;
 b2PrismaticJointDef.prototype.motorSpeed =  null;
-// methods
-b2PrismaticJointDef.prototype.Initialize = function (b1, b2, anchor, axis) {
-		this.body1 = b1;
-		this.body2 = b2;
-		this.localAnchor1 = this.body1.GetLocalPoint(anchor);
-		this.localAnchor2 = this.body2.GetLocalPoint(anchor);
-		this.localAxis1 = this.body1.GetLocalVector(axis);
-		this.referenceAngle = this.body2.GetAngle() - this.body1.GetAngle();
-	}

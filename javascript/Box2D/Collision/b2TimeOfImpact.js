@@ -5,122 +5,211 @@ this.__constructor.apply(this, arguments);
 b2TimeOfImpact.prototype.__constructor = function(){}
 b2TimeOfImpact.prototype.__varz = function(){
 }
-// static attributes
-b2TimeOfImpact.s_p1 =  new b2Vec2();
-b2TimeOfImpact.s_p2 =  new b2Vec2();
-b2TimeOfImpact.s_xf1 =  new b2XForm();
-b2TimeOfImpact.s_xf2 =  new b2XForm();
 // static methods
-b2TimeOfImpact.TimeOfImpact = function (	shape1, sweep1,
-								shape2, sweep2) {
-	var math1;
-	var math2;
-	
-	var r1 = shape1.m_sweepRadius;
-	var r2 = shape2.m_sweepRadius;
-
-	
-	
-
-	var t0 = sweep1.t0;
-	
-	var v1X = sweep1.c.x - sweep1.c0.x;
-	var v1Y = sweep1.c.y - sweep1.c0.y;
-	
-	var v2X = sweep2.c.x - sweep2.c0.x;
-	var v2Y = sweep2.c.y - sweep2.c0.y;
-	var omega1 = sweep1.a - sweep1.a0;
-	var omega2 = sweep2.a - sweep2.a0;
-
-	var alpha = 0.0;
-
-	var p1 = b2TimeOfImpact.s_p1;
-	var p2 = b2TimeOfImpact.s_p2;
-	var k_maxIterations = 20;	
-	var iter = 0;
-	
-	var normalX = 0.0;
-	var normalY = 0.0;
-	var distance = 0.0;
-	var targetDistance = 0.0;
-	for(;;)
-	{
-		var t = (1.0 - alpha) * t0 + alpha;
+b2TimeOfImpact.TimeOfImpact = function (input) {
+		++b2TimeOfImpact.b2_toiCalls;
 		
-		var xf1 = b2TimeOfImpact.s_xf1;
-		var xf2 = b2TimeOfImpact.s_xf2;
-		sweep1.GetXForm(xf1, t);
-		sweep2.GetXForm(xf2, t);
+		var proxyA = input.proxyA;
+		var proxyB = input.proxyB;
+		
+		var sweepA = input.sweepA;
+		var sweepB = input.sweepB;
+		
+		b2Settings.b2Assert(sweepA.t0 == sweepB.t0);
+		b2Settings.b2Assert(1.0 - sweepA.t0 > Number.MIN_VALUE);
+		
+		var radius = proxyA.m_radius + proxyB.m_radius;
+		var tolerance = input.tolerance;
+		
+		var alpha = 0.0;
+		
+		var k_maxIterations = 1000; 
+		var iter = 0;
+		var target = 0.0;
 		
 		
-		distance = b2Distance.Distance(p1, p2, shape1, xf1, shape2, xf2);
+		b2TimeOfImpact.s_cache.count = 0;
+		b2TimeOfImpact.s_distanceInput.useRadii = false;
 		
-		if (iter == 0)
+		for (;; )
 		{
+			sweepA.GetTransform(b2TimeOfImpact.s_xfA, alpha);
+			sweepB.GetTransform(b2TimeOfImpact.s_xfB, alpha);
 			
 			
-			if (distance > 2.0 * b2Settings.b2_toiSlop)
+			b2TimeOfImpact.s_distanceInput.proxyA = proxyA;
+			b2TimeOfImpact.s_distanceInput.proxyB = proxyB;
+			b2TimeOfImpact.s_distanceInput.transformA = b2TimeOfImpact.s_xfA;
+			b2TimeOfImpact.s_distanceInput.transformB = b2TimeOfImpact.s_xfB;
+			
+			b2Distance.Distance(b2TimeOfImpact.s_distanceOutput, b2TimeOfImpact.s_cache, b2TimeOfImpact.s_distanceInput);
+			
+			if (b2TimeOfImpact.s_distanceOutput.distance <= 0.0)
 			{
-				targetDistance = 1.5 * b2Settings.b2_toiSlop;
+				alpha = 1.0;
+				break;
 			}
-			else
+			
+			b2TimeOfImpact.s_fcn.Initialize(b2TimeOfImpact.s_cache, proxyA, b2TimeOfImpact.s_xfA, proxyB, b2TimeOfImpact.s_xfB);
+			
+			var separation = b2TimeOfImpact.s_fcn.Evaluate(b2TimeOfImpact.s_xfA, b2TimeOfImpact.s_xfB);
+			if (separation <= 0.0)
+			{
+				alpha = 1.0;
+				break;
+			}
+			
+			if (iter == 0)
 			{
 				
-				math1 = 0.05 * b2Settings.b2_toiSlop;
-				math2 = distance - 0.5 * b2Settings.b2_toiSlop;
-				targetDistance = math1 > math2 ? math1 : math2;
+				
+				
+				if (separation > radius)
+				{
+					target = b2Math.Max(radius - tolerance, 0.75 * radius);
+				}
+				else
+				{
+					target = b2Math.Max(separation - tolerance, 0.02 * radius);
+				}
+			}
+			
+			if (separation - target < 0.5 * tolerance)
+			{
+				if (iter == 0)
+				{
+					alpha = 1.0;
+					break;
+				}
+				break;
+			}
+			
+
+			
+			
+				
+				
+				
+				
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				
+			
+
+			
+			var newAlpha = alpha;
+			{
+				var x1 = alpha;
+				var x2 = 1.0;
+				
+				var f1 = separation;
+				
+				sweepA.GetTransform(b2TimeOfImpact.s_xfA, x2);
+				sweepB.GetTransform(b2TimeOfImpact.s_xfB, x2);
+				
+				var f2 = b2TimeOfImpact.s_fcn.Evaluate(b2TimeOfImpact.s_xfA, b2TimeOfImpact.s_xfB);
+				
+				
+				if (f2 >= target)
+				{
+					alpha = 1.0;
+					break;
+				}
+				
+				
+				var rootIterCount = 0;
+				for (;; )
+				{
+					
+					var x;
+					if (rootIterCount & 1)
+					{
+						
+						x = x1 + (target - f1) * (x2 - x1) / (f2 - f1);
+					}
+					else
+					{
+						
+						x = 0.5 * (x1 + x2);
+					}
+					
+					sweepA.GetTransform(b2TimeOfImpact.s_xfA, x);
+					sweepB.GetTransform(b2TimeOfImpact.s_xfB, x);
+					
+					var f = b2TimeOfImpact.s_fcn.Evaluate(b2TimeOfImpact.s_xfA, b2TimeOfImpact.s_xfB);
+					
+					if (b2Math.Abs(f - target) < 0.025 * tolerance)
+					{
+						newAlpha = x;
+						break;
+					}
+					
+					
+					if (f > target)
+					{
+						x1 = x;
+						f1 = f;
+					}
+					else
+					{
+						x2 = x;
+						f2 = f;
+					}
+					
+					++rootIterCount;
+					++b2TimeOfImpact.b2_toiRootIters;
+					if (rootIterCount == 50)
+					{
+						break;
+					}
+				}
+				
+				b2TimeOfImpact.b2_toiMaxRootIters = b2Math.Max(b2TimeOfImpact.b2_toiMaxRootIters, rootIterCount);
+			}
+			
+			
+			if (newAlpha < (1.0 + 100.0 * Number.MIN_VALUE) * alpha)
+			{
+				break;
+			}
+			
+			alpha = newAlpha;
+			
+			iter++;
+			++b2TimeOfImpact.b2_toiIters;
+			
+			if (iter == k_maxIterations)
+			{
+				break;
 			}
 		}
 		
-		if (distance - targetDistance < 0.05 * b2Settings.b2_toiSlop || iter == k_maxIterations)
-		{
-			break;
-		}
-		
-		
-		normalX = p2.x - p1.x;
-		normalY = p2.y - p1.y;
-		
-		var nLen = Math.sqrt(normalX*normalX + normalY*normalY);
-		normalX /= nLen;
-		normalY /= nLen;
-		
-		
-		
-		var approachVelocityBound = 	(normalX*(v1X - v2X) + normalY*(v1Y - v2Y))
-											+ (omega1 < 0 ? -omega1 : omega1) * r1 
-											+ (omega2 < 0 ? -omega2 : omega2) * r2;
-		
-		if (approachVelocityBound == 0)
-		{
-			alpha = 1.0;
-			break;
-		}
-		
-		
-		var dAlpha = (distance - targetDistance) / approachVelocityBound;
-		
-		var newAlpha = alpha + dAlpha;
-		
-		
-		if (newAlpha < 0.0 || 1.0 < newAlpha)
-		{
-			alpha = 1.0;
-			break;
-		}
-		
-		
-		if (newAlpha < (1.0 + 100.0 * Number.MIN_VALUE) * alpha)
-		{
-			break;
-		}
-		
-		alpha = newAlpha;
-		
-		++iter;
-	}
+		b2TimeOfImpact.b2_toiMaxIters = b2Math.Max(b2TimeOfImpact.b2_toiMaxIters, iter);
 
-	return alpha;
-}
-// attributes
+		return alpha;
+	}
+// static attributes
+b2TimeOfImpact.b2_toiCalls =  0;
+b2TimeOfImpact.b2_toiIters =  0;
+b2TimeOfImpact.b2_toiMaxIters =  0;
+b2TimeOfImpact.b2_toiRootIters =  0;
+b2TimeOfImpact.b2_toiMaxRootIters =  0;
+b2TimeOfImpact.s_cache =  new b2SimplexCache();
+b2TimeOfImpact.s_distanceInput =  new b2DistanceInput();
+b2TimeOfImpact.s_xfA =  new b2Transform();
+b2TimeOfImpact.s_xfB =  new b2Transform();
+b2TimeOfImpact.s_fcn =  new b2SeparationFunction();
+b2TimeOfImpact.s_distanceOutput =  new b2DistanceOutput();
 // methods
+// attributes

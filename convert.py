@@ -30,30 +30,44 @@ def translate(klass):
     lines.append("}")
     if klass.extends:
         lines.append("extend(%s.prototype, %s.prototype)" % (klass.name, klass.extends));
-        lines.append("%s.prototype._super = function(){ %s.prototype.__constructor.apply(this, arguments) }" % (klass.name, klass.extends))
+        #lines.append("%s.prototype._super = function(){ %s.prototype.__constructor.apply(this, arguments) }" % (klass.name, klass.extends))
+        lines.append("%s.prototype._super = %s.prototype;" % (klass.name, klass.extends))
     lines.append("%s.prototype.__constructor = %s" % klass.constructor)
     lines.append("%s.prototype.__varz = function(){" % klass.name)
     for name, value in klass.varz:
         if not re.match("^\s*(\d+(\.\d+)?|null|true|false)\s*;\s*$", value):
             lines.append("this.%s = %s" % (name, value))
     lines.append("}")
-    lines.append("// static attributes")
-    for name, value in klass.svars:
-        lines.append("%s.%s = %s" % (klass.name, name, value))
     lines.append("// static methods")
     for name, value in klass.sfuncs:
         lines.append("%s.%s = %s" % (klass.name, name, value))
-    lines.append("// attributes")
-    for name, value in klass.varz:
-        lines.append("%s.prototype.%s = %s" % (klass.name, name, value))
+    lines.append("// static attributes")
+    for name, value in klass.svars:
+        lines.append("%s.%s = %s" % (klass.name, name, value))
     lines.append("// methods")
     for name, value in klass.funcs:
+        lines.append("%s.prototype.%s = %s" % (klass.name, name, value))
+    lines.append("// attributes")
+    for name, value in klass.varz:
         lines.append("%s.prototype.%s = %s" % (klass.name, name, value))
     code = "\n".join(lines)
     # remove type annotations
     code = re.sub(r"([^ ]+)[ ]+as[ ]+\w+", "\\1", code)
     return code
 
+def modify_supercall(match):
+	result = "this._super."
+	if match.group(1):
+		result = result + match.group(1)
+	else:
+		result = result + "__constructor"
+	result = result + ".apply(this, ["
+	if match.group(2):
+		result = result + match.group(2)
+	result = result + "]);"
+	
+	return result		
+	
 def parse(code):
     # strip comments
     code = re.sub("(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|(//.*)", "", code)
@@ -62,18 +76,41 @@ def parse(code):
     # int/uint -> parseInt
     code = re.sub("([^a-zA-Z0-9]+)int\(", "\\1parseInt(", code)
     code = re.sub("([^a-zA-Z0-9]+)uint\(", "\\1parseInt(", code)
-    # super -> this._super
-    code = re.sub("([^a-zA-Z0-9]+)super\(", "\\1this._super(", code)
+    # super calls including custructor
+    # super.method(a, b)
+    #       111111 2222
+    code = re.sub(r"\bsuper(?:\.(\w+))?\(\s*([^\)]*)\);", modify_supercall, code)
     # const -> var 
     code = re.sub(r"\bconst\b", "var", code)
     #remove type anotations
-    code = re.sub("(\w+):[ ]*(\w+|\\*)", "\\1", code)
+    code = re.sub("((var |\(|,)\s*[^:=\), ]+):[ ]*(\w+|\\*)", "\\1", code)
+    #remove function return types
+    code = re.sub("(function \w+\([^\)]*\))\s*:\w+", "\\1", code)
+    #convert vectors to arrays
+    ## new Vector.<Number>();
+    code = re.sub(r"\bVector\b", "Array", code);
+    ## new Dictionary
+    code = re.sub(r"\bDictionary\b", "Object", code);
+    # remove generics
+    ## new Vector.<Number>();
+    ## var lowerValues:Vector.<Number>;
+    ## var m_registers:Vector.<Vector.<b2ContactRegister> > = null;
+    code = re.sub(r"\.<[^<>]*(<.*?>)?[^>]*>", "", code);
     ## remove override and virtual
     code = code.replace("override", "").replace("virtual", "").replace("\r", "")
+    ## obj is type
+    code = re.sub("(\w+) is (\w+)", "\\1.isInstanceOf(\\2)", code)
+    ## for each(var queryProxy in m_moveBuffer)
+    #               1111111111    222222222222
+    # for(var i=0, queryProxy=null;i<this.m_moveBuffer.length, queryProxy=this.m_moveBuffer[i]; i++)
+    code = re.sub(r"for each\(var (\w+) in (\w+)\)", r"for(var i=0, \1=null;i<\2.length, \1=\2[i]; i++)", code)
+    
     # hack ...
     code = code.replace("var mid = ((low + high) / 2);", "var mid = Math.round((low + high) / 2);")
+    code = code.replace("b2internal", "private")
     code = code.replace("static public", "staticpublik")
     code = code.replace("static private", "staticprivat")
+    
     # hack for uints used in proxy
     code = code.replace("& 0x0000ffff", "% 65535")
     while "  " in code:
@@ -89,8 +126,10 @@ def parse(code):
     code = "\n".join(lines)
 
     # find class
-    i = code.index("public class ")
-    aux = code[i+len("public class "):]
+    class_start = re.search("(public|internal) class ", code)
+    if not class_start:
+    	return None
+    aux = code[class_start.end(0):]
     i = min(aux.index(" "), aux.index("\n"), aux.index("{"))
     klass = aux[:i].strip()
     extends = None
@@ -125,7 +164,7 @@ def getvars(code, prefix):
             i = min(code.index(";"), code.index("\n"))
             body = code[:i] + ";"
         else:
-            name = code[:i]
+            name = code[:i].strip()
             body = " null;"
         # support var foo, bar = x;
         if "," in name:
@@ -163,20 +202,23 @@ for dirpath, dirnames, filenames in os.walk(source):
         src = os.path.join(dirpath, filename)
         code = open(src, "r").read()
         dest = os.path.join(target, filename.replace(".as", ".js"))
-        print "parsing", src
-        klass = parse(code)
-        print "translating", src
-        code = translate(klass)
-        # klass, path, dependencies (empty)
-        deps = klass.extends and [klass.extends] or []
-        classes[klass.name] = (klass, code, dest, deps)
+       	print "parsing", src
+       	klass = parse(code)
+       	if not klass:
+       		print "-> no class found"
+       		continue
+       	print "translating", src
+       	code = translate(klass)
+       	# klass, path, dependencies (empty)
+       	deps = klass.extends and [klass.extends] or []
+       	classes[klass.name] = (klass, code, dest, deps)
 
 def resolve(code, klass):
     for name, value in klass.svars + klass.sfuncs:
         code = re.sub("([^a-zA-Z0-9_.])(%s)([^a-zA-Z0-9_])" % name, "\\1" +
                 klass.name + ".\\2\\3", code)
     for name, value in klass.varz + klass.funcs:
-        code = re.sub("([^a-zA-Z0-9_.])(%s)([^a-zA-Z0-9_])" % name, "\\1this.\\2\\3", code)
+        code = re.sub(r"([^a-zA-Z0-9_\.])(%s)\b" % name, "\\1this.\\2", code)
 
     if klass.extends:
         return resolve(code, classes[klass.extends][0])
@@ -192,10 +234,17 @@ for name in classes:
 # build deps
 for klass in classes:
     klass, code, dest, deps = classes[klass]
+    # hack
+    if klass.name=="b2Collision":
+    	deps.append("ClipVertex")
+
     for name, value in klass.varz + klass.svars + [klass.constructor]:
         for klass2 in classes:
             if klass2 == klass.name:
                 continue
+            if klass2 == klass.extends and not klass2 in deps:
+            	deps.append(klass2)
+            	continue    
             if klass2 in value and not klass2 in deps:
                 deps.append(klass2)
                 

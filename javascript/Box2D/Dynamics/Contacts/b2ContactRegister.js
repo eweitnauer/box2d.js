@@ -5,10 +5,12 @@ this.__constructor.apply(this, arguments);
 b2ContactRegister.prototype.__constructor = function(){}
 b2ContactRegister.prototype.__varz = function(){
 }
-// static attributes
 // static methods
+// static attributes
+// methods
 // attributes
 b2ContactRegister.prototype.createFcn =  null;
 b2ContactRegister.prototype.destroyFcn =  null;
 b2ContactRegister.prototype.primary =  null;
-// methods
+b2ContactRegister.prototype.pool =  null;
+b2ContactRegister.prototype.poolCount =  0;

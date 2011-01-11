@@ -7,23 +7,14 @@ b2DebugDraw.prototype.__constructor = function () {
 	}
 b2DebugDraw.prototype.__varz = function(){
 }
+// static methods
 // static attributes
 b2DebugDraw.e_shapeBit =  0x0001;
 b2DebugDraw.e_jointBit =  0x0002;
-b2DebugDraw.e_coreShapeBit =  0x0004;
-b2DebugDraw.e_aabbBit =  0x0008;
-b2DebugDraw.e_obbBit =  0x0010;
-b2DebugDraw.e_pairBit =  0x0020;
-b2DebugDraw.e_centerOfMassBit =  0x0040;
-// static methods
-// attributes
-b2DebugDraw.prototype.m_drawFlags =  0;
-b2DebugDraw.prototype.m_sprite =  null;
-b2DebugDraw.prototype.m_drawScale =  1.0;
-b2DebugDraw.prototype.m_lineThickness =  1.0;
-b2DebugDraw.prototype.m_alpha =  1.0;
-b2DebugDraw.prototype.m_fillAlpha =  1.0;
-b2DebugDraw.prototype.m_xformScale =  1.0;
+b2DebugDraw.e_aabbBit =  0x0004;
+b2DebugDraw.e_pairBit =  0x0008;
+b2DebugDraw.e_centerOfMassBit =  0x0010;
+b2DebugDraw.e_controllerBit =  0x0020;
 // methods
 b2DebugDraw.prototype.SetFlags = function (flags) {
 		this.m_drawFlags = flags;
@@ -36,6 +27,42 @@ b2DebugDraw.prototype.AppendFlags = function (flags) {
 	}
 b2DebugDraw.prototype.ClearFlags = function (flags) {
 		this.m_drawFlags &= ~flags;
+	}
+b2DebugDraw.prototype.SetSprite = function (sprite) {
+		this.m_sprite = sprite; 
+	}
+b2DebugDraw.prototype.GetSprite = function () {
+		return this.m_sprite;
+	}
+b2DebugDraw.prototype.SetDrawScale = function (drawScale) {
+		this.m_drawScale = drawScale; 
+	}
+b2DebugDraw.prototype.GetDrawScale = function () {
+		return this.m_drawScale;
+	}
+b2DebugDraw.prototype.SetLineThickness = function (lineThickness) {
+		this.m_lineThickness = lineThickness; 
+	}
+b2DebugDraw.prototype.GetLineThickness = function () {
+		return this.m_lineThickness;
+	}
+b2DebugDraw.prototype.SetAlpha = function (alpha) {
+		this.m_alpha = alpha; 
+	}
+b2DebugDraw.prototype.GetAlpha = function () {
+		return this.m_alpha;
+	}
+b2DebugDraw.prototype.SetFillAlpha = function (alpha) {
+		this.m_fillAlpha = alpha; 
+	}
+b2DebugDraw.prototype.GetFillAlpha = function () {
+		return this.m_fillAlpha;
+	}
+b2DebugDraw.prototype.SetXFormScale = function (xformScale) {
+		this.m_xformScale = xformScale; 
+	}
+b2DebugDraw.prototype.GetXFormScale = function () {
+		return this.m_xformScale;
 	}
 b2DebugDraw.prototype.DrawPolygon = function (vertices, vertexCount, color) {
 		
@@ -83,7 +110,7 @@ b2DebugDraw.prototype.DrawSegment = function (p1, p2, color) {
 		this.m_sprite.graphics.lineTo(p2.x * this.m_drawScale, p2.y * this.m_drawScale);
 		
 	}
-b2DebugDraw.prototype.DrawXForm = function (xf) {
+b2DebugDraw.prototype.DrawTransform = function (xf) {
 		
 		this.m_sprite.graphics.lineStyle(this.m_lineThickness, 0xff0000, this.m_alpha);
 		this.m_sprite.graphics.moveTo(xf.position.x * this.m_drawScale, xf.position.y * this.m_drawScale);
@@ -94,3 +121,11 @@ b2DebugDraw.prototype.DrawXForm = function (xf) {
 		this.m_sprite.graphics.lineTo((xf.position.x + this.m_xformScale*xf.R.col2.x) * this.m_drawScale, (xf.position.y + this.m_xformScale*xf.R.col2.y) * this.m_drawScale);
 		
 	}
+// attributes
+b2DebugDraw.prototype.m_drawFlags =  0;
+b2DebugDraw.prototype.m_sprite =  null;
+b2DebugDraw.prototype.m_drawScale =  1.0;
+b2DebugDraw.prototype.m_lineThickness =  1.0;
+b2DebugDraw.prototype.m_alpha =  1.0;
+b2DebugDraw.prototype.m_fillAlpha =  1.0;
+b2DebugDraw.prototype.m_xformScale =  1.0;

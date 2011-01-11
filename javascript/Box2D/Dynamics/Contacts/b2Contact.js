@@ -2,191 +2,246 @@ var b2Contact = function() {
 this.__varz();
 this.__constructor.apply(this, arguments);
 }
-b2Contact.prototype.__constructor = function (s1, s2) {
-		this.m_flags = 0;
+b2Contact.prototype.__constructor = function () {
 		
-		if (!s1 || !s2){
-			this.m_shape1 = null;
-			this.m_shape2 = null;
+	}
+b2Contact.prototype.__varz = function(){
+this.m_nodeA =  new b2ContactEdge();
+this.m_nodeB =  new b2ContactEdge();
+this.m_manifold =  new b2Manifold();
+this.m_oldManifold =  new b2Manifold();
+}
+// static methods
+// static attributes
+b2Contact.s_input =  new b2TOIInput();
+b2Contact.e_sensorFlag =  0x0001;
+b2Contact.e_continuousFlag =  0x0002;
+b2Contact.e_islandFlag =  0x0004;
+b2Contact.e_toiFlag =  0x0008;
+b2Contact.e_touchingFlag =  0x0010;
+b2Contact.e_enabledFlag =  0x0020;
+b2Contact.e_filterFlag =  0x0040;
+// methods
+b2Contact.prototype.Reset = function (fixtureA , fixtureB ) {
+		this.m_flags = b2Contact.e_enabledFlag;
+		
+		if (!fixtureA || !fixtureB){
+			this.m_fixtureA = null;
+			this.m_fixtureB = null;
 			return;
 		}
 		
-		if (s1.IsSensor() || s2.IsSensor())
+		if (fixtureA.IsSensor() || fixtureB.IsSensor())
 		{
-			this.m_flags |= b2Contact.e_nonSolidFlag;
+			this.m_flags |= b2Contact.e_sensorFlag;
 		}
 		
-		this.m_shape1 = s1;
-		this.m_shape2 = s2;
+		var bodyA = fixtureA.GetBody();
+		var bodyB = fixtureB.GetBody();
 		
-		this.m_manifoldCount = 0;
+		if (bodyA.GetType() != b2Body.b2_dynamicBody || bodyA.IsBullet() || bodyB.GetType() != b2Body.b2_dynamicBody || bodyB.IsBullet())
+		{
+			this.m_flags |= b2Contact.e_continuousFlag;
+		}
 		
-		this.m_friction = Math.sqrt(this.m_shape1.m_friction * this.m_shape2.m_friction);
-		this.m_restitution = b2Math.b2Max(this.m_shape1.m_restitution, this.m_shape2.m_restitution);
+		this.m_fixtureA = fixtureA;
+		this.m_fixtureB = fixtureB;
+		
+		this.m_manifold.m_pointCount = 0;
 		
 		this.m_prev = null;
 		this.m_next = null;
 		
-		this.m_node1.contact = null;
-		this.m_node1.prev = null;
-		this.m_node1.next = null;
-		this.m_node1.other = null;
+		this.m_nodeA.contact = null;
+		this.m_nodeA.prev = null;
+		this.m_nodeA.next = null;
+		this.m_nodeA.other = null;
 		
-		this.m_node2.contact = null;
-		this.m_node2.prev = null;
-		this.m_node2.next = null;
-		this.m_node2.other = null;
+		this.m_nodeB.contact = null;
+		this.m_nodeB.prev = null;
+		this.m_nodeB.next = null;
+		this.m_nodeB.other = null;
 	}
-b2Contact.prototype.__varz = function(){
-this.m_node1 =  new b2ContactEdge();
-this.m_node2 =  new b2ContactEdge();
-}
-// static attributes
-b2Contact.e_nonSolidFlag =  0x0001;
-b2Contact.e_slowFlag =  0x0002;
-b2Contact.e_islandFlag =  0x0004;
-b2Contact.e_toiFlag =  0x0008;
-b2Contact.s_registers =  null;
-b2Contact.s_initialized =  false;
-// static methods
-b2Contact.AddType = function (createFcn, destroyFcn, type1, type2) {
+b2Contact.prototype.Update = function (listener) {
+		
+		var tManifold = this.m_oldManifold;
+		this.m_oldManifold = this.m_manifold;
+		this.m_manifold = tManifold;
 		
 		
+		this.m_flags |= b2Contact.e_enabledFlag;
 		
-		b2Contact.s_registers[type1][type2].createFcn = createFcn;
-		b2Contact.s_registers[type1][type2].destroyFcn = destroyFcn;
-		b2Contact.s_registers[type1][type2].primary = true;
+		var touching = false;
+		var wasTouching = (this.m_flags & b2Contact.e_touchingFlag) == b2Contact.e_touchingFlag;
 		
-		if (type1 != type2)
+		var bodyA = this.m_fixtureA.m_body;
+		var bodyB = this.m_fixtureB.m_body;
+		
+		var aabbOverlap = this.m_fixtureA.m_aabb.TestOverlap(this.m_fixtureB.m_aabb);
+		
+		
+		if (this.m_flags & b2Contact.e_sensorFlag)
 		{
-			b2Contact.s_registers[type2][type1].createFcn = createFcn;
-			b2Contact.s_registers[type2][type1].destroyFcn = destroyFcn;
-			b2Contact.s_registers[type2][type1].primary = false;
-		}
-	}
-b2Contact.InitializeRegisters = function () {
-		b2Contact.s_registers = new Array(b2Shape.e_shapeTypeCount);
-		for (var i = 0; i < b2Shape.e_shapeTypeCount; i++){
-			b2Contact.s_registers[i] = new Array(b2Shape.e_shapeTypeCount);
-			for (var j = 0; j < b2Shape.e_shapeTypeCount; j++){
-				b2Contact.s_registers[i][j] = new b2ContactRegister();
-			}
-		}
-		
-		b2Contact.AddType(b2CircleContact.Create, b2CircleContact.Destroy, b2Shape.e_circleShape, b2Shape.e_circleShape);
-		b2Contact.AddType(b2PolyAndCircleContact.Create, b2PolyAndCircleContact.Destroy, b2Shape.e_polygonShape, b2Shape.e_circleShape);
-		b2Contact.AddType(b2PolygonContact.Create, b2PolygonContact.Destroy, b2Shape.e_polygonShape, b2Shape.e_polygonShape);
-		
-	}
-b2Contact.Create = function (shape1, shape2, allocator) {
-		if (b2Contact.s_initialized == false)
-		{
-			b2Contact.InitializeRegisters();
-			b2Contact.s_initialized = true;
-		}
-		
-		var type1 = shape1.m_type;
-		var type2 = shape2.m_type;
-		
-		
-		
-		
-		var reg = b2Contact.s_registers[type1][type2];
-		var createFcn = reg.createFcn;
-		if (createFcn != null)
-		{
-			if (reg.primary)
+			if (aabbOverlap)
 			{
-				return createFcn(shape1, shape2, allocator);
+				var shapeA = this.m_fixtureA.GetShape();
+				var shapeB = this.m_fixtureB.GetShape();
+				var xfA = bodyA.GetTransform();
+				var xfB = bodyB.GetTransform();
+				touching = b2Shape.TestOverlap(shapeA, xfA, shapeB, xfB);
 			}
-			else
-			{
-				var c = createFcn(shape2, shape1, allocator);
-				for (var i = 0; i < c.m_manifoldCount; ++i)
-				{
-					var m = c.GetManifolds()[ i ];
-					m.normal = m.normal.Negative();
-				}
-				return c;
-			}
+			
+			
+			this.m_manifold.m_pointCount = 0;
 		}
 		else
 		{
-			return null;
+			
+			if (bodyA.GetType() != b2Body.b2_dynamicBody || bodyA.IsBullet() || bodyB.GetType() != b2Body.b2_dynamicBody || bodyB.IsBullet())
+			{
+				this.m_flags |= b2Contact.e_continuousFlag;
+			}
+			else
+			{
+				this.m_flags &= ~b2Contact.e_continuousFlag;
+			}
+			
+			if (aabbOverlap)
+			{
+				this.Evaluate();
+				
+				touching = this.m_manifold.m_pointCount > 0;
+				
+				
+				
+				for (var i = 0; i < this.m_manifold.m_pointCount; ++i)
+				{
+					var mp2 = this.m_manifold.m_points[i];
+					mp2.m_normalImpulse = 0.0;
+					mp2.m_tangentImpulse = 0.0;
+					var id2 = mp2.m_id;
+
+					for (var j = 0; j < this.m_oldManifold.m_pointCount; ++j)
+					{
+						var mp1 = this.m_oldManifold.m_points[j];
+
+						if (mp1.m_id.key == id2.key)
+						{
+							mp2.m_normalImpulse = mp1.m_normalImpulse;
+							mp2.m_tangentImpulse = mp1.m_tangentImpulse;
+							break;
+						}
+					}
+				}
+
+			}
+			else
+			{
+				this.m_manifold.m_pointCount = 0;
+			}
+			if (touching != wasTouching)
+			{
+				bodyA.SetAwake(true);
+				bodyB.SetAwake(true);
+			}
+		}
+				
+		if (touching)
+		{
+			this.m_flags |= b2Contact.e_touchingFlag;
+		}
+		else
+		{
+			this.m_flags &= ~b2Contact.e_touchingFlag;
+		}
+
+		if (wasTouching == false && touching == true)
+		{
+			listener.BeginContact(this);
+		}
+
+		if (wasTouching == true && touching == false)
+		{
+			listener.EndContact(this);
+		}
+
+		if ((this.m_flags & b2Contact.e_sensorFlag) == 0)
+		{
+			listener.PreSolve(this, this.m_oldManifold);
 		}
 	}
-b2Contact.Destroy = function (contact, allocator) {
+b2Contact.prototype.Evaluate = function () {}
+b2Contact.prototype.ComputeTOI = function (sweepA, sweepB) {
+		b2Contact.s_input.proxyA.Set(this.m_fixtureA.GetShape());
+		b2Contact.s_input.proxyB.Set(this.m_fixtureB.GetShape());
+		b2Contact.s_input.sweepA = sweepA;
+		b2Contact.s_input.sweepB = sweepB;
+		b2Contact.s_input.tolerance = b2Settings.b2_linearSlop;
+		return b2TimeOfImpact.TimeOfImpact(b2Contact.s_input);
+	}
+b2Contact.prototype.GetManifold = function () {
+		return this.m_manifold;
+	}
+b2Contact.prototype.GetWorldManifold = function (worldManifold) {
+		var bodyA = this.m_fixtureA.GetBody();
+		var bodyB = this.m_fixtureB.GetBody();
+		var shapeA = this.m_fixtureA.GetShape();
+		var shapeB = this.m_fixtureB.GetShape();
 		
-		
-		if (contact.m_manifoldCount > 0)
+		worldManifold.Initialize(this.m_manifold, bodyA.GetTransform(), shapeA.m_radius, bodyB.GetTransform(), shapeB.m_radius);
+	}
+b2Contact.prototype.IsTouching = function () {
+		return (this.m_flags & b2Contact.e_touchingFlag) == b2Contact.e_touchingFlag; 
+	}
+b2Contact.prototype.IsContinuous = function () {
+		return (this.m_flags & b2Contact.e_continuousFlag) == b2Contact.e_continuousFlag; 
+	}
+b2Contact.prototype.SetSensor = function (sensor) {
+		if (sensor)
 		{
-			contact.m_shape1.m_body.WakeUp();
-			contact.m_shape2.m_body.WakeUp();
+			this.m_flags |= b2Contact.e_sensorFlag;
 		}
-		
-		var type1 = contact.m_shape1.m_type;
-		var type2 = contact.m_shape2.m_type;
-		
-		
-		
-		
-		var reg = b2Contact.s_registers[type1][type2];
-		var destroyFcn = reg.destroyFcn;
-		destroyFcn(contact, allocator);
+		else
+		{
+			this.m_flags &= ~b2Contact.e_sensorFlag;
+		}
+	}
+b2Contact.prototype.IsSensor = function () {
+		return (this.m_flags & b2Contact.e_sensorFlag) == b2Contact.e_sensorFlag;
+	}
+b2Contact.prototype.SetEnabled = function (flag) {
+		if (flag)
+		{
+			this.m_flags |= b2Contact.e_enabledFlag;
+		}
+		else
+		{
+			this.m_flags &= ~b2Contact.e_enabledFlag;
+		}
+	}
+b2Contact.prototype.IsEnabled = function () {
+		return (this.m_flags & b2Contact.e_enabledFlag) == b2Contact.e_enabledFlag;
+	}
+b2Contact.prototype.GetNext = function () {
+		return this.m_next;
+	}
+b2Contact.prototype.GetFixtureA = function () {
+		return this.m_fixtureA;
+	}
+b2Contact.prototype.GetFixtureB = function () {
+		return this.m_fixtureB;
+	}
+b2Contact.prototype.FlagForFiltering = function () {
+		this.m_flags |= b2Contact.e_filterFlag;
 	}
 // attributes
 b2Contact.prototype.m_flags =  0;
 b2Contact.prototype.m_prev =  null;
 b2Contact.prototype.m_next =  null;
-b2Contact.prototype.m_node1 =  new b2ContactEdge();
-b2Contact.prototype.m_node2 =  new b2ContactEdge();
-b2Contact.prototype.m_shape1 =  null;
-b2Contact.prototype.m_shape2 =  null;
-b2Contact.prototype.m_manifoldCount =  0;
-b2Contact.prototype.m_friction =  null;
-b2Contact.prototype.m_restitution =  null;
+b2Contact.prototype.m_nodeA =  new b2ContactEdge();
+b2Contact.prototype.m_nodeB =  new b2ContactEdge();
+b2Contact.prototype.m_fixtureA =  null;
+b2Contact.prototype.m_fixtureB =  null;
+b2Contact.prototype.m_manifold =  new b2Manifold();
+b2Contact.prototype.m_oldManifold =  new b2Manifold();
 b2Contact.prototype.m_toi =  null;
-// methods
-b2Contact.prototype.GetManifolds = function () {return null}
-b2Contact.prototype.GetManifoldCount = function () {
-		return this.m_manifoldCount;
-	}
-b2Contact.prototype.IsSolid = function () {
-		return (this.m_flags & b2Contact.e_nonSolidFlag) == 0;
-	}
-b2Contact.prototype.GetNext = function () {
-		return this.m_next;
-	}
-b2Contact.prototype.GetShape1 = function () {
-		return this.m_shape1;
-	}
-b2Contact.prototype.GetShape2 = function () {
-		return this.m_shape2;
-	}
-b2Contact.prototype.Update = function (listener) {
-		var oldCount = this.m_manifoldCount;
-		
-		this.Evaluate(listener);
-		
-		var newCount = this.m_manifoldCount;
-		
-		var body1 = this.m_shape1.m_body;
-		var body2 = this.m_shape2.m_body;
-		
-		if (newCount == 0 && oldCount > 0)
-		{
-			body1.WakeUp();
-			body2.WakeUp();
-		}
-		
-		
-		if (body1.IsStatic() || body1.IsBullet() || body2.IsStatic() || body2.IsBullet())
-		{
-			this.m_flags &= ~b2Contact.e_slowFlag;
-		}
-		else
-		{
-			this.m_flags |= b2Contact.e_slowFlag;
-		}
-	}
-b2Contact.prototype.Evaluate = function (listener) {}

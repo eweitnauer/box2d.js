@@ -49,50 +49,52 @@ package TestBed{
 			m_motorOn = true;
 			var pivot:b2Vec2 = new b2Vec2(0.0, -24.0/tScale);
 			
-			var pd:b2PolygonDef;
-			var cd:b2CircleDef;
+			var pd:b2PolygonShape;
+			var cd:b2CircleShape;
+			var fd:b2FixtureDef;
 			var bd:b2BodyDef;
 			var body:b2Body;
 			
 			for (var i:int = 0; i < 40; ++i)
 			{
-				cd = new b2CircleDef();
-				cd.density = 1.0;
-				cd.radius = 7.5/tScale;
+				cd = new b2CircleShape(7.5/tScale);
 				
 				bd = new b2BodyDef();
+				bd.type = b2Body.b2_dynamicBody;
 				// Position in world space
 				bd.position.Set((Math.random() * 620 + 10)/m_physScale, 350/m_physScale);
 				
 				body = m_world.CreateBody(bd);
-				body.CreateShape(cd);
-				body.SetMassFromShapes();
+				body.CreateFixture2(cd, 1.0);
 			}
 			
 			{
-				pd = new b2PolygonDef();
-				pd.density = 1.0;
-				pd.SetAsBox(75/tScale, 30/tScale);
-				pd.filter.groupIndex = -1;
+				pd = new b2PolygonShape();
+				pd.SetAsBox(75 / tScale, 30 / tScale);
+				fd = new b2FixtureDef();
+				fd.shape = pd;
+				fd.density = 1.0;
+				fd.filter.groupIndex = -1;
 				bd = new b2BodyDef();
+				bd.type = b2Body.b2_dynamicBody;
 				//bd.position = pivot + m_offset;
 				bd.position = b2Math.AddVV(pivot, m_offset);
 				m_chassis = m_world.CreateBody(bd);
-				m_chassis.CreateShape(pd);
-				m_chassis.SetMassFromShapes();
+				m_chassis.CreateFixture(fd);
 			}
 			
 			{
-				cd = new b2CircleDef();
-				cd.density = 1.0;
-				cd.radius = 48/tScale;
-				cd.filter.groupIndex = -1;
+				cd = new b2CircleShape(48 / tScale);
+				fd = new b2FixtureDef();
+				fd.shape = cd;
+				fd.density = 1.0;
+				fd.filter.groupIndex = -1;
 				bd = new b2BodyDef();
+				bd.type = b2Body.b2_dynamicBody;
 				//bd.position = pivot + m_offset;
 				bd.position = b2Math.AddVV(pivot, m_offset);
 				m_wheel = m_world.CreateBody(bd);
-				m_wheel.CreateShape(cd);
-				m_wheel.SetMassFromShapes();
+				m_wheel.CreateFixture(fd);
 			}
 			
 			{
@@ -116,11 +118,11 @@ package TestBed{
 			CreateLeg(-1.0, wheelAnchor);
 			CreateLeg(1.0, wheelAnchor);
 			
-			m_wheel.SetXForm(m_wheel.GetPosition(), 120.0 * Math.PI / 180.0);
+			m_wheel.SetPositionAndAngle(m_wheel.GetPosition(), 120.0 * Math.PI / 180.0);
 			CreateLeg(-1.0, wheelAnchor);
 			CreateLeg(1.0, wheelAnchor);
 			
-			m_wheel.SetXForm(m_wheel.GetPosition(), -120.0 * Math.PI / 180.0);
+			m_wheel.SetPositionAndAngle(m_wheel.GetPosition(), -120.0 * Math.PI / 180.0);
 			CreateLeg(-1.0, wheelAnchor);
 			CreateLeg(1.0, wheelAnchor);
 			
@@ -128,7 +130,7 @@ package TestBed{
 		
 		
 		
-		private function CreateLeg(s:Number, wheelAnchor:b2Vec2){
+		private function CreateLeg(s:Number, wheelAnchor:b2Vec2):void{
 			
 			var p1:b2Vec2 = new b2Vec2(162 * s/tScale, 183/tScale);
 			var p2:b2Vec2 = new b2Vec2(216 * s/tScale, 36 /tScale);
@@ -138,39 +140,41 @@ package TestBed{
 			var p6:b2Vec2 = new b2Vec2( 75 * s/tScale, -111 /tScale);
 			
 			//b2PolygonDef sd1, sd2;
-			var sd1:b2PolygonDef = new b2PolygonDef();
-			var sd2:b2PolygonDef = new b2PolygonDef();
-			sd1.vertexCount = 3;
-			sd2.vertexCount = 3;
-			sd1.filter.groupIndex = -1;
-			sd2.filter.groupIndex = -1;
-			sd1.density = 1.0;
-			sd2.density = 1.0;
+			var sd1:b2PolygonShape = new b2PolygonShape();
+			var sd2:b2PolygonShape = new b2PolygonShape();
+			var fd1:b2FixtureDef = new b2FixtureDef();
+			var fd2:b2FixtureDef = new b2FixtureDef();
+			fd1.shape = sd1;
+			fd2.shape = sd2;
+			fd1.filter.groupIndex = -1;
+			fd2.filter.groupIndex = -1;
+			fd1.density = 1.0;
+			fd2.density = 1.0;
 			
 			if (s > 0.0)
 			{
-				sd1.vertices[2] = p1;
-				sd1.vertices[1] = p2;
-				sd1.vertices[0] = p3;
-				
-				sd2.vertices[2] = new b2Vec2();
-				sd2.vertices[1] = b2Math.SubtractVV(p5, p4);
-				sd2.vertices[0] = b2Math.SubtractVV(p6, p4);
+				sd1.SetAsArray([p3, p2, p1]);
+				sd2.SetAsArray([
+					b2Math.SubtractVV(p6, p4),
+					b2Math.SubtractVV(p5, p4),
+					new b2Vec2()
+					]);
 			}
 			else
 			{
-				sd1.vertices[2] = p1;
-				sd1.vertices[1] = p3;
-				sd1.vertices[0] = p2;
-				
-				sd2.vertices[2] = new b2Vec2();
-				sd2.vertices[1] = b2Math.SubtractVV(p6, p4);
-				sd2.vertices[0] = b2Math.SubtractVV(p5, p4);
+				sd1.SetAsArray([p2, p3, p1]);
+				sd2.SetAsArray([
+					b2Math.SubtractVV(p5, p4),
+					b2Math.SubtractVV(p6, p4),
+					new b2Vec2()
+					]);
 			}
 			
 			//b2BodyDef bd1, bd2;
 			var bd1:b2BodyDef = new b2BodyDef();
+			bd1.type = b2Body.b2_dynamicBody;
 			var bd2:b2BodyDef = new b2BodyDef();
+			bd2.type = b2Body.b2_dynamicBody;
 			bd1.position.SetV(m_offset);
 			bd2.position = b2Math.AddVV(p4, m_offset);
 			
@@ -180,13 +184,16 @@ package TestBed{
 			var body1:b2Body = m_world.CreateBody(bd1);
 			var body2:b2Body = m_world.CreateBody(bd2);
 			
-			body1.CreateShape(sd1);
-			body2.CreateShape(sd2);
-			
-			body1.SetMassFromShapes();
-			body2.SetMassFromShapes();
+			body1.CreateFixture(fd1);
+			body2.CreateFixture(fd2);
 			
 			var djd:b2DistanceJointDef = new b2DistanceJointDef();
+			
+			// Using a soft distance constraint can reduce some jitter.
+			// It also makes the structure seem a bit more fluid by
+			// acting like a suspension system.
+			djd.dampingRatio = 0.5;
+			djd.frequencyHz = 10.0;
 			
 			djd.Initialize(body1, body2, b2Math.AddVV(p2, m_offset), b2Math.AddVV(p5, m_offset));
 			m_world.CreateJoint(djd);
@@ -213,22 +220,22 @@ package TestBed{
 			
 			//case 'a':
 			if (Input.isKeyPressed(65)){ // A
-				m_chassis.WakeUp();
+				m_chassis.SetAwake(true);
 				m_motorJoint.SetMotorSpeed(-m_motorSpeed);
 			}
 			//case 's':
 			if (Input.isKeyPressed(83)){ // S
-				m_chassis.WakeUp();
+				m_chassis.SetAwake(true);
 				m_motorJoint.SetMotorSpeed(0.0);
 			}
 			//case 'd':
 			if (Input.isKeyPressed(68)){ // D
-				m_chassis.WakeUp();
+				m_chassis.SetAwake(true);
 				m_motorJoint.SetMotorSpeed(m_motorSpeed);
 			}
 			//case 'm':
 			if (Input.isKeyPressed(77)){ // M
-				m_chassis.WakeUp();
+				m_chassis.SetAwake(true);
 				m_motorJoint.EnableMotor(!m_motorJoint.IsMotorEnabled());
 			}
 			

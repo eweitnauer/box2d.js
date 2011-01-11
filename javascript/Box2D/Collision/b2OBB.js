@@ -8,10 +8,10 @@ this.R =  new b2Mat22();
 this.center =  new b2Vec2();
 this.extents =  new b2Vec2();
 }
-// static attributes
 // static methods
+// static attributes
+// methods
 // attributes
 b2OBB.prototype.R =  new b2Mat22();
 b2OBB.prototype.center =  new b2Vec2();
 b2OBB.prototype.extents =  new b2Vec2();
-// methods

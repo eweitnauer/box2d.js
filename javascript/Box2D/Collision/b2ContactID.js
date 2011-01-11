@@ -9,11 +9,8 @@ b2ContactID.prototype.__constructor = function () {
 b2ContactID.prototype.__varz = function(){
 this.features =  new Features();
 }
-// static attributes
 // static methods
-// attributes
-b2ContactID.prototype.features =  new Features();
-b2ContactID.prototype._key =  0;
+// static attributes
 // methods
 b2ContactID.prototype.Set = function (id) {
 		key = id._key;
@@ -25,11 +22,14 @@ b2ContactID.prototype.Copy = function () {
 	}
 b2ContactID.prototype.__defineSetter__("key", function () {
 		return this._key;
-	});
-b2ContactID.prototype.__defineSetter__("key", function(value) {	
+    });
+b2ContactID.prototype.__defineSetter__("key", function(value) { 
 		this._key = value;
 		this.features._referenceEdge = this._key & 0x000000ff;
 		this.features._incidentEdge = ((this._key & 0x0000ff00) >> 8) & 0x000000ff;
 		this.features._incidentVertex = ((this._key & 0x00ff0000) >> 16) & 0x000000ff;
 		this.features._flip = ((this._key & 0xff000000) >> 24) & 0x000000ff;
-	});
+    });
+// attributes
+b2ContactID.prototype._key =  0;
+b2ContactID.prototype.features =  new Features();

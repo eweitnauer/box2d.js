@@ -2,28 +2,20 @@ var b2BroadPhase = function() {
 this.__varz();
 this.__constructor.apply(this, arguments);
 }
-b2BroadPhase.prototype.__constructor = function (worldAABB, callback) {
+b2BroadPhase.prototype.__constructor = function (worldAABB) {
 		
 		var i = 0;
 		
-		this.m_pairManager.Initialize(this, callback);
+		this.m_pairManager.Initialize(this);
 		
 		this.m_worldAABB = worldAABB;
 		
 		this.m_proxyCount = 0;
 		
 		
-		for (i = 0; i < b2Settings.b2_maxProxies; i++){
-			this.m_queryResults[i] = 0;
-		}
-		
-		
-		this.m_bounds = new Array(2);
+		this.m_bounds = new Array();
 		for (i = 0; i < 2; i++){
-			this.m_bounds[i] = new Array(2*b2Settings.b2_maxProxies);
-			for (var j = 0; j < 2*b2Settings.b2_maxProxies; j++){
-				this.m_bounds[i][j] = new b2Bound();
-			}
+			this.m_bounds[i] = new Array();
 		}
 		
 		
@@ -33,38 +25,16 @@ b2BroadPhase.prototype.__constructor = function (worldAABB, callback) {
 		this.m_quantizationFactor.x = b2Settings.USHRT_MAX / dX;
 		this.m_quantizationFactor.y = b2Settings.USHRT_MAX / dY;
 		
-		var tProxy;
-		for (i = 0; i < b2Settings.b2_maxProxies - 1; ++i)
-		{
-			tProxy = new b2Proxy();
-			this.m_proxyPool[i] = tProxy;
-			tProxy.SetNext(i + 1);
-			tProxy.timeStamp = 0;
-			tProxy.overlapCount = b2BroadPhase.b2_invalid;
-			tProxy.userData = null;
-		}
-		tProxy = new b2Proxy();
-		this.m_proxyPool[parseInt(b2Settings.b2_maxProxies-1)] = tProxy;
-		tProxy.SetNext(b2Pair.b2_nullProxy);
-		tProxy.timeStamp = 0;
-		tProxy.overlapCount = b2BroadPhase.b2_invalid;
-		tProxy.userData = null;
-		this.m_freeProxy = 0;
-		
 		this.m_timeStamp = 1;
 		this.m_queryResultCount = 0;
 	}
 b2BroadPhase.prototype.__varz = function(){
 this.m_pairManager =  new b2PairManager();
-this.m_proxyPool =  new Array(b2Settings.b2_maxPairs);
-this.m_bounds =  new Array(2*b2Settings.b2_maxProxies);
-this.m_queryResults =  new Array(b2Settings.b2_maxProxies);
+this.m_proxyPool =  new Array();
+this.m_querySortKeys =  new Array();
+this.m_queryResults =  new Array();
 this.m_quantizationFactor =  new b2Vec2();
 }
-// static attributes
-b2BroadPhase.s_validate =  false;
-b2BroadPhase.b2_invalid =  b2Settings.USHRT_MAX;
-b2BroadPhase.b2_nullEdge =  b2Settings.USHRT_MAX;
 // static methods
 b2BroadPhase.BinarySearch = function (bounds, count, value) {
 		var low = 0;
@@ -89,17 +59,10 @@ b2BroadPhase.BinarySearch = function (bounds, count, value) {
 		
 		return parseInt(low);
 	}
-// attributes
-b2BroadPhase.prototype.m_pairManager =  new b2PairManager();
-b2BroadPhase.prototype.m_proxyPool =  new Array(b2Settings.b2_maxPairs);
-b2BroadPhase.prototype.m_freeProxy =  0;
-b2BroadPhase.prototype.m_bounds =  new Array(2*b2Settings.b2_maxProxies);
-b2BroadPhase.prototype.m_queryResults =  new Array(b2Settings.b2_maxProxies);
-b2BroadPhase.prototype.m_queryResultCount =  0;
-b2BroadPhase.prototype.m_worldAABB =  null;
-b2BroadPhase.prototype.m_quantizationFactor =  new b2Vec2();
-b2BroadPhase.prototype.m_proxyCount =  0;
-b2BroadPhase.prototype.m_timeStamp =  0;
+// static attributes
+b2BroadPhase.s_validate =  false;
+b2BroadPhase.b2_invalid =  b2Settings.USHRT_MAX;
+b2BroadPhase.b2_nullEdge =  b2Settings.USHRT_MAX;
 // methods
 b2BroadPhase.prototype.ComputeBounds = function (lowerValues, upperValues, aabb) {
 		
@@ -108,18 +71,18 @@ b2BroadPhase.prototype.ComputeBounds = function (lowerValues, upperValues, aabb)
 		
 		var minVertexX = aabb.lowerBound.x;
 		var minVertexY = aabb.lowerBound.y;
-		minVertexX = b2Math.b2Min(minVertexX, this.m_worldAABB.upperBound.x);
-		minVertexY = b2Math.b2Min(minVertexY, this.m_worldAABB.upperBound.y);
-		minVertexX = b2Math.b2Max(minVertexX, this.m_worldAABB.lowerBound.x);
-		minVertexY = b2Math.b2Max(minVertexY, this.m_worldAABB.lowerBound.y);
+		minVertexX = b2Math.Min(minVertexX, this.m_worldAABB.upperBound.x);
+		minVertexY = b2Math.Min(minVertexY, this.m_worldAABB.upperBound.y);
+		minVertexX = b2Math.Max(minVertexX, this.m_worldAABB.lowerBound.x);
+		minVertexY = b2Math.Max(minVertexY, this.m_worldAABB.lowerBound.y);
 		
 		
 		var maxVertexX = aabb.upperBound.x;
 		var maxVertexY = aabb.upperBound.y;
-		maxVertexX = b2Math.b2Min(maxVertexX, this.m_worldAABB.upperBound.x);
-		maxVertexY = b2Math.b2Min(maxVertexY, this.m_worldAABB.upperBound.y);
-		maxVertexX = b2Math.b2Max(maxVertexX, this.m_worldAABB.lowerBound.x);
-		maxVertexY = b2Math.b2Max(maxVertexY, this.m_worldAABB.lowerBound.y);
+		maxVertexX = b2Math.Min(maxVertexX, this.m_worldAABB.upperBound.x);
+		maxVertexY = b2Math.Min(maxVertexY, this.m_worldAABB.upperBound.y);
+		maxVertexX = b2Math.Max(maxVertexX, this.m_worldAABB.lowerBound.x);
+		maxVertexY = b2Math.Max(maxVertexY, this.m_worldAABB.lowerBound.y);
 		
 		
 		
@@ -154,7 +117,7 @@ b2BroadPhase.prototype.TestOverlapValidate = function (p1, p2) {
 		
 		return true;
 	}
-b2BroadPhase.prototype.Query = function (lowerQueryOut, upperQueryOut, lowerValue, upperValue, bounds, boundCount, axis) {
+b2BroadPhase.prototype.QueryAxis = function (lowerQueryOut, upperQueryOut, lowerValue, upperValue, bounds, boundCount, axis) {
 		
 		var lowerQuery = b2BroadPhase.BinarySearch(bounds, boundCount, lowerValue);
 		var upperQuery = b2BroadPhase.BinarySearch(bounds, boundCount, upperValue);
@@ -167,7 +130,7 @@ b2BroadPhase.prototype.Query = function (lowerQueryOut, upperQueryOut, lowerValu
 			bound = bounds[j];
 			if (bound.IsLower())
 			{
-				this.IncrementOverlapCount(bound.proxyId);
+				this.IncrementOverlapCount(bound.proxy);
 			}
 		}
 		
@@ -186,10 +149,10 @@ b2BroadPhase.prototype.Query = function (lowerQueryOut, upperQueryOut, lowerValu
 				bound = bounds[i];
 				if (bound.IsLower())
 				{
-					var proxy = this.m_proxyPool[ bound.proxyId ];
+					var proxy = bound.proxy;
 					if (lowerQuery <= proxy.upperBounds[axis])
 					{
-						this.IncrementOverlapCount(bound.proxyId);
+						this.IncrementOverlapCount(bound.proxy);
 						--s;
 					}
 				}
@@ -200,8 +163,7 @@ b2BroadPhase.prototype.Query = function (lowerQueryOut, upperQueryOut, lowerValu
 		lowerQueryOut[0] = lowerQuery;
 		upperQueryOut[0] = upperQuery;
 	}
-b2BroadPhase.prototype.IncrementOverlapCount = function (proxyId) {
-		var proxy = this.m_proxyPool[ proxyId ];
+b2BroadPhase.prototype.IncrementOverlapCount = function (proxy) {
 		if (proxy.timeStamp < this.m_timeStamp)
 		{
 			proxy.timeStamp = this.m_timeStamp;
@@ -211,14 +173,14 @@ b2BroadPhase.prototype.IncrementOverlapCount = function (proxyId) {
 		{
 			proxy.overlapCount = 2;
 			
-			this.m_queryResults[this.m_queryResultCount] = proxyId;
+			this.m_queryResults[this.m_queryResultCount] = proxy;
 			++this.m_queryResultCount;
 		}
 	}
 b2BroadPhase.prototype.IncrementTimeStamp = function () {
 		if (this.m_timeStamp == b2Settings.USHRT_MAX)
 		{
-			for (var i = 0; i < b2Settings.b2_maxProxies; ++i)
+			for (var i = 0; i < this.m_proxyPool.length; ++i)
 			{
 				(this.m_proxyPool[i]).timeStamp = 0;
 			}
@@ -246,30 +208,40 @@ b2BroadPhase.prototype.InRange = function (aabb) {
 		d2X -= aabb.upperBound.x;
 		d2Y -= aabb.upperBound.y;
 		
-		dX = b2Math.b2Max(dX, d2X);
-		dY = b2Math.b2Max(dY, d2Y);
+		dX = b2Math.Max(dX, d2X);
+		dY = b2Math.Max(dY, d2Y);
 		
-		return b2Math.b2Max(dX, dY) < 0.0;
-	}
-b2BroadPhase.prototype.GetProxy = function (proxyId) {
-		var proxy = this.m_proxyPool[proxyId];
-		if (proxyId == b2Pair.b2_nullProxy || proxy.IsValid() == false)
-		{
-			return null;
-		}
-		
-		return proxy;
+		return b2Math.Max(dX, dY) < 0.0;
 	}
 b2BroadPhase.prototype.CreateProxy = function (aabb, userData) {
 		var index = 0;
 		var proxy;
+		var i = 0;
+		var j = 0;
 		
 		
 		
 		
-		var proxyId = this.m_freeProxy;
-		proxy = this.m_proxyPool[ proxyId ];
-		this.m_freeProxy = proxy.GetNext();
+		if (!this.m_freeProxy)
+		{
+			
+			this.m_freeProxy = this.m_proxyPool[this.m_proxyCount] = new b2Proxy();
+			this.m_freeProxy.next = null;
+			this.m_freeProxy.timeStamp = 0;
+			this.m_freeProxy.overlapCount = b2BroadPhase.b2_invalid;
+			this.m_freeProxy.userData = null;
+			
+			for (i = 0; i < 2; i++)
+			{
+				j = this.m_proxyCount * 2;
+				this.m_bounds[i][j++] = new b2Bound();
+				this.m_bounds[i][j] = new b2Bound();
+			}
+			
+		}
+		
+		proxy = this.m_freeProxy;
+		this.m_freeProxy = proxy.next;
 		
 		proxy.overlapCount = 0;
 		proxy.userData = userData;
@@ -285,76 +257,31 @@ b2BroadPhase.prototype.CreateProxy = function (aabb, userData) {
 			var bounds = this.m_bounds[axis];
 			var lowerIndex = 0;
 			var upperIndex = 0;
-			var lowerIndexOut = [lowerIndex];
-			var upperIndexOut = [upperIndex];
-			this.Query(lowerIndexOut, upperIndexOut, lowerValues[axis], upperValues[axis], bounds, boundCount, axis);
+			var lowerIndexOut = new Array();
+			lowerIndexOut.push(lowerIndex);
+			var upperIndexOut = new Array();
+			upperIndexOut.push(upperIndex);
+			this.QueryAxis(lowerIndexOut, upperIndexOut, lowerValues[axis], upperValues[axis], bounds, boundCount, axis);
 			lowerIndex = lowerIndexOut[0];
 			upperIndex = upperIndexOut[0];
 			
-			
-			
-			var tArr = new Array();
-			var j = 0;
-			var tEnd = boundCount - upperIndex
-			var tBound1;
-			var tBound2;
-			var tBoundAS3;
-			
-			for (j = 0; j < tEnd; j++){
-				tArr[j] = new b2Bound();
-				tBound1 = tArr[j];
-				tBound2 = bounds[parseInt(upperIndex+j)];
-				tBound1.value = tBound2.value;
-				tBound1.proxyId = tBound2.proxyId;
-				tBound1.stabbingCount = tBound2.stabbingCount;
-			}
-			
-			tEnd = tArr.length;
-			var tIndex = upperIndex+2;
-			for (j = 0; j < tEnd; j++){
-				
-				tBound2 = tArr[j];
-				tBound1 = bounds[parseInt(tIndex+j)]
-				tBound1.value = tBound2.value;
-				tBound1.proxyId = tBound2.proxyId;
-				tBound1.stabbingCount = tBound2.stabbingCount;
-			}
-			
-			
-			tArr = new Array();
-			tEnd = upperIndex - lowerIndex;
-			for (j = 0; j < tEnd; j++){
-				tArr[j] = new b2Bound();
-				tBound1 = tArr[j];
-				tBound2 = bounds[parseInt(lowerIndex+j)];
-				tBound1.value = tBound2.value;
-				tBound1.proxyId = tBound2.proxyId;
-				tBound1.stabbingCount = tBound2.stabbingCount;
-			}
-			
-			tEnd = tArr.length;
-			tIndex = lowerIndex+1;
-			for (j = 0; j < tEnd; j++){
-				
-				tBound2 = tArr[j];
-				tBound1 = bounds[parseInt(tIndex+j)]
-				tBound1.value = tBound2.value;
-				tBound1.proxyId = tBound2.proxyId;
-				tBound1.stabbingCount = tBound2.stabbingCount;
-			}
+			bounds.splice(upperIndex, 0, bounds[bounds.length - 1]);
+			bounds.length--;
+			bounds.splice(lowerIndex, 0, bounds[bounds.length - 1]);
+			bounds.length--;
 			
 			
 			++upperIndex;
 			
 			
-			tBound1 = bounds[lowerIndex];
-			tBound2 = bounds[upperIndex];
+			var tBound1 = bounds[lowerIndex];
+			var tBound2 = bounds[upperIndex];
 			tBound1.value = lowerValues[axis];
-			tBound1.proxyId = proxyId;
+			tBound1.proxy = proxy;
 			tBound2.value = upperValues[axis];
-			tBound2.proxyId = proxyId;
+			tBound2.proxy = proxy;
 			
-			tBoundAS3 = bounds[parseInt(lowerIndex-1)];
+			var tBoundAS3 = bounds[parseInt(lowerIndex-1)];
 			tBound1.stabbingCount = lowerIndex == 0 ? 0 : tBoundAS3.stabbingCount;
 			tBoundAS3 = bounds[parseInt(upperIndex-1)];
 			tBound2.stabbingCount = tBoundAS3.stabbingCount;
@@ -370,7 +297,7 @@ b2BroadPhase.prototype.CreateProxy = function (aabb, userData) {
 			for (index = lowerIndex; index < boundCount + 2; ++index)
 			{
 				tBound1 = bounds[index];
-				var proxy2 = this.m_proxyPool[ tBound1.proxyId ];
+				var proxy2 = tBound1.proxy;
 				if (tBound1.IsLower())
 				{
 					proxy2.lowerBounds[axis] = index;
@@ -386,29 +313,25 @@ b2BroadPhase.prototype.CreateProxy = function (aabb, userData) {
 		
 		
 		
-		for (var i = 0; i < this.m_queryResultCount; ++i)
+		for (i = 0; i < this.m_queryResultCount; ++i)
 		{
 			
 			
 			
-			this.m_pairManager.AddBufferedPair(proxyId, this.m_queryResults[i]);
+			this.m_pairManager.AddBufferedPair(proxy, this.m_queryResults[i]);
 		}
-		
-		this.m_pairManager.Commit();
 		
 		
 		this.m_queryResultCount = 0;
 		this.IncrementTimeStamp();
 		
-		return proxyId;
+		return proxy;
 	}
-b2BroadPhase.prototype.DestroyProxy = function (proxyId) {
+b2BroadPhase.prototype.DestroyProxy = function (proxy_) {
+		var proxy = proxy_;
 		var tBound1;
 		var tBound2;
 		
-		
-		
-		var proxy = this.m_proxyPool[ proxyId ];
 		
 		
 		var boundCount = 2 * this.m_proxyCount;
@@ -424,61 +347,18 @@ b2BroadPhase.prototype.DestroyProxy = function (proxyId) {
 			tBound2 = bounds[upperIndex];
 			var upperValue = tBound2.value;
 			
+			bounds.splice(upperIndex, 1);
+			bounds.splice(lowerIndex, 1);
+			bounds.push(tBound1);
+			bounds.push(tBound2);
 			
 			
-			var tArr = new Array();
-			var j = 0;
-			var tEnd = upperIndex - lowerIndex - 1;
 			
-			for (j = 0; j < tEnd; j++){
-				tArr[j] = new b2Bound();
-				tBound1 = tArr[j];
-				tBound2 = bounds[parseInt(lowerIndex+1+j)];
-				tBound1.value = tBound2.value;
-				tBound1.proxyId = tBound2.proxyId;
-				tBound1.stabbingCount = tBound2.stabbingCount;
-			}
-			
-			tEnd = tArr.length;
-			var tIndex = lowerIndex;
-			for (j = 0; j < tEnd; j++){
-				
-				tBound2 = tArr[j];
-				tBound1 = bounds[parseInt(tIndex+j)]
-				tBound1.value = tBound2.value;
-				tBound1.proxyId = tBound2.proxyId;
-				tBound1.stabbingCount = tBound2.stabbingCount;
-			}
-			
-			
-			tArr = new Array();
-			tEnd = boundCount - upperIndex - 1;
-			for (j = 0; j < tEnd; j++){
-				tArr[j] = new b2Bound();
-				tBound1 = tArr[j];
-				tBound2 = bounds[parseInt(upperIndex+1+j)];
-				tBound1.value = tBound2.value;
-				tBound1.proxyId = tBound2.proxyId;
-				tBound1.stabbingCount = tBound2.stabbingCount;
-			}
-			
-			tEnd = tArr.length;
-			tIndex = upperIndex-1;
-			for (j = 0; j < tEnd; j++){
-				
-				tBound2 = tArr[j];
-				tBound1 = bounds[parseInt(tIndex+j)]
-				tBound1.value = tBound2.value;
-				tBound1.proxyId = tBound2.proxyId;
-				tBound1.stabbingCount = tBound2.stabbingCount;
-			}
-			
-			
-			tEnd = boundCount - 2;
+			var tEnd = boundCount - 2;
 			for (var index = lowerIndex; index < tEnd; ++index)
 			{
 				tBound1 = bounds[index];
-				var proxy2 = this.m_proxyPool[ tBound1.proxyId ];
+				var proxy2 = tBound1.proxy;
 				if (tBound1.IsLower())
 				{
 					proxy2.lowerBounds[axis] = index;
@@ -499,7 +379,8 @@ b2BroadPhase.prototype.DestroyProxy = function (proxyId) {
 			
 			
 			
-			this.Query([0], [0], lowerValue, upperValue, bounds, boundCount - 2, axis);
+			var ignore = new Array();
+			this.QueryAxis(ignore, ignore, lowerValue, upperValue, bounds, boundCount - 2, axis);
 		}
 		
 		
@@ -508,10 +389,8 @@ b2BroadPhase.prototype.DestroyProxy = function (proxyId) {
 		{
 			
 			
-			this.m_pairManager.RemoveBufferedPair(proxyId, this.m_queryResults[i]);
+			this.m_pairManager.RemoveBufferedPair(proxy, this.m_queryResults[i]);
 		}
-		
-		this.m_pairManager.Commit();
 		
 		
 		this.m_queryResultCount = 0;
@@ -525,13 +404,15 @@ b2BroadPhase.prototype.DestroyProxy = function (proxyId) {
 		proxy.upperBounds[0] = b2BroadPhase.b2_invalid;
 		proxy.upperBounds[1] = b2BroadPhase.b2_invalid;
 		
-		proxy.SetNext(this.m_freeProxy);
-		this.m_freeProxy = proxyId;
+		proxy.next = this.m_freeProxy;
+		this.m_freeProxy = proxy;
 		--this.m_proxyCount;
 	}
-b2BroadPhase.prototype.MoveProxy = function (proxyId, aabb) {
+b2BroadPhase.prototype.MoveProxy = function (proxy_, aabb, displacement) {
+		var proxy = proxy_;
+		
 		var as3arr;
-		var as3int;
+		var as3int = 0;
 		
 		var axis = 0;
 		var index = 0;
@@ -541,7 +422,7 @@ b2BroadPhase.prototype.MoveProxy = function (proxyId, aabb) {
 		var nextProxyId = 0;
 		var nextProxy;
 		
-		if (proxyId == b2Pair.b2_nullProxy || b2Settings.b2_maxProxies <= proxyId)
+		if (proxy == null)
 		{
 			
 			return;
@@ -555,7 +436,6 @@ b2BroadPhase.prototype.MoveProxy = function (proxyId, aabb) {
 		
 		var boundCount = 2 * this.m_proxyCount;
 		
-		var proxy = this.m_proxyPool[ proxyId ];
 		
 		var newValues = new b2BoundValues();
 		this.ComputeBounds(newValues.lowerValues, newValues.upperValues, aabb);
@@ -601,16 +481,15 @@ b2BroadPhase.prototype.MoveProxy = function (proxyId, aabb) {
 					bound = bounds[index];
 					prevBound = bounds[parseInt(index - 1)];
 					
-					var prevProxyId = prevBound.proxyId;
-					var prevProxy = this.m_proxyPool[ prevBound.proxyId ];
+					var prevProxy = prevBound.proxy;
 					
 					prevBound.stabbingCount++;
 					
 					if (prevBound.IsUpper() == true)
 					{
-						if (this.TestOverlap(newValues, prevProxy))
+						if (this.TestOverlapBound(newValues, prevProxy))
 						{
-							this.m_pairManager.AddBufferedPair(proxyId, prevProxyId);
+							this.m_pairManager.AddBufferedPair(proxy, prevProxy);
 						}
 						
 						
@@ -656,16 +535,15 @@ b2BroadPhase.prototype.MoveProxy = function (proxyId, aabb) {
 				{
 					bound = bounds[ index ];
 					nextBound = bounds[ parseInt(index + 1) ];
-					nextProxyId = nextBound.proxyId;
-					nextProxy = this.m_proxyPool[ nextProxyId ];
+					nextProxy = nextBound.proxy;
 					
 					nextBound.stabbingCount++;
 					
 					if (nextBound.IsLower() == true)
 					{
-						if (this.TestOverlap(newValues, nextProxy))
+						if (this.TestOverlapBound(newValues, nextProxy))
 						{
-							this.m_pairManager.AddBufferedPair(proxyId, nextProxyId);
+							this.m_pairManager.AddBufferedPair(proxy, nextProxy);
 						}
 						
 						
@@ -716,16 +594,15 @@ b2BroadPhase.prototype.MoveProxy = function (proxyId, aabb) {
 					bound = bounds[ index ];
 					nextBound = bounds[ parseInt(index + 1) ];
 					
-					nextProxyId = nextBound.proxyId;
-					nextProxy = this.m_proxyPool[ nextProxyId ];
+					nextProxy = nextBound.proxy;
 					
 					nextBound.stabbingCount--;
 					
 					if (nextBound.IsUpper())
 					{
-						if (this.TestOverlap(oldValues, nextProxy))
+						if (this.TestOverlapBound(oldValues, nextProxy))
 						{
-							this.m_pairManager.RemoveBufferedPair(proxyId, nextProxyId);
+							this.m_pairManager.RemoveBufferedPair(proxy, nextProxy);
 						}
 						
 						
@@ -772,16 +649,15 @@ b2BroadPhase.prototype.MoveProxy = function (proxyId, aabb) {
 					bound = bounds[index];
 					prevBound = bounds[parseInt(index - 1)];
 					
-					prevProxyId = prevBound.proxyId;
-					prevProxy = this.m_proxyPool[ prevProxyId ];
+					prevProxy = prevBound.proxy;
 					
 					prevBound.stabbingCount--;
 					
 					if (prevBound.IsLower() == true)
 					{
-						if (this.TestOverlap(oldValues, prevProxy))
+						if (this.TestOverlapBound(oldValues, prevProxy))
 						{
-							this.m_pairManager.RemoveBufferedPair(proxyId, prevProxyId);
+							this.m_pairManager.RemoveBufferedPair(proxy, prevProxy);
 						}
 						
 						
@@ -820,37 +696,63 @@ b2BroadPhase.prototype.MoveProxy = function (proxyId, aabb) {
 			}
 		}
 	}
-b2BroadPhase.prototype.Commit = function () {
-		this.m_pairManager.Commit();
+b2BroadPhase.prototype.UpdatePairs = function (callback) {
+		this.m_pairManager.Commit(callback);
 	}
-b2BroadPhase.prototype.QueryAABB = function (aabb, userData, maxCount) {
+b2BroadPhase.prototype.TestOverlap = function (proxyA, proxyB) {
+		var proxyA_ = proxyA;
+		var proxyB_ = proxyB;
+		if ( proxyA_.lowerBounds[0] > proxyB_.upperBounds[0]) return false;
+		if ( proxyB_.lowerBounds[0] > proxyA_.upperBounds[0]) return false;
+		if ( proxyA_.lowerBounds[1] > proxyB_.upperBounds[1]) return false;
+		if ( proxyB_.lowerBounds[1] > proxyA_.upperBounds[1]) return false;
+		return true;
+	}
+b2BroadPhase.prototype.GetUserData = function (proxy) {
+		return (proxy).userData;
+	}
+b2BroadPhase.prototype.GetFatAABB = function (proxy_) {
+		var aabb = new b2AABB();
+		var proxy = proxy_;
+		aabb.lowerBound.x = this.m_worldAABB.lowerBound.x + this.m_bounds[0][proxy.lowerBounds[0]].value / this.m_quantizationFactor.x;
+		aabb.lowerBound.y = this.m_worldAABB.lowerBound.y + this.m_bounds[1][proxy.lowerBounds[1]].value / this.m_quantizationFactor.y;
+		aabb.upperBound.x = this.m_worldAABB.lowerBound.x + this.m_bounds[0][proxy.upperBounds[0]].value / this.m_quantizationFactor.x;
+		aabb.upperBound.y = this.m_worldAABB.lowerBound.y + this.m_bounds[1][proxy.upperBounds[1]].value / this.m_quantizationFactor.y;
+		return aabb;
+	}
+b2BroadPhase.prototype.GetProxyCount = function () {
+		return this.m_proxyCount;
+	}
+b2BroadPhase.prototype.Query = function (callback, aabb) {
 		var lowerValues = new Array();
 		var upperValues = new Array();
 		this.ComputeBounds(lowerValues, upperValues, aabb);
 		
 		var lowerIndex = 0;
 		var upperIndex = 0;
-		var lowerIndexOut = [lowerIndex];
-		var upperIndexOut = [upperIndex];
-		this.Query(lowerIndexOut, upperIndexOut, lowerValues[0], upperValues[0], this.m_bounds[0], 2*this.m_proxyCount, 0);
-		this.Query(lowerIndexOut, upperIndexOut, lowerValues[1], upperValues[1], this.m_bounds[1], 2*this.m_proxyCount, 1);
+		var lowerIndexOut = new Array();
+		lowerIndexOut.push(lowerIndex);
+		var upperIndexOut = new Array();
+		upperIndexOut.push(upperIndex);
+		this.QueryAxis(lowerIndexOut, upperIndexOut, lowerValues[0], upperValues[0], this.m_bounds[0], 2*this.m_proxyCount, 0);
+		this.QueryAxis(lowerIndexOut, upperIndexOut, lowerValues[1], upperValues[1], this.m_bounds[1], 2*this.m_proxyCount, 1);
 		
 		
 		
-		var count = 0;
-		for (var i = 0; i < this.m_queryResultCount && count < maxCount; ++i, ++count)
+		
+		for (var i = 0; i < this.m_queryResultCount; ++i)
 		{
+			var proxy = this.m_queryResults[i];
 			
-			var proxy = this.m_proxyPool[ this.m_queryResults[i] ];
-			
-			userData[i] = proxy.userData;
+			if (!callback(proxy))
+			{
+				break;
+			}
 		}
 		
 		
 		this.m_queryResultCount = 0;
 		this.IncrementTimeStamp();
-		
-		return count;
 	}
 b2BroadPhase.prototype.Validate = function () {
 		var pair;
@@ -888,7 +790,166 @@ b2BroadPhase.prototype.Validate = function () {
 		}
 		
 	}
-b2BroadPhase.prototype.TestOverlap = function (b, p) {
+b2BroadPhase.prototype.Rebalance = function (iterations) {
+		
+	}
+b2BroadPhase.prototype.RayCast = function (callback, input) {
+		var subInput = new b2RayCastInput();
+		subInput.p1.SetV(input.p1);
+		subInput.p2.SetV(input.p2);
+		subInput.maxFraction = input.maxFraction;
+		
+		
+		var dx = (input.p2.x-input.p1.x)*this.m_quantizationFactor.x;
+		var dy = (input.p2.y-input.p1.y)*this.m_quantizationFactor.y;
+		
+		var sx = dx<-Number.MIN_VALUE ? -1 : (dx>Number.MIN_VALUE ? 1 : 0);
+		var sy = dy<-Number.MIN_VALUE ? -1 : (dy>Number.MIN_VALUE ? 1 : 0);
+		
+		
+		
+		var p1x = this.m_quantizationFactor.x * (input.p1.x - this.m_worldAABB.lowerBound.x);
+		var p1y = this.m_quantizationFactor.y * (input.p1.y - this.m_worldAABB.lowerBound.y);
+		
+		var startValues = new Array();
+		var startValues2 = new Array();
+		startValues[0]=parseInt(p1x) & (b2Settings.USHRT_MAX - 1);
+		startValues[1]=parseInt(p1y) & (b2Settings.USHRT_MAX - 1);
+		startValues2[0]=startValues[0]+1;
+		startValues2[1]=startValues[1]+1;
+		
+		var startIndices = new Array();
+		
+		var xIndex = 0;
+		var yIndex = 0;
+		
+		var proxy;
+		
+		
+		
+		var lowerIndex = 0;
+		var upperIndex = 0;
+		var lowerIndexOut = new Array(); 
+		lowerIndexOut.push(lowerIndex);
+		var upperIndexOut = new Array();
+		upperIndexOut.push(upperIndex);
+		this.QueryAxis(lowerIndexOut, upperIndexOut, startValues[0], startValues2[0], this.m_bounds[0], 2*this.m_proxyCount, 0);
+		if(sx>=0)	xIndex = upperIndexOut[0]-1;
+		else		xIndex = lowerIndexOut[0];
+		this.QueryAxis(lowerIndexOut, upperIndexOut, startValues[1], startValues2[1], this.m_bounds[1], 2*this.m_proxyCount, 1);
+		if(sy>=0)	yIndex = upperIndexOut[0]-1;
+		else		yIndex = lowerIndexOut[0];
+			
+		
+		for (var i = 0; i < this.m_queryResultCount; i++) {
+			subInput.maxFraction = callback(this.m_queryResults[i], subInput);
+		}
+		
+		
+		for (;; )
+		{
+			var xProgress = 0;
+			var yProgress = 0;
+			
+			xIndex += sx >= 0?1: -1;
+			if(xIndex<0||xIndex>=this.m_proxyCount*2)
+				break;
+			if(sx!=0){
+				xProgress = (this.m_bounds[0][xIndex].value - p1x) / dx;
+			}
+			
+			yIndex += sy >= 0?1: -1;
+			if(yIndex<0||yIndex>=this.m_proxyCount*2)
+				break;
+			if(sy!=0){
+				yProgress = (this.m_bounds[1][yIndex].value - p1y) / dy;	
+			}
+			for (;; )
+			{	
+				if(sy==0||(sx!=0&&xProgress<yProgress)){
+					if(xProgress>subInput.maxFraction)
+						break;
+					
+					
+					if(sx>0?this.m_bounds[0][xIndex].IsLower():this.m_bounds[0][xIndex].IsUpper()){
+						
+						proxy = this.m_bounds[0][xIndex].proxy;
+						if(sy>=0){
+							if(proxy.lowerBounds[1]<=yIndex-1&&proxy.upperBounds[1]>=yIndex){
+								
+								subInput.maxFraction = callback(proxy, subInput);
+							}
+						}else{
+							if(proxy.lowerBounds[1]<=yIndex&&proxy.upperBounds[1]>=yIndex+1){
+								
+								subInput.maxFraction = callback(proxy, subInput);
+							}
+						}
+					}
+					
+					
+					if(subInput.maxFraction==0)
+						break;
+					
+					
+					if(sx>0){
+						xIndex++;
+						if(xIndex==this.m_proxyCount*2)
+							break;
+					}else{
+						xIndex--;
+						if(xIndex<0)
+							break;
+					}
+					xProgress = (this.m_bounds[0][xIndex].value - p1x) / dx;
+				}else{
+					if(yProgress>subInput.maxFraction)
+						break;
+					
+					
+					if(sy>0?this.m_bounds[1][yIndex].IsLower():this.m_bounds[1][yIndex].IsUpper()){
+						
+						proxy = this.m_bounds[1][yIndex].proxy;
+						if(sx>=0){
+							if(proxy.lowerBounds[0]<=xIndex-1&&proxy.upperBounds[0]>=xIndex){
+								
+								subInput.maxFraction = callback(proxy, subInput);
+							}
+						}else{
+							if(proxy.lowerBounds[0]<=xIndex&&proxy.upperBounds[0]>=xIndex+1){
+								
+								subInput.maxFraction = callback(proxy, subInput);
+							}
+						}
+					}
+					
+					
+					if(subInput.maxFraction==0)
+						break;
+					
+					
+					if(sy>0){
+						yIndex++;
+						if(yIndex==this.m_proxyCount*2)
+							break;
+					}else{
+						yIndex--;
+						if(yIndex<0)
+							break;
+					}
+					yProgress = (this.m_bounds[1][yIndex].value - p1y) / dy;
+				}
+			}
+			break;
+		}
+		
+		
+		this.m_queryResultCount = 0;
+		this.IncrementTimeStamp();
+		
+		return;
+	}
+b2BroadPhase.prototype.TestOverlapBound = function (b, p) {
 		for (var axis = 0; axis < 2; ++axis)
 		{
 			var bounds = this.m_bounds[axis];
@@ -907,3 +968,15 @@ b2BroadPhase.prototype.TestOverlap = function (b, p) {
 		
 		return true;
 	}
+// attributes
+b2BroadPhase.prototype.m_pairManager =  new b2PairManager();
+b2BroadPhase.prototype.m_proxyPool =  new Array();
+b2BroadPhase.prototype.m_freeProxy =  null;
+b2BroadPhase.prototype.m_bounds =  null;
+b2BroadPhase.prototype.m_querySortKeys =  new Array();
+b2BroadPhase.prototype.m_queryResults =  new Array();
+b2BroadPhase.prototype.m_queryResultCount =  0;
+b2BroadPhase.prototype.m_worldAABB =  null;
+b2BroadPhase.prototype.m_quantizationFactor =  new b2Vec2();
+b2BroadPhase.prototype.m_proxyCount =  0;
+b2BroadPhase.prototype.m_timeStamp =  0;
