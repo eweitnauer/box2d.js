@@ -2000,13 +2000,14 @@ b2DebugDraw.prototype.DrawCircle = function(center, radius, color) {
   this.m_sprite.graphics.drawCircle(center.x * this.m_drawScale, center.y * this.m_drawScale, radius * this.m_drawScale)
 };
 b2DebugDraw.prototype.DrawSolidCircle = function(center, radius, axis, color) {
-  this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
-  this.m_sprite.graphics.moveTo(0, 0);
-  this.m_sprite.graphics.beginFill(color.color, this.m_fillAlpha);
-  this.m_sprite.graphics.drawCircle(center.x * this.m_drawScale, center.y * this.m_drawScale, radius * this.m_drawScale);
-  this.m_sprite.graphics.endFill();
-  this.m_sprite.graphics.moveTo(center.x * this.m_drawScale, center.y * this.m_drawScale);
-  this.m_sprite.graphics.lineTo((center.x + axis.x * radius) * this.m_drawScale, (center.y + axis.y * radius) * this.m_drawScale)
+  this.m_sprite.strokeSyle = this.ColorStyle(color, this.m_alpha);
+  this.m_sprite.lineWidth = this.m_lineThickness;
+  this.m_sprite.fillStyle = this.ColorStyle(color, this.m_fillAlpha);
+  this.m_sprite.beginPath();
+  this.m_sprite.arc(center.x * this.m_drawScale, this.Y(center.y * this.m_drawScale), radius * this.m_drawScale, 0, Math.PI * 2, true);
+  this.m_sprite.fill();
+  this.m_sprite.stroke();
+  this.m_sprite.closePath()
 };
 b2DebugDraw.prototype.DrawSegment = function(p1, p2, color) {
   this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
@@ -2014,12 +2015,19 @@ b2DebugDraw.prototype.DrawSegment = function(p1, p2, color) {
   this.m_sprite.graphics.lineTo(p2.x * this.m_drawScale, p2.y * this.m_drawScale)
 };
 b2DebugDraw.prototype.DrawTransform = function(xf) {
-  this.m_sprite.graphics.lineStyle(this.m_lineThickness, 16711680, this.m_alpha);
-  this.m_sprite.graphics.moveTo(xf.position.x * this.m_drawScale, xf.position.y * this.m_drawScale);
-  this.m_sprite.graphics.lineTo((xf.position.x + this.m_xformScale * xf.R.col1.x) * this.m_drawScale, (xf.position.y + this.m_xformScale * xf.R.col1.y) * this.m_drawScale);
-  this.m_sprite.graphics.lineStyle(this.m_lineThickness, 65280, this.m_alpha);
-  this.m_sprite.graphics.moveTo(xf.position.x * this.m_drawScale, xf.position.y * this.m_drawScale);
-  this.m_sprite.graphics.lineTo((xf.position.x + this.m_xformScale * xf.R.col2.x) * this.m_drawScale, (xf.position.y + this.m_xformScale * xf.R.col2.y) * this.m_drawScale)
+  this.m_sprite.lineWidth = this.m_lineThickness;
+  this.m_sprite.strokeSyle = this.ColorStyle(new b2Color(255, 0, 0), this.m_alpha);
+  this.m_sprite.beginPath();
+  this.m_sprite.moveTo(xf.position.x * this.m_drawScale, this.Y(xf.position.y * this.m_drawScale));
+  this.m_sprite.lineTo((xf.position.x + this.m_xformScale * xf.R.col1.x) * this.m_drawScale, this.Y((xf.position.y + this.m_xformScale * xf.R.col1.y) * this.m_drawScale));
+  this.m_sprite.stroke();
+  this.m_sprite.closePath();
+  this.m_sprite.strokeSyle = this.ColorStyle(new b2Color(0, 255, 0), this.m_alpha);
+  this.m_sprite.beginPath();
+  this.m_sprite.moveTo(xf.position.x * this.m_drawScale, this.Y(xf.position.y * this.m_drawScale));
+  this.m_sprite.lineTo((xf.position.x + this.m_xformScale * xf.R.col2.x) * this.m_drawScale, this.Y((xf.position.y + this.m_xformScale * xf.R.col2.y) * this.m_drawScale));
+  this.m_sprite.stroke();
+  this.m_sprite.closePath()
 };
 b2DebugDraw.prototype.m_drawFlags = 0;
 b2DebugDraw.prototype.m_sprite = null;

@@ -115,64 +115,20 @@
 	<script src="../javascript/Box2D/Dynamics/b2World.js" type="text/javascript"></script>
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-	<script src="b2jsTestRunner.js"></script>
+	<script src="b2jsTest.js"></script>
+	<script src="b2jsTestFallingBoxes.js"></script>
+	<script src="b2jsTestStack.js"></script>
 	<script type="text/javascript">
 
 	$(document).ready(function(){
 		
-		function spawn(world, x, y, a) {
-		    var bodyDef = new b2BodyDef();
-		    bodyDef.type = b2Body.b2_dynamicBody;
-		    bodyDef.position.Set(x, y);
-		    bodyDef.angle = a;
-		    var body = world.CreateBody(bodyDef);
-		    body.w = 1.0;
-		    body.h = 1.0;
-		    var shape = new b2PolygonShape.AsBox(body.w, body.h);
-		    var fixtureDef = new b2FixtureDef();
-		    fixtureDef.restitution = 0.0;
-		    fixtureDef.density = 2.0;
-		    fixtureDef.friction = 0.9;
-		    fixtureDef.shape = shape;
-
-		    body.CreateFixture(fixtureDef);
-		    //body.SetMassFromShapes();
-		    return body;
-		}
-		
-		var scaling  = 10;
-				
-		function createWorld() {
-			var gravity = new b2Vec2(0.0, -9.8);
-			var world = new b2World(gravity, true);
-			window.world = world;
-
-			var groundBodyDef = new b2BodyDef();
-			var c_width = $("#canvas")[0].width / scaling;
-			groundBodyDef.position.Set(c_width/2.0, 3.0);
-			var groundShape = b2PolygonShape.AsBox(c_width*1.0, 5.0);
-			var groundFixture = new b2FixtureDef();
-			groundFixture.restitution = 0.0;
-			groundFixture.friction = 0.5;
-			groundFixture.density = 1.0;
-			groundFixture.shape = groundShape;
-
-			var groundBody = world.CreateBody(groundBodyDef);
-			groundBody.CreateFixture(groundFixture);
-			groundBody.w = c_width*1.0;
-			groundBody.h = 5.0;
-			
-			for(var i = 0; i < 50; i ++) {
-			    spawn(world, c_width/2 + Math.sin(i/10) * 8, 20 + i * 2.4, 0);
-			}
-			
-			return world;
-		}
-		
-		var world = createWorld();
-		var runner = new b2jsTestRunner($("#canvas")[0]);
-		runner._dbgDraw.m_drawScale = scaling;
-		runner.world = world;
+//		var world = createWorld();
+//		var runner = new b2jsTestFallingBoxes($("#canvas")[0]);
+//		runner._dbgDraw.m_drawScale = scaling;
+//		runner.world = world;
+//		runner.draw();
+		var runner = new b2jsTestFallingBoxes($("#canvas")[0]);
+		//var runner = new b2jsTestStack($("#canvas")[0]);
 		runner.draw();
 		
 		$('#step').click(function(){
@@ -193,7 +149,7 @@
 </head>
 <body>
 	<h1>Another test</h1>
-	<canvas id="canvas" width="400"  height="400" moz-opaque="true"></canvas>
+	<canvas id="canvas" width="480"  height="270" moz-opaque="true"></canvas>
 	<button id="resume" >resume</button>
 	<button id="pause" >pause</button>
 	<button id="step" >single step</button>
