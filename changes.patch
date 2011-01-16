@@ -433,3 +433,16 @@ index 78d37ff..75f013a 100644
  	}
  // attributes
  b2DebugDraw.prototype.m_drawFlags =  0;
+diff --git a/javascript/Box2D/Collision/Shapes/b2PolygonShape.js b/javascript/Box2D/Collision/Shapes/b2PolygonShape.js
+index 47d4ce6..c617d07 100644
+--- a/javascript/Box2D/Collision/Shapes/b2PolygonShape.js
++++ b/javascript/Box2D/Collision/Shapes/b2PolygonShape.js
+@@ -213,7 +213,7 @@ b2PolygonShape.prototype.SetAsArray = function (vertices, vertexCount ) {
+ 		this.SetAsVector(v, vertexCount);
+ 	}
+ b2PolygonShape.prototype.SetAsVector = function (vertices, vertexCount ) {
+-		if (vertexCount == 0)
++		if (typeof vertexCount == "undefined")
+ 			vertexCount = vertices.length;
+ 			
+ 		b2Settings.b2Assert(2 <= vertexCount);

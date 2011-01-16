@@ -118,6 +118,7 @@
 	<script src="b2jsTest.js"></script>
 	<script src="b2jsTestFallingBoxes.js"></script>
 	<script src="b2jsTestStack.js"></script>
+	<script src="b2jsTestCompound.js"></script>
 	<script type="text/javascript">
 
 	$(document).ready(function(){
@@ -127,8 +128,9 @@
 //		runner._dbgDraw.m_drawScale = scaling;
 //		runner.world = world;
 //		runner.draw();
-		var runner = new b2jsTestFallingBoxes($("#canvas")[0]);
+		//var runner = new b2jsTestFallingBoxes($("#canvas")[0]);
 		//var runner = new b2jsTestStack($("#canvas")[0]);
+		var runner = new b2jsTestCompound($("#canvas")[0]);
 		runner.draw();
 		
 		$('#step').click(function(){

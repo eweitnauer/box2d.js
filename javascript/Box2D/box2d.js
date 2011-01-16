@@ -3580,7 +3580,7 @@ b2PolygonShape.prototype.SetAsArray = function(vertices, vertexCount) {
   this.SetAsVector(v, vertexCount)
 };
 b2PolygonShape.prototype.SetAsVector = function(vertices, vertexCount) {
-  if(vertexCount == 0) {
+  if(typeof vertexCount == "undefined") {
     vertexCount = vertices.length
   }
   b2Settings.b2Assert(2 <= vertexCount);
