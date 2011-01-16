@@ -4,6 +4,6 @@ Box2DJS (outdated port to JS) http://box2d-js.sourceforge.net
 
 Thanks to Jonas Wagner for getting things rolling http://29a.ch/2010/4/17/box2d-2-flash-ported-javascript
 
-Open examples/index.html to see it in action or watch it online at <a href="http://heikobehrens.net/box2d.js">http://heikobehrens.net/box2d.js</a>.
+Open examples/index.html to see it in action or watch it online at http://heikobehrens.net/box2d.js
 
 (I will write more about this project, soon)
