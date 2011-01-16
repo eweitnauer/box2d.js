@@ -21,6 +21,13 @@ def readblock(code, start="{", end="}"):
             if i == 0:
                 return "".join(block)
 
+def insert_super_constructor_call(match):
+	if not match.group(3):
+		value = "%s%s%s%s%s" % ("{", match.group(1), "this._super.__constructor.apply(this, arguments);", match.group(1), match.group(2))
+		return value
+	else:
+		return match.group(0)
+
 def translate(klass):
     lines = ["var %s = function() {" % klass.name]
     if klass.extends:
@@ -28,11 +35,18 @@ def translate(klass):
     lines.append("this.__varz();")
     lines.append("this.__constructor.apply(this, arguments);")
     lines.append("}")
+    constructor = klass.constructor.value
     if klass.extends:
         lines.append("extend(%s.prototype, %s.prototype)" % (klass.name, klass.extends));
         #lines.append("%s.prototype._super = function(){ %s.prototype.__constructor.apply(this, arguments) }" % (klass.name, klass.extends))
         lines.append("%s.prototype._super = %s.prototype;" % (klass.name, klass.extends))
-    lines.append("%s.prototype.__constructor = %s" % klass.constructor)
+		# handle implicit constructor call
+		# function() {  }   or   function () {   this._super.__constructor.apply } or function (..) {  anyotherId}
+		#             11                      1113333333333333333333333333333333                     11
+		#               2                     2222222222222222222222222222222222                       2
+        constructor = re.sub("\{(\s*)((?:\}|(this._super.__constructor.apply)|\w))", insert_super_constructor_call, constructor, 1)
+
+    lines.append("%s.prototype.__constructor = %s" % (klass.name, constructor))
     lines.append("%s.prototype.__varz = function(){" % klass.name)
     for name, value in klass.varz:
         if not re.match("^\s*(\d+(\.\d+)?|null|true|false)\s*;\s*$", value):
@@ -143,7 +157,7 @@ def parse(code):
         constructor = next(x for x in pubf if x[0] == klass)
         pubf.remove(constructor)
     except StopIteration:
-        constructor = Var(klass, "function(){}")
+        constructor = Var(klass, "function(){}")	
     privf = getfunctions(code, "private function ")
     statf = getfunctions(code, "static function ") + getfunctions(code,
             "staticpublik function ") + getfunctions(code, "staticprivat function ")

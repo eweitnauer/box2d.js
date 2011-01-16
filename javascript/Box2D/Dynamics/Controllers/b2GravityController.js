@@ -5,7 +5,7 @@ this.__constructor.apply(this, arguments);
 }
 extend(b2GravityController.prototype, b2Controller.prototype)
 b2GravityController.prototype._super = b2Controller.prototype;
-b2GravityController.prototype.__constructor = function(){}
+b2GravityController.prototype.__constructor = function(){this._super.__constructor.apply(this, arguments);}
 b2GravityController.prototype.__varz = function(){
 }
 // static methods

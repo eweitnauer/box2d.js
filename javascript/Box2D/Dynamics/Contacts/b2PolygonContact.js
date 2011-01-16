@@ -5,7 +5,7 @@ this.__constructor.apply(this, arguments);
 }
 extend(b2PolygonContact.prototype, b2Contact.prototype)
 b2PolygonContact.prototype._super = b2Contact.prototype;
-b2PolygonContact.prototype.__constructor = function(){}
+b2PolygonContact.prototype.__constructor = function(){this._super.__constructor.apply(this, arguments);}
 b2PolygonContact.prototype.__varz = function(){
 }
 // static methods
