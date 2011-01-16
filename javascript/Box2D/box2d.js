@@ -2010,9 +2010,13 @@ b2DebugDraw.prototype.DrawSolidCircle = function(center, radius, axis, color) {
   this.m_sprite.closePath()
 };
 b2DebugDraw.prototype.DrawSegment = function(p1, p2, color) {
-  this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
-  this.m_sprite.graphics.moveTo(p1.x * this.m_drawScale, p1.y * this.m_drawScale);
-  this.m_sprite.graphics.lineTo(p2.x * this.m_drawScale, p2.y * this.m_drawScale)
+  this.m_sprite.lineWidth = this.m_lineThickness;
+  this.m_sprite.strokeSyle = this.ColorStyle(color, this.m_alpha);
+  this.m_sprite.beginPath();
+  this.m_sprite.moveTo(p1.x * this.m_drawScale, this.Y(p1.y * this.m_drawScale));
+  this.m_sprite.lineTo(p2.x * this.m_drawScale, this.Y(p2.y * this.m_drawScale));
+  this.m_sprite.stroke();
+  this.m_sprite.closePath()
 };
 b2DebugDraw.prototype.DrawTransform = function(xf) {
   this.m_sprite.lineWidth = this.m_lineThickness;
@@ -8656,6 +8660,7 @@ b2MouseJoint.prototype.m_gamma = null;var b2PrismaticJointDef = function() {
 extend(b2PrismaticJointDef.prototype, b2JointDef.prototype);
 b2PrismaticJointDef.prototype._super = b2JointDef.prototype;
 b2PrismaticJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, []);
   this.type = b2Joint.e_prismaticJoint;
   this.localAxisA.Set(1, 0);
   this.referenceAngle = 0;
@@ -9031,6 +9036,7 @@ b2TOIInput.prototype.tolerance = null;var b2RevoluteJointDef = function() {
 extend(b2RevoluteJointDef.prototype, b2JointDef.prototype);
 b2RevoluteJointDef.prototype._super = b2JointDef.prototype;
 b2RevoluteJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, []);
   this.type = b2Joint.e_revoluteJoint;
   this.localAnchorA.Set(0, 0);
   this.localAnchorB.Set(0, 0);

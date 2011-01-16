@@ -121,9 +121,13 @@ b2DebugDraw.prototype.DrawSolidCircle = function (center, radius, axis, color) {
 	}
 b2DebugDraw.prototype.DrawSegment = function (p1, p2, color) {
 		
-		this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
-		this.m_sprite.graphics.moveTo(p1.x * this.m_drawScale, p1.y * this.m_drawScale);
-		this.m_sprite.graphics.lineTo(p2.x * this.m_drawScale, p2.y * this.m_drawScale);
+		this.m_sprite.lineWidth = this.m_lineThickness;
+		this.m_sprite.strokeSyle = this.ColorStyle(color, this.m_alpha);
+		this.m_sprite.beginPath();
+		this.m_sprite.moveTo(p1.x * this.m_drawScale, this.Y(p1.y * this.m_drawScale));
+		this.m_sprite.lineTo(p2.x * this.m_drawScale, this.Y(p2.y * this.m_drawScale));
+		this.m_sprite.stroke();
+		this.m_sprite.closePath();		
 		
 	}
 b2DebugDraw.prototype.DrawTransform = function (xf) {

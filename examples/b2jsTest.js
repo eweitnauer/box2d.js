@@ -77,7 +77,7 @@ Test.prototype.step = function(delta) {
 	
 	var delta = (typeof delta == "undefined") ? 1/this._fps : delta;
 	
-	this._world.Step(delta, 10);	
+	this._world.Step(delta, 10, 10);	
 }
 
 Test.prototype._update = function() {

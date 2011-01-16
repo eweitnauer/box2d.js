@@ -23,19 +23,19 @@ Test.prototype.createWorld = function() {
 	// Create 3 stacks
 	for (i = 0; i < 10; i++){
 		sd.SetAsBox((10) / m_physScale, (10) / m_physScale);
-		bd.position.Set((640/2+0+Math.random()*4 - 2) / m_physScale, (360-5-i*25) / m_physScale);
+		bd.position.Set((640/2+0+Math.random()*2 - 1) / m_physScale, (360-5-i*25) / m_physScale);
 		b = world.CreateBody(bd);
 		b.CreateFixture(fd);
 	}
 	for (i = 0; i < 10; i++){
 		sd.SetAsBox((10) / m_physScale, (10) / m_physScale);
-		bd.position.Set((640/2+100+Math.random()*3 - 1.5) / m_physScale, (360-5-i*25) / m_physScale);
+		bd.position.Set((640/2+100+Math.random()*1 - 0.5) / m_physScale, (360-5-i*25) / m_physScale);
 		b = world.CreateBody(bd);
 		b.CreateFixture(fd);
 	}
 	for (i = 0; i < 10; i++){
 		sd.SetAsBox((10) / m_physScale, (10) / m_physScale);
-		bd.position.Set((640/2+200+Math.random()*2 - 1) / m_physScale, (360-5-i*25) / m_physScale);
+		bd.position.Set((640/2+200+Math.random()*0.5 - 0.25) / m_physScale, (360-5-i*25) / m_physScale);
 		b = world.CreateBody(bd);
 		b.CreateFixture(fd);
 	}
@@ -56,13 +56,13 @@ Test.prototype.createWorld = function() {
 	// Create ball
 	var cd = new b2CircleShape();
 	cd.m_radius = 40/m_physScale;
-	fd.density = 5;
-	fd.restitution = 0.3;
+	fd.density = 8;
+	fd.restitution = 0.4;
 	fd.friction = 0.5;
 	fd.shape = cd;
 	bd.type = b2Body.b2_dynamicBody;
 	bd.userData = "ball";
-	bd.position.Set(50/m_physScale, 300 / m_physScale);
+	bd.position.Set(50/m_physScale, 140 / m_physScale);
 	b = world.CreateBody(bd);
 	b.CreateFixture(fd);	
 

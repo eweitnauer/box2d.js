@@ -46,6 +46,7 @@ public class b2RevoluteJointDef extends b2JointDef
 {
 	public function b2RevoluteJointDef()
 	{
+		super();
 		type = b2Joint.e_revoluteJoint;
 		localAnchorA.Set(0.0, 0.0);
 		localAnchorB.Set(0.0, 0.0);
