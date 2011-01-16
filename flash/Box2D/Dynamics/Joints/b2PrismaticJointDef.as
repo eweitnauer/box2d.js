@@ -39,7 +39,6 @@ public class b2PrismaticJointDef extends b2JointDef
 {
 	public function b2PrismaticJointDef()
 	{
-		super();
 		type = b2Joint.e_prismaticJoint;
 		//localAnchor1.SetZero();
 		//localAnchor2.SetZero();
