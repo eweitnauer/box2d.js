@@ -8,6 +8,9 @@ b2PolygonShape.prototype._super = b2Shape.prototype;
 b2PolygonShape.prototype.__constructor = function () {
 		
 		
+		this._super.__constructor.apply(this, arguments);
+		
+		
 		this.m_type = b2Shape.e_polygonShape;
 		
 		this.m_centroid = new b2Vec2();

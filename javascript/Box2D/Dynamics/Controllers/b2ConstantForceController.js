@@ -5,7 +5,7 @@ this.__constructor.apply(this, arguments);
 }
 extend(b2ConstantForceController.prototype, b2Controller.prototype)
 b2ConstantForceController.prototype._super = b2Controller.prototype;
-b2ConstantForceController.prototype.__constructor = function(){}
+b2ConstantForceController.prototype.__constructor = function(){this._super.__constructor.apply(this, arguments);}
 b2ConstantForceController.prototype.__varz = function(){
 this.F =  new b2Vec2(0,0);
 }

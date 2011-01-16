@@ -6,6 +6,7 @@ this.__constructor.apply(this, arguments);
 extend(b2FrictionJointDef.prototype, b2JointDef.prototype)
 b2FrictionJointDef.prototype._super = b2JointDef.prototype;
 b2FrictionJointDef.prototype.__constructor = function () {
+		this._super.__constructor.apply(this, arguments);
 		this.type = b2Joint.e_frictionJoint;
 		this.maxForce = 0.0;
 		this.maxTorque = 0.0;

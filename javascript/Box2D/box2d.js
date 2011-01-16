@@ -241,6 +241,7 @@ b2Controller.prototype.m_world = null;var b2GravityController = function() {
 extend(b2GravityController.prototype, b2Controller.prototype);
 b2GravityController.prototype._super = b2Controller.prototype;
 b2GravityController.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2GravityController.prototype.__varz = function() {
 };
@@ -636,6 +637,7 @@ b2ContactFactory.prototype.m_allocator = null;var b2ConstantAccelController = fu
 extend(b2ConstantAccelController.prototype, b2Controller.prototype);
 b2ConstantAccelController.prototype._super = b2Controller.prototype;
 b2ConstantAccelController.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2ConstantAccelController.prototype.__varz = function() {
   this.A = new b2Vec2(0, 0)
@@ -1116,6 +1118,7 @@ b2RayCastOutput.prototype.fraction = null;var b2ConstantForceController = functi
 extend(b2ConstantForceController.prototype, b2Controller.prototype);
 b2ConstantForceController.prototype._super = b2Controller.prototype;
 b2ConstantForceController.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2ConstantForceController.prototype.__varz = function() {
   this.F = new b2Vec2(0, 0)
@@ -1964,15 +1967,6 @@ b2DebugDraw.prototype.SetXFormScale = function(xformScale) {
 b2DebugDraw.prototype.GetXFormScale = function() {
   return this.m_xformScale
 };
-b2DebugDraw.prototype.Clear = function() {
-  this.m_sprite.clearRect(0, 0, this.m_sprite.canvas.width, this.m_sprite.canvas.height)
-};
-b2DebugDraw.prototype.Y = function(y) {
-  return this.m_sprite.canvas.height - y
-};
-b2DebugDraw.prototype.ColorStyle = function(color, alpha) {
-  return"rgba(" + color.r + ", " + color.g + ", " + color.b + ", " + alpha + ")"
-};
 b2DebugDraw.prototype.DrawPolygon = function(vertices, vertexCount, color) {
   this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
   this.m_sprite.graphics.moveTo(vertices[0].x * this.m_drawScale, vertices[0].y * this.m_drawScale);
@@ -1982,56 +1976,40 @@ b2DebugDraw.prototype.DrawPolygon = function(vertices, vertexCount, color) {
   this.m_sprite.graphics.lineTo(vertices[0].x * this.m_drawScale, vertices[0].y * this.m_drawScale)
 };
 b2DebugDraw.prototype.DrawSolidPolygon = function(vertices, vertexCount, color) {
-  this.m_sprite.strokeSyle = this.ColorStyle(color, this.m_alpha);
-  this.m_sprite.lineWidth = this.m_lineThickness;
-  this.m_sprite.fillStyle = this.ColorStyle(color, this.m_fillAlpha);
-  this.m_sprite.beginPath();
-  this.m_sprite.moveTo(vertices[0].x * this.m_drawScale, this.Y(vertices[0].y * this.m_drawScale));
+  this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
+  this.m_sprite.graphics.moveTo(vertices[0].x * this.m_drawScale, vertices[0].y * this.m_drawScale);
+  this.m_sprite.graphics.beginFill(color.color, this.m_fillAlpha);
   for(var i = 1;i < vertexCount;i++) {
-    this.m_sprite.lineTo(vertices[i].x * this.m_drawScale, this.Y(vertices[i].y * this.m_drawScale))
+    this.m_sprite.graphics.lineTo(vertices[i].x * this.m_drawScale, vertices[i].y * this.m_drawScale)
   }
-  this.m_sprite.lineTo(vertices[0].x * this.m_drawScale, this.Y(vertices[0].y * this.m_drawScale));
-  this.m_sprite.fill();
-  this.m_sprite.stroke();
-  this.m_sprite.closePath()
+  this.m_sprite.graphics.lineTo(vertices[0].x * this.m_drawScale, vertices[0].y * this.m_drawScale);
+  this.m_sprite.graphics.endFill()
 };
 b2DebugDraw.prototype.DrawCircle = function(center, radius, color) {
   this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
   this.m_sprite.graphics.drawCircle(center.x * this.m_drawScale, center.y * this.m_drawScale, radius * this.m_drawScale)
 };
 b2DebugDraw.prototype.DrawSolidCircle = function(center, radius, axis, color) {
-  this.m_sprite.strokeSyle = this.ColorStyle(color, this.m_alpha);
-  this.m_sprite.lineWidth = this.m_lineThickness;
-  this.m_sprite.fillStyle = this.ColorStyle(color, this.m_fillAlpha);
-  this.m_sprite.beginPath();
-  this.m_sprite.arc(center.x * this.m_drawScale, this.Y(center.y * this.m_drawScale), radius * this.m_drawScale, 0, Math.PI * 2, true);
-  this.m_sprite.fill();
-  this.m_sprite.stroke();
-  this.m_sprite.closePath()
+  this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
+  this.m_sprite.graphics.moveTo(0, 0);
+  this.m_sprite.graphics.beginFill(color.color, this.m_fillAlpha);
+  this.m_sprite.graphics.drawCircle(center.x * this.m_drawScale, center.y * this.m_drawScale, radius * this.m_drawScale);
+  this.m_sprite.graphics.endFill();
+  this.m_sprite.graphics.moveTo(center.x * this.m_drawScale, center.y * this.m_drawScale);
+  this.m_sprite.graphics.lineTo((center.x + axis.x * radius) * this.m_drawScale, (center.y + axis.y * radius) * this.m_drawScale)
 };
 b2DebugDraw.prototype.DrawSegment = function(p1, p2, color) {
-  this.m_sprite.lineWidth = this.m_lineThickness;
-  this.m_sprite.strokeSyle = this.ColorStyle(color, this.m_alpha);
-  this.m_sprite.beginPath();
-  this.m_sprite.moveTo(p1.x * this.m_drawScale, this.Y(p1.y * this.m_drawScale));
-  this.m_sprite.lineTo(p2.x * this.m_drawScale, this.Y(p2.y * this.m_drawScale));
-  this.m_sprite.stroke();
-  this.m_sprite.closePath()
+  this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
+  this.m_sprite.graphics.moveTo(p1.x * this.m_drawScale, p1.y * this.m_drawScale);
+  this.m_sprite.graphics.lineTo(p2.x * this.m_drawScale, p2.y * this.m_drawScale)
 };
 b2DebugDraw.prototype.DrawTransform = function(xf) {
-  this.m_sprite.lineWidth = this.m_lineThickness;
-  this.m_sprite.strokeSyle = this.ColorStyle(new b2Color(255, 0, 0), this.m_alpha);
-  this.m_sprite.beginPath();
-  this.m_sprite.moveTo(xf.position.x * this.m_drawScale, this.Y(xf.position.y * this.m_drawScale));
-  this.m_sprite.lineTo((xf.position.x + this.m_xformScale * xf.R.col1.x) * this.m_drawScale, this.Y((xf.position.y + this.m_xformScale * xf.R.col1.y) * this.m_drawScale));
-  this.m_sprite.stroke();
-  this.m_sprite.closePath();
-  this.m_sprite.strokeSyle = this.ColorStyle(new b2Color(0, 255, 0), this.m_alpha);
-  this.m_sprite.beginPath();
-  this.m_sprite.moveTo(xf.position.x * this.m_drawScale, this.Y(xf.position.y * this.m_drawScale));
-  this.m_sprite.lineTo((xf.position.x + this.m_xformScale * xf.R.col2.x) * this.m_drawScale, this.Y((xf.position.y + this.m_xformScale * xf.R.col2.y) * this.m_drawScale));
-  this.m_sprite.stroke();
-  this.m_sprite.closePath()
+  this.m_sprite.graphics.lineStyle(this.m_lineThickness, 16711680, this.m_alpha);
+  this.m_sprite.graphics.moveTo(xf.position.x * this.m_drawScale, xf.position.y * this.m_drawScale);
+  this.m_sprite.graphics.lineTo((xf.position.x + this.m_xformScale * xf.R.col1.x) * this.m_drawScale, (xf.position.y + this.m_xformScale * xf.R.col1.y) * this.m_drawScale);
+  this.m_sprite.graphics.lineStyle(this.m_lineThickness, 65280, this.m_alpha);
+  this.m_sprite.graphics.moveTo(xf.position.x * this.m_drawScale, xf.position.y * this.m_drawScale);
+  this.m_sprite.graphics.lineTo((xf.position.x + this.m_xformScale * xf.R.col2.x) * this.m_drawScale, (xf.position.y + this.m_xformScale * xf.R.col2.y) * this.m_drawScale)
 };
 b2DebugDraw.prototype.m_drawFlags = 0;
 b2DebugDraw.prototype.m_sprite = null;
@@ -2639,6 +2617,7 @@ b2EdgeShape.prototype.m_prevEdge = null;var b2BuoyancyController = function() {
 extend(b2BuoyancyController.prototype, b2Controller.prototype);
 b2BuoyancyController.prototype._super = b2Controller.prototype;
 b2BuoyancyController.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2BuoyancyController.prototype.__varz = function() {
   this.normal = new b2Vec2(0, -1);
@@ -3370,6 +3349,7 @@ b2ContactImpulse.prototype.tangentImpulses = new Array(b2Settings.b2_maxManifold
 extend(b2TensorDampingController.prototype, b2Controller.prototype);
 b2TensorDampingController.prototype._super = b2Controller.prototype;
 b2TensorDampingController.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2TensorDampingController.prototype.__varz = function() {
   this.T = new b2Mat22
@@ -3437,6 +3417,7 @@ b2ManifoldPoint.prototype.m_id = new b2ContactID;var b2PolygonShape = function()
 extend(b2PolygonShape.prototype, b2Shape.prototype);
 b2PolygonShape.prototype._super = b2Shape.prototype;
 b2PolygonShape.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.m_type = b2Shape.e_polygonShape;
   this.m_centroid = new b2Vec2;
   this.m_vertices = new Array;
@@ -3584,7 +3565,7 @@ b2PolygonShape.prototype.SetAsArray = function(vertices, vertexCount) {
   this.SetAsVector(v, vertexCount)
 };
 b2PolygonShape.prototype.SetAsVector = function(vertices, vertexCount) {
-  if(typeof vertexCount == "undefined") {
+  if(vertexCount == 0) {
     vertexCount = vertices.length
   }
   b2Settings.b2Assert(2 <= vertexCount);
@@ -7810,6 +7791,7 @@ b2JointDef.prototype.collideConnected = null;var b2LineJointDef = function() {
 extend(b2LineJointDef.prototype, b2JointDef.prototype);
 b2LineJointDef.prototype._super = b2JointDef.prototype;
 b2LineJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_lineJoint;
   this.localAxisA.Set(1, 0);
   this.enableLimit = false;
@@ -8038,6 +8020,7 @@ b2DistanceJoint.prototype.m_length = null;var b2PulleyJointDef = function() {
 extend(b2PulleyJointDef.prototype, b2JointDef.prototype);
 b2PulleyJointDef.prototype._super = b2JointDef.prototype;
 b2PulleyJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_pulleyJoint;
   this.groundAnchorA.Set(-1, 1);
   this.groundAnchorB.Set(1, 1);
@@ -8090,6 +8073,7 @@ b2PulleyJointDef.prototype.ratio = null;var b2DistanceJointDef = function() {
 extend(b2DistanceJointDef.prototype, b2JointDef.prototype);
 b2DistanceJointDef.prototype._super = b2JointDef.prototype;
 b2DistanceJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_distanceJoint;
   this.length = 1;
   this.frequencyHz = 0;
@@ -8122,6 +8106,7 @@ b2DistanceJointDef.prototype.dampingRatio = null;var b2FrictionJointDef = functi
 extend(b2FrictionJointDef.prototype, b2JointDef.prototype);
 b2FrictionJointDef.prototype._super = b2JointDef.prototype;
 b2FrictionJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_frictionJoint;
   this.maxForce = 0;
   this.maxTorque = 0
@@ -8147,6 +8132,7 @@ b2FrictionJointDef.prototype.maxTorque = null;var b2WeldJointDef = function() {
 extend(b2WeldJointDef.prototype, b2JointDef.prototype);
 b2WeldJointDef.prototype._super = b2JointDef.prototype;
 b2WeldJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_weldJoint;
   this.referenceAngle = 0
 };
@@ -8171,6 +8157,7 @@ b2WeldJointDef.prototype.referenceAngle = null;var b2GearJointDef = function() {
 extend(b2GearJointDef.prototype, b2JointDef.prototype);
 b2GearJointDef.prototype._super = b2JointDef.prototype;
 b2GearJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_gearJoint;
   this.joint1 = null;
   this.joint2 = null;
@@ -8196,20 +8183,11 @@ b2Color.prototype.Set = function(rr, gg, bb) {
   this._g = parseInt(255 * b2Math.Clamp(gg, 0, 1));
   this._b = parseInt(255 * b2Math.Clamp(bb, 0, 1))
 };
-b2Color.prototype.__defineGetter__("r", function() {
-  return this._r
-});
 b2Color.prototype.__defineSetter__("r", function(rr) {
   this._r = parseInt(255 * b2Math.Clamp(rr, 0, 1))
 });
-b2Color.prototype.__defineGetter__("g", function() {
-  return this._g
-});
 b2Color.prototype.__defineSetter__("g", function(gg) {
   this._g = parseInt(255 * b2Math.Clamp(gg, 0, 1))
-});
-b2Color.prototype.__defineGetter__("b", function() {
-  return this._g
 });
 b2Color.prototype.__defineSetter__("b", function(bb) {
   this._b = parseInt(255 * b2Math.Clamp(bb, 0, 1))
@@ -8660,7 +8638,7 @@ b2MouseJoint.prototype.m_gamma = null;var b2PrismaticJointDef = function() {
 extend(b2PrismaticJointDef.prototype, b2JointDef.prototype);
 b2PrismaticJointDef.prototype._super = b2JointDef.prototype;
 b2PrismaticJointDef.prototype.__constructor = function() {
-  this._super.__constructor.apply(this, []);
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_prismaticJoint;
   this.localAxisA.Set(1, 0);
   this.referenceAngle = 0;
@@ -9036,7 +9014,7 @@ b2TOIInput.prototype.tolerance = null;var b2RevoluteJointDef = function() {
 extend(b2RevoluteJointDef.prototype, b2JointDef.prototype);
 b2RevoluteJointDef.prototype._super = b2JointDef.prototype;
 b2RevoluteJointDef.prototype.__constructor = function() {
-  this._super.__constructor.apply(this, []);
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_revoluteJoint;
   this.localAnchorA.Set(0, 0);
   this.localAnchorB.Set(0, 0);
@@ -9075,6 +9053,7 @@ b2RevoluteJointDef.prototype.maxMotorTorque = null;var b2MouseJointDef = functio
 extend(b2MouseJointDef.prototype, b2JointDef.prototype);
 b2MouseJointDef.prototype._super = b2JointDef.prototype;
 b2MouseJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_mouseJoint;
   this.maxForce = 0;
   this.frequencyHz = 5;
@@ -9322,6 +9301,7 @@ b2ContactResult.prototype.id = new b2ContactID;var b2PolygonContact = function()
 extend(b2PolygonContact.prototype, b2Contact.prototype);
 b2PolygonContact.prototype._super = b2Contact.prototype;
 b2PolygonContact.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2PolygonContact.prototype.__varz = function() {
 };
@@ -9383,6 +9363,7 @@ b2ContactFilter.prototype.RayCollide = function(userData, fixture) {
 extend(b2NullContact.prototype, b2Contact.prototype);
 b2NullContact.prototype._super = b2Contact.prototype;
 b2NullContact.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2NullContact.prototype.__varz = function() {
 };
@@ -9643,6 +9624,7 @@ b2Island.prototype.m_jointCapacity = 0;var b2PolyAndEdgeContact = function() {
 extend(b2PolyAndEdgeContact.prototype, b2Contact.prototype);
 b2PolyAndEdgeContact.prototype._super = b2Contact.prototype;
 b2PolyAndEdgeContact.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2PolyAndEdgeContact.prototype.__varz = function() {
 };
@@ -10134,6 +10116,7 @@ b2Collision.b2CollidePolyTempVec = new b2Vec2;var b2PolyAndCircleContact = funct
 extend(b2PolyAndCircleContact.prototype, b2Contact.prototype);
 b2PolyAndCircleContact.prototype._super = b2Contact.prototype;
 b2PolyAndCircleContact.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2PolyAndCircleContact.prototype.__varz = function() {
 };
@@ -10179,6 +10162,7 @@ b2ContactPoint.prototype.id = new b2ContactID;var b2CircleContact = function() {
 extend(b2CircleContact.prototype, b2Contact.prototype);
 b2CircleContact.prototype._super = b2Contact.prototype;
 b2CircleContact.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2CircleContact.prototype.__varz = function() {
 };
@@ -10202,6 +10186,7 @@ b2CircleContact.prototype.Reset = function(fixtureA, fixtureB) {
 extend(b2EdgeAndCircleContact.prototype, b2Contact.prototype);
 b2EdgeAndCircleContact.prototype._super = b2Contact.prototype;
 b2EdgeAndCircleContact.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2EdgeAndCircleContact.prototype.__varz = function() {
 };
@@ -11062,7 +11047,7 @@ b2World.prototype.DrawDebugData = function() {
   if(this.m_debugDraw == null) {
     return
   }
-  this.m_debugDraw.Clear();
+  this.m_debugDraw.m_sprite.graphics.clear();
   var flags = this.m_debugDraw.GetFlags();
   var i = 0;
   var b;

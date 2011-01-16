@@ -5,7 +5,7 @@ this.__constructor.apply(this, arguments);
 }
 extend(b2BuoyancyController.prototype, b2Controller.prototype)
 b2BuoyancyController.prototype._super = b2Controller.prototype;
-b2BuoyancyController.prototype.__constructor = function(){}
+b2BuoyancyController.prototype.__constructor = function(){this._super.__constructor.apply(this, arguments);}
 b2BuoyancyController.prototype.__varz = function(){
 this.normal =  new b2Vec2(0,-1);
 this.velocity =  new b2Vec2(0,0);

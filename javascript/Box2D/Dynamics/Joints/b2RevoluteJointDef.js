@@ -6,7 +6,7 @@ this.__constructor.apply(this, arguments);
 extend(b2RevoluteJointDef.prototype, b2JointDef.prototype)
 b2RevoluteJointDef.prototype._super = b2JointDef.prototype;
 b2RevoluteJointDef.prototype.__constructor = function () {
-		this._super.__constructor.apply(this, []);
+		this._super.__constructor.apply(this, arguments);
 		this.type = b2Joint.e_revoluteJoint;
 		this.localAnchorA.Set(0.0, 0.0);
 		this.localAnchorB.Set(0.0, 0.0);

@@ -6,6 +6,7 @@ this.__constructor.apply(this, arguments);
 extend(b2GearJointDef.prototype, b2JointDef.prototype)
 b2GearJointDef.prototype._super = b2JointDef.prototype;
 b2GearJointDef.prototype.__constructor = function () {
+		this._super.__constructor.apply(this, arguments);
 		this.type = b2Joint.e_gearJoint;
 		this.joint1 = null;
 		this.joint2 = null;

@@ -6,6 +6,7 @@ this.__constructor.apply(this, arguments);
 extend(b2MouseJointDef.prototype, b2JointDef.prototype)
 b2MouseJointDef.prototype._super = b2JointDef.prototype;
 b2MouseJointDef.prototype.__constructor = function () {
+		this._super.__constructor.apply(this, arguments);
 		this.type = b2Joint.e_mouseJoint;
 		this.maxForce = 0.0;
 		this.frequencyHz = 5.0;
