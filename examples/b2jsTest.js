@@ -9,6 +9,10 @@ Test.__constructor = function(canvas) {
 	this._paused = true;
 	this._fps = 200;
 	this._dbgDraw = new b2DebugDraw();
+	
+	this._velocityIterationsPerSecond = 300;
+	this._positionIterationsPerSecond = 200;
+	
 	// sublcasses expect visual area inside 64x36
 	this._dbgDraw.m_drawScale = Math.min(canvas.width/64, canvas.height/36);
 	this._dbgDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit | b2DebugDraw.e_centerOfMassBit);
@@ -20,6 +24,13 @@ Test.prototype.log = function(arg) {
         console.log(arg);
     }
 };
+
+Test.prototype.destroy = function() {
+	this.pause();
+	this._canvas = null;
+	this._dbgDraw = null;
+	this._world = null;
+}
 
 Test.prototype.createWorld = function(){
 	var m_world = new b2World(new b2Vec2(0.0, -9.81), true);
@@ -77,12 +88,10 @@ Test.prototype.step = function(delta) {
 	
 	var delta = (typeof delta == "undefined") ? 1/this._fps : delta;
 	
-	this._world.Step(delta, 10, 10);	
+	this._world.Step(delta, delta * this._velocityIterationsPerSecond, delta * this._positionIterationsPerSecond);	
 }
 
 Test.prototype._update = function() {
-	this.log("update");
-	
 	// derive passed time since last update. max. 10 secs
 	var time = new Date().getTime();
 	delta = (time - this._lastUpdate) / 1000;
@@ -97,17 +106,18 @@ Test.prototype._update = function() {
 	this.draw();
 	if(!this._paused) {
 		that = this;
-		this._updateTimeout = window.setTimeout(function(){that._update()}, 1000/this._fps);
+		this._updateTimeout = window.setTimeout(function(){that._update()});
 	}
 }
 
 Test.prototype._updateFPS = function() {
 	this._fpsAchieved = this._fpsCounter;
+	this.log("fps: " + this._fpsAchieved);
 	this._fpsCounter = 0;
 	
 	if(!this._paused) {
 		that = this;
-		this._updateTimeout = window.setTimeout(function(){that._updateFPS()}, 1000);
+		this._updateFPSTimeout = window.setTimeout(function(){that._updateFPS()}, 1000);
 	}
 }
 
@@ -122,8 +132,13 @@ Test.prototype.resume = function() {
 
 Test.prototype.pause = function() {
 	this._paused = true;
+	
 	window.clearTimeout(this._updateTimeout);
-	window.clearTimeout(this._updateFPSTimeput);
+	window.clearTimeout(this._updateFPSTimeout);
+}
+
+Test.prototype.isPaused = function() {
+	return this._paused;
 }
 
 window.b2jsTest = Test;
