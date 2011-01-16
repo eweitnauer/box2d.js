@@ -286,3 +286,93 @@ index b601fbf..dd5b875 100644
  	}
  b2ContactManager.prototype.Destroy = function (c) {
  		
+diff --git a/javascript/Box2D/Common/b2Color.js b/javascript/Box2D/Common/b2Color.js
+index 38c3c8d..97f9a46 100644
+--- a/javascript/Box2D/Common/b2Color.js
++++ b/javascript/Box2D/Common/b2Color.js
+@@ -18,12 +18,21 @@ b2Color.prototype.Set = function (rr, gg, bb) {
+ 		this._b = parseInt(255 * b2Math.Clamp(bb, 0.0, 1.0));
+ 	}
+ 	
++b2Color.prototype.__defineGetter__("r", function() {
++			return this._r;
++		});
+ b2Color.prototype.__defineSetter__("r", function(rr) {
+ 		this._r = parseInt(255 * b2Math.Clamp(rr, 0.0, 1.0));
+ 	});
++b2Color.prototype.__defineGetter__("g", function() {
++				return this._g;
++			});
+ b2Color.prototype.__defineSetter__("g", function(gg) {
+ 		this._g = parseInt(255 * b2Math.Clamp(gg, 0.0, 1.0));
+ 	});
++b2Color.prototype.__defineGetter__("b", function() {
++					return this._g;
++				});
+ b2Color.prototype.__defineSetter__("b", function(bb) {
+ 		this._b = parseInt(255 * b2Math.Clamp(bb, 0.0, 1.0));
+ 	});
+diff --git a/javascript/Box2D/Dynamics/b2DebugDraw.js b/javascript/Box2D/Dynamics/b2DebugDraw.js
+index 252b31f..78d37ff 100644
+--- a/javascript/Box2D/Dynamics/b2DebugDraw.js
++++ b/javascript/Box2D/Dynamics/b2DebugDraw.js
+@@ -64,6 +64,19 @@ b2DebugDraw.prototype.SetXFormScale = function (xformScale) {
+ b2DebugDraw.prototype.GetXFormScale = function () {
+ 		return this.m_xformScale;
+ 	}
++	
++b2DebugDraw.prototype.Clear = function() {
++	this.m_sprite.clearRect(0, 0, this.m_sprite.canvas.width, this.m_sprite.canvas.height);
++}
++
++b2DebugDraw.prototype.Y = function(y) {
++	return this.m_sprite.canvas.height - y;
++}
++
++b2DebugDraw.prototype.ColorStyle = function(color, alpha) {
++	return "rgba("+color.r+", "+color.g +", " + color.b + ", " + alpha + ")";
++}
++	
+ b2DebugDraw.prototype.DrawPolygon = function (vertices, vertexCount, color) {
+ 		
+ 		this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
+@@ -75,16 +88,19 @@ b2DebugDraw.prototype.DrawPolygon = function (vertices, vertexCount, color) {
+ 		
+ 	}
+ b2DebugDraw.prototype.DrawSolidPolygon = function (vertices, vertexCount, color) {
++		this.m_sprite.strokeSyle = this.ColorStyle(color, this.m_alpha);
++		this.m_sprite.lineWidth = this.m_lineThickness;
++		this.m_sprite.fillStyle = this.ColorStyle(color, this.m_fillAlpha);
+ 		
+-		this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
+-		this.m_sprite.graphics.moveTo(vertices[0].x * this.m_drawScale, vertices[0].y * this.m_drawScale);
+-		this.m_sprite.graphics.beginFill(color.color, this.m_fillAlpha);
++		this.m_sprite.beginPath();
++		this.m_sprite.moveTo(vertices[0].x * this.m_drawScale, this.Y(vertices[0].y * this.m_drawScale));
+ 		for (var i = 1; i < vertexCount; i++){
+-				this.m_sprite.graphics.lineTo(vertices[i].x * this.m_drawScale, vertices[i].y * this.m_drawScale);
++				this.m_sprite.lineTo(vertices[i].x * this.m_drawScale, this.Y(vertices[i].y * this.m_drawScale));
+ 		}
+-		this.m_sprite.graphics.lineTo(vertices[0].x * this.m_drawScale, vertices[0].y * this.m_drawScale);
+-		this.m_sprite.graphics.endFill();
+-		
++		this.m_sprite.lineTo(vertices[0].x * this.m_drawScale, this.Y(vertices[0].y * this.m_drawScale));
++		this.m_sprite.fill();
++		this.m_sprite.stroke();
++		this.m_sprite.closePath();
+ 	}
+ b2DebugDraw.prototype.DrawCircle = function (center, radius, color) {
+ 		
+diff --git a/javascript/Box2D/Dynamics/b2World.js b/javascript/Box2D/Dynamics/b2World.js
+index ab2a305..99da12c 100644
+--- a/javascript/Box2D/Dynamics/b2World.js
++++ b/javascript/Box2D/Dynamics/b2World.js
+@@ -1075,7 +1075,7 @@ b2World.prototype.DrawDebugData = function () {
+ 			return;
+ 		}
+ 		
+-		this.m_debugDraw.m_sprite.graphics.clear();
++		this.m_debugDraw.Clear();
+ 		
+ 		var flags = this.m_debugDraw.GetFlags();
+ 		

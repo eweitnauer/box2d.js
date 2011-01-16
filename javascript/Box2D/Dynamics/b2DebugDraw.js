@@ -64,6 +64,19 @@ b2DebugDraw.prototype.SetXFormScale = function (xformScale) {
 b2DebugDraw.prototype.GetXFormScale = function () {
 		return this.m_xformScale;
 	}
+	
+b2DebugDraw.prototype.Clear = function() {
+	this.m_sprite.clearRect(0, 0, this.m_sprite.canvas.width, this.m_sprite.canvas.height);
+}
+
+b2DebugDraw.prototype.Y = function(y) {
+	return this.m_sprite.canvas.height - y;
+}
+
+b2DebugDraw.prototype.ColorStyle = function(color, alpha) {
+	return "rgba("+color.r+", "+color.g +", " + color.b + ", " + alpha + ")";
+}
+	
 b2DebugDraw.prototype.DrawPolygon = function (vertices, vertexCount, color) {
 		
 		this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
@@ -75,16 +88,19 @@ b2DebugDraw.prototype.DrawPolygon = function (vertices, vertexCount, color) {
 		
 	}
 b2DebugDraw.prototype.DrawSolidPolygon = function (vertices, vertexCount, color) {
+		this.m_sprite.strokeSyle = this.ColorStyle(color, this.m_alpha);
+		this.m_sprite.lineWidth = this.m_lineThickness;
+		this.m_sprite.fillStyle = this.ColorStyle(color, this.m_fillAlpha);
 		
-		this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
-		this.m_sprite.graphics.moveTo(vertices[0].x * this.m_drawScale, vertices[0].y * this.m_drawScale);
-		this.m_sprite.graphics.beginFill(color.color, this.m_fillAlpha);
+		this.m_sprite.beginPath();
+		this.m_sprite.moveTo(vertices[0].x * this.m_drawScale, this.Y(vertices[0].y * this.m_drawScale));
 		for (var i = 1; i < vertexCount; i++){
-				this.m_sprite.graphics.lineTo(vertices[i].x * this.m_drawScale, vertices[i].y * this.m_drawScale);
+				this.m_sprite.lineTo(vertices[i].x * this.m_drawScale, this.Y(vertices[i].y * this.m_drawScale));
 		}
-		this.m_sprite.graphics.lineTo(vertices[0].x * this.m_drawScale, vertices[0].y * this.m_drawScale);
-		this.m_sprite.graphics.endFill();
-		
+		this.m_sprite.lineTo(vertices[0].x * this.m_drawScale, this.Y(vertices[0].y * this.m_drawScale));
+		this.m_sprite.fill();
+		this.m_sprite.stroke();
+		this.m_sprite.closePath();
 	}
 b2DebugDraw.prototype.DrawCircle = function (center, radius, color) {
 		
