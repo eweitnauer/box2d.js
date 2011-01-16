@@ -6,6 +6,7 @@ this.__constructor.apply(this, arguments);
 extend(b2PrismaticJointDef.prototype, b2JointDef.prototype)
 b2PrismaticJointDef.prototype._super = b2JointDef.prototype;
 b2PrismaticJointDef.prototype.__constructor = function () {
+		this._super.__constructor.apply(this, arguments);
 		this.type = b2Joint.e_prismaticJoint;
 		
 		

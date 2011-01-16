@@ -241,6 +241,7 @@ b2Controller.prototype.m_world = null;var b2GravityController = function() {
 extend(b2GravityController.prototype, b2Controller.prototype);
 b2GravityController.prototype._super = b2Controller.prototype;
 b2GravityController.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2GravityController.prototype.__varz = function() {
 };
@@ -636,6 +637,7 @@ b2ContactFactory.prototype.m_allocator = null;var b2ConstantAccelController = fu
 extend(b2ConstantAccelController.prototype, b2Controller.prototype);
 b2ConstantAccelController.prototype._super = b2Controller.prototype;
 b2ConstantAccelController.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2ConstantAccelController.prototype.__varz = function() {
   this.A = new b2Vec2(0, 0)
@@ -1116,6 +1118,7 @@ b2RayCastOutput.prototype.fraction = null;var b2ConstantForceController = functi
 extend(b2ConstantForceController.prototype, b2Controller.prototype);
 b2ConstantForceController.prototype._super = b2Controller.prototype;
 b2ConstantForceController.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2ConstantForceController.prototype.__varz = function() {
   this.F = new b2Vec2(0, 0)
@@ -2614,6 +2617,7 @@ b2EdgeShape.prototype.m_prevEdge = null;var b2BuoyancyController = function() {
 extend(b2BuoyancyController.prototype, b2Controller.prototype);
 b2BuoyancyController.prototype._super = b2Controller.prototype;
 b2BuoyancyController.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2BuoyancyController.prototype.__varz = function() {
   this.normal = new b2Vec2(0, -1);
@@ -3345,6 +3349,7 @@ b2ContactImpulse.prototype.tangentImpulses = new Array(b2Settings.b2_maxManifold
 extend(b2TensorDampingController.prototype, b2Controller.prototype);
 b2TensorDampingController.prototype._super = b2Controller.prototype;
 b2TensorDampingController.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2TensorDampingController.prototype.__varz = function() {
   this.T = new b2Mat22
@@ -3412,6 +3417,7 @@ b2ManifoldPoint.prototype.m_id = new b2ContactID;var b2PolygonShape = function()
 extend(b2PolygonShape.prototype, b2Shape.prototype);
 b2PolygonShape.prototype._super = b2Shape.prototype;
 b2PolygonShape.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.m_type = b2Shape.e_polygonShape;
   this.m_centroid = new b2Vec2;
   this.m_vertices = new Array;
@@ -7785,6 +7791,7 @@ b2JointDef.prototype.collideConnected = null;var b2LineJointDef = function() {
 extend(b2LineJointDef.prototype, b2JointDef.prototype);
 b2LineJointDef.prototype._super = b2JointDef.prototype;
 b2LineJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_lineJoint;
   this.localAxisA.Set(1, 0);
   this.enableLimit = false;
@@ -8013,6 +8020,7 @@ b2DistanceJoint.prototype.m_length = null;var b2PulleyJointDef = function() {
 extend(b2PulleyJointDef.prototype, b2JointDef.prototype);
 b2PulleyJointDef.prototype._super = b2JointDef.prototype;
 b2PulleyJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_pulleyJoint;
   this.groundAnchorA.Set(-1, 1);
   this.groundAnchorB.Set(1, 1);
@@ -8065,6 +8073,7 @@ b2PulleyJointDef.prototype.ratio = null;var b2DistanceJointDef = function() {
 extend(b2DistanceJointDef.prototype, b2JointDef.prototype);
 b2DistanceJointDef.prototype._super = b2JointDef.prototype;
 b2DistanceJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_distanceJoint;
   this.length = 1;
   this.frequencyHz = 0;
@@ -8097,6 +8106,7 @@ b2DistanceJointDef.prototype.dampingRatio = null;var b2FrictionJointDef = functi
 extend(b2FrictionJointDef.prototype, b2JointDef.prototype);
 b2FrictionJointDef.prototype._super = b2JointDef.prototype;
 b2FrictionJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_frictionJoint;
   this.maxForce = 0;
   this.maxTorque = 0
@@ -8122,6 +8132,7 @@ b2FrictionJointDef.prototype.maxTorque = null;var b2WeldJointDef = function() {
 extend(b2WeldJointDef.prototype, b2JointDef.prototype);
 b2WeldJointDef.prototype._super = b2JointDef.prototype;
 b2WeldJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_weldJoint;
   this.referenceAngle = 0
 };
@@ -8146,6 +8157,7 @@ b2WeldJointDef.prototype.referenceAngle = null;var b2GearJointDef = function() {
 extend(b2GearJointDef.prototype, b2JointDef.prototype);
 b2GearJointDef.prototype._super = b2JointDef.prototype;
 b2GearJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_gearJoint;
   this.joint1 = null;
   this.joint2 = null;
@@ -8626,6 +8638,7 @@ b2MouseJoint.prototype.m_gamma = null;var b2PrismaticJointDef = function() {
 extend(b2PrismaticJointDef.prototype, b2JointDef.prototype);
 b2PrismaticJointDef.prototype._super = b2JointDef.prototype;
 b2PrismaticJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_prismaticJoint;
   this.localAxisA.Set(1, 0);
   this.referenceAngle = 0;
@@ -9001,6 +9014,7 @@ b2TOIInput.prototype.tolerance = null;var b2RevoluteJointDef = function() {
 extend(b2RevoluteJointDef.prototype, b2JointDef.prototype);
 b2RevoluteJointDef.prototype._super = b2JointDef.prototype;
 b2RevoluteJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_revoluteJoint;
   this.localAnchorA.Set(0, 0);
   this.localAnchorB.Set(0, 0);
@@ -9039,6 +9053,7 @@ b2RevoluteJointDef.prototype.maxMotorTorque = null;var b2MouseJointDef = functio
 extend(b2MouseJointDef.prototype, b2JointDef.prototype);
 b2MouseJointDef.prototype._super = b2JointDef.prototype;
 b2MouseJointDef.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments);
   this.type = b2Joint.e_mouseJoint;
   this.maxForce = 0;
   this.frequencyHz = 5;
@@ -9286,6 +9301,7 @@ b2ContactResult.prototype.id = new b2ContactID;var b2PolygonContact = function()
 extend(b2PolygonContact.prototype, b2Contact.prototype);
 b2PolygonContact.prototype._super = b2Contact.prototype;
 b2PolygonContact.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2PolygonContact.prototype.__varz = function() {
 };
@@ -9347,6 +9363,7 @@ b2ContactFilter.prototype.RayCollide = function(userData, fixture) {
 extend(b2NullContact.prototype, b2Contact.prototype);
 b2NullContact.prototype._super = b2Contact.prototype;
 b2NullContact.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2NullContact.prototype.__varz = function() {
 };
@@ -9607,6 +9624,7 @@ b2Island.prototype.m_jointCapacity = 0;var b2PolyAndEdgeContact = function() {
 extend(b2PolyAndEdgeContact.prototype, b2Contact.prototype);
 b2PolyAndEdgeContact.prototype._super = b2Contact.prototype;
 b2PolyAndEdgeContact.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2PolyAndEdgeContact.prototype.__varz = function() {
 };
@@ -10098,6 +10116,7 @@ b2Collision.b2CollidePolyTempVec = new b2Vec2;var b2PolyAndCircleContact = funct
 extend(b2PolyAndCircleContact.prototype, b2Contact.prototype);
 b2PolyAndCircleContact.prototype._super = b2Contact.prototype;
 b2PolyAndCircleContact.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2PolyAndCircleContact.prototype.__varz = function() {
 };
@@ -10143,6 +10162,7 @@ b2ContactPoint.prototype.id = new b2ContactID;var b2CircleContact = function() {
 extend(b2CircleContact.prototype, b2Contact.prototype);
 b2CircleContact.prototype._super = b2Contact.prototype;
 b2CircleContact.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2CircleContact.prototype.__varz = function() {
 };
@@ -10166,6 +10186,7 @@ b2CircleContact.prototype.Reset = function(fixtureA, fixtureB) {
 extend(b2EdgeAndCircleContact.prototype, b2Contact.prototype);
 b2EdgeAndCircleContact.prototype._super = b2Contact.prototype;
 b2EdgeAndCircleContact.prototype.__constructor = function() {
+  this._super.__constructor.apply(this, arguments)
 };
 b2EdgeAndCircleContact.prototype.__varz = function() {
 };

@@ -5,7 +5,7 @@ this.__constructor.apply(this, arguments);
 }
 extend(b2PolyAndEdgeContact.prototype, b2Contact.prototype)
 b2PolyAndEdgeContact.prototype._super = b2Contact.prototype;
-b2PolyAndEdgeContact.prototype.__constructor = function(){}
+b2PolyAndEdgeContact.prototype.__constructor = function(){this._super.__constructor.apply(this, arguments);}
 b2PolyAndEdgeContact.prototype.__varz = function(){
 }
 // static methods
