@@ -4,8 +4,11 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>test2</title>
+	<title>box2d.js demos</title>
 	<!--
+	these imports had been taken from generated ../javascript/Box2D/load.html
+	uncomment these and comment out box2d.min.js to debug box2d itself.
+	
 	<script src="../javascript/misc/extend.js" type="text/javascript"></script>
 	<script src="../javascript/Box2D/Collision/b2BoundValues.js" type="text/javascript"></script>
 	<script src="../javascript/Box2D/Collision/b2PairManager.js" type="text/javascript"></script>
@@ -115,10 +118,11 @@
 	<script src="../javascript/Box2D/Dynamics/b2ContactManager.js" type="text/javascript"></script>
 	<script src="../javascript/Box2D/Dynamics/b2World.js" type="text/javascript"></script>
 	-->
-	<script src="../javascript/Box2D/box2d.min.js" type="text/javascript"></script> 
 	
+	<script src="../javascript/Box2D/box2d.min.js" type="text/javascript"></script> 
 
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script src="jquery.min.js"></script>
+	
 	<script src="b2jsTest.js"></script>
 	<script src="b2jsTestFallingBoxes.js"></script>
 	<script src="b2jsTestStack.js"></script>
@@ -168,6 +172,7 @@
 		$('#resume').click(function(){
 			runner.resume();
 		});
+		
 		$('#pause').click(function(){
 			runner.pause();
 		});
@@ -178,6 +183,9 @@
 </head>
 <body>
 	<h1>box2d.js demos</h1>
+	<p>Some minimalist examples of box2d.js, a JavaScript port of Box2D (Flash) 2.1a, compatible with Safari, Chrome, FF, Opera, node.js.
+		Read <a href="https://github.com/HBehrens/box2d.js">more about box2d.js on github</a>.
+	</p>
 	<canvas id="canvas" width="480"  height="270"></canvas>
 	<hr>
 	<button id="prev" >&lt;-- previous simulation</button>
