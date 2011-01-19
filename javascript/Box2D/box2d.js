@@ -1973,6 +1973,9 @@ b2DebugDraw.prototype.Clear = function() {
 b2DebugDraw.prototype.Y = function(y) {
   return this.m_sprite.canvas.height - y
 };
+b2DebugDraw.prototype.ToWorldPoint = function(localPoint) {
+  return new b2Vec2(localPoint.x / this.m_drawScale, this.Y(localPoint.y) / this.m_drawScale)
+};
 b2DebugDraw.prototype.ColorStyle = function(color, alpha) {
   return"rgba(" + color.r + ", " + color.g + ", " + color.b + ", " + alpha + ")"
 };

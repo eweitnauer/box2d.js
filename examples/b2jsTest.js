@@ -5,10 +5,37 @@ var Test = function() {
 }
 
 Test.__constructor = function(canvas) {
+	var that = this;
 	this._canvas = canvas;
 	this._paused = true;
 	this._fps = 200;
 	this._dbgDraw = new b2DebugDraw();
+	
+	this._handleMouseMove = function(e){
+		// adapted from cocos2d-js/Director.js
+        var o = that._canvas;
+        var x = o.offsetLeft - document.documentElement.scrollLeft,
+         	y = o.offsetTop - document.documentElement.scrollTop;
+
+        while (o = o.offsetParent) {
+            x += o.offsetLeft - o.scrollLeft;
+            y += o.offsetTop - o.scrollTop;
+        }
+
+		var p = new b2Vec2(e.clientX - x, e.clientY - y);
+
+		that._mousePoint = that._dbgDraw.ToWorldPoint(p);
+	};
+	this._handleMouseDown = function(e){
+		that._mouseDown = true;
+	};
+	this._handleMouseUp = function(e) {
+		that._mouseDown = false;
+	};
+	// see _updateUserInteraction
+	canvas.addEventListener("mousemove", this._handleMouseMove, true);
+	canvas.addEventListener("mousedown", this._handleMouseDown, true);
+	canvas.addEventListener("mouseup", this._handleMouseUp, true);
 	
 	this._velocityIterationsPerSecond = 300;
 	this._positionIterationsPerSecond = 200;
@@ -27,6 +54,10 @@ Test.prototype.log = function(arg) {
 
 Test.prototype.destroy = function() {
 	this.pause();
+	
+	canvas.removeEventListener("mousemove", this._handleMouseMove, true);
+	canvas.removeEventListener("mousedown", this._handleMouseDown, true);
+	canvas.removeEventListener("mouseup", this._handleMouseUp, true);
 	this._canvas = null;
 	this._dbgDraw = null;
 	this._world = null;
@@ -91,6 +122,67 @@ Test.prototype.step = function(delta) {
 	this._world.Step(delta, delta * this._velocityIterationsPerSecond, delta * this._positionIterationsPerSecond);	
 }
 
+Test.prototype._updateMouseInteraction = function() {
+	// todo: refactor into world helper or similar
+	function getBodyAtPoint(world, p) {
+		var aabb = new b2AABB();
+		aabb.lowerBound.Set(p.x - 0.001, p.y - 0.001);
+		aabb.upperBound.Set(p.x + 0.001, p.y + 0.001);
+
+		var selectedBody = null;
+		world.QueryAABB(function(fixture){
+			if(fixture.GetBody().GetType() != b2Body.b2_staticBody) {
+				if(fixture.GetShape().TestPoint(fixture.GetBody().GetTransform(), p)) {
+					selectedBody = fixture.GetBody();
+					return false;
+				}
+			}
+			return true;
+			}, aabb);
+			return selectedBody;
+	}
+
+	if(!this._mousePoint)
+		return;
+
+	if(this._mouseDown && (!this._mouseJoint)) {
+		var body = getBodyAtPoint(this._world, this._mousePoint);
+		if(body) {
+			var md = new b2MouseJointDef();
+			md.bodyA = this._world.GetGroundBody();
+			md.bodyB = body;
+			md.target = this._mousePoint;
+			md.collideConnected = true;
+			md.maxForce = 300.0 * body.GetMass();
+			this._mouseJoint = this._world.CreateJoint(md);
+			body.SetAwake(true);
+		}
+	}
+
+	if(this._mouseJoint) {
+		if(this._mouseDown) {
+			this._mouseJoint.SetTarget(this._mousePoint);
+		} else {
+			this._world.DestroyJoint(this._mouseJoint);
+			this._mouseJoint = undefined;
+		}
+	}	
+}
+
+Test.prototype._updateKeyboardInteraction = function() {
+	// TBD
+}
+
+Test.prototype._updateUserInteraction = function() {
+	this._updateMouseInteraction();
+	this._updateKeyboardInteraction();
+	
+	if(!this._paused) {
+		var that = this;
+		this._updateUserInteractionTimout = window.setTimeout(function(){that._updateUserInteraction()}, 1000/20);
+	}
+}
+
 Test.prototype._update = function() {
 	// derive passed time since last update. max. 10 secs
 	var time = new Date().getTime();
@@ -105,7 +197,7 @@ Test.prototype._update = function() {
 	this.step(delta);
 	this.draw();
 	if(!this._paused) {
-		that = this;
+		var that = this;
 		this._updateTimeout = window.setTimeout(function(){that._update()});
 	}
 }
@@ -116,7 +208,7 @@ Test.prototype._updateFPS = function() {
 	this._fpsCounter = 0;
 	
 	if(!this._paused) {
-		that = this;
+		var that = this;
 		this._updateFPSTimeout = window.setTimeout(function(){that._updateFPS()}, 1000);
 	}
 }
@@ -127,6 +219,7 @@ Test.prototype.resume = function() {
 		this._lastUpdate = 0;
 		this._update();
 		this._updateFPS();
+		this._updateUserInteraction();
 	}
 }
 
@@ -135,6 +228,7 @@ Test.prototype.pause = function() {
 	
 	window.clearTimeout(this._updateTimeout);
 	window.clearTimeout(this._updateFPSTimeout);
+	window.clearTimeout(this._updateUserInteractionTimout);
 }
 
 Test.prototype.isPaused = function() {
