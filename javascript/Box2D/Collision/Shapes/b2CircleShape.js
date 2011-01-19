@@ -23,7 +23,7 @@ b2CircleShape.prototype.Copy = function () {
 	}
 b2CircleShape.prototype.Set = function (other) {
 		this._super.Set.apply(this, [other]);
-		if (other.isInstanceOf(b2CircleShape))
+		if (isInstanceOf(other, b2CircleShape))
 		{
 			var other2 = other;
 			this.m_p.SetV(other2.m_p);

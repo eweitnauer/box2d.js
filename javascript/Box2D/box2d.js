@@ -3,8 +3,7 @@ function extend(a, b) {
     a[c] = b[c]
   }
 }
-Object.prototype.isInstanceOf = function(_constructor) {
-  obj = this;
+function isInstanceOf(obj, _constructor) {
   while(typeof obj === "object") {
     if(obj.constructor === _constructor) {
       return true
@@ -12,7 +11,8 @@ Object.prototype.isInstanceOf = function(_constructor) {
     obj = obj._super
   }
   return false
-};var b2BoundValues = function() {
+}
+;var b2BoundValues = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -3571,7 +3571,7 @@ b2PolygonShape.prototype.Copy = function() {
 };
 b2PolygonShape.prototype.Set = function(other) {
   this._super.Set.apply(this, [other]);
-  if(other.isInstanceOf(b2PolygonShape)) {
+  if(isInstanceOf(other, b2PolygonShape)) {
     var other2 = other;
     this.m_centroid.SetV(other2.m_centroid);
     this.m_vertexCount = other2.m_vertexCount;
@@ -4950,7 +4950,7 @@ b2CircleShape.prototype.Copy = function() {
 };
 b2CircleShape.prototype.Set = function(other) {
   this._super.Set.apply(this, [other]);
-  if(other.isInstanceOf(b2CircleShape)) {
+  if(isInstanceOf(other, b2CircleShape)) {
     var other2 = other;
     this.m_p.SetV(other2.m_p)
   }

@@ -4,8 +4,7 @@ function extend(a, b) {
     }
 };
 
-Object.prototype.isInstanceOf = function(_constructor) {
-	obj = this;
+function isInstanceOf(obj, _constructor) {
 	while(typeof obj === "object"){
 		if(obj.constructor === _constructor)
 			return true;

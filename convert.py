@@ -113,7 +113,7 @@ def parse(code):
     ## remove override and virtual
     code = code.replace("override", "").replace("virtual", "").replace("\r", "")
     ## obj is type
-    code = re.sub("(\w+) is (\w+)", "\\1.isInstanceOf(\\2)", code)
+    code = re.sub("(\w+) is (\w+)", "isInstanceOf(\\1, \\2)", code)
     ## for each(var queryProxy in m_moveBuffer)
     #               1111111111    222222222222
     # for(var i=0, queryProxy=null;i<this.m_moveBuffer.length, queryProxy=this.m_moveBuffer[i]; i++)
