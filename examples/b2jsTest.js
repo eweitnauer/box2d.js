@@ -94,6 +94,23 @@ Test.prototype.createWorld = function(){
 	return m_world;
 };
 
+Test.prototype.createBall = function(world, x, y, radius) {
+	radius = radius || 2;
+	
+	var fixtureDef = new b2FixtureDef();
+	fixtureDef.shape = new b2CircleShape(radius);
+	fixtureDef.friction = 0.4;
+	fixtureDef.restitution = 0.6;
+	fixtureDef.density = 1.0;
+	
+	var ballBd = new b2BodyDef();
+	ballBd.type = b2Body.b2_dynamicBody;
+	ballBd.position.Set(x,y);
+	var body = world.CreateBody(ballBd);
+	body.CreateFixture(fixtureDef);
+	return body;
+}
+
 Test.prototype.draw = function() {
 	var c = this._canvas.getContext("2d");
 	
