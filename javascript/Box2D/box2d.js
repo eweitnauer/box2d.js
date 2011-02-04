@@ -8224,7 +8224,7 @@ b2Color.prototype.__defineSetter__("g", function(gg) {
   this._g = parseInt(255 * b2Math.Clamp(gg, 0, 1))
 });
 b2Color.prototype.__defineGetter__("b", function() {
-  return this._g
+  return this._b
 });
 b2Color.prototype.__defineSetter__("b", function(bb) {
   this._b = parseInt(255 * b2Math.Clamp(bb, 0, 1))
