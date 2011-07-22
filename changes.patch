@@ -59,6 +59,19 @@ index d0d5427..4b83af8 100644
 \ No newline at end of file
 +Features.prototype._m_id =  null;    
 \ No newline at end of file
+diff --git a/javascript/Box2D/Collision/Shapes/b2PolygonShape.js b/javascript/Box2D/Collision/Shapes/b2PolygonShape.js
+index fa4fdc0..92142b9 100644
+--- a/javascript/Box2D/Collision/Shapes/b2PolygonShape.js
++++ b/javascript/Box2D/Collision/Shapes/b2PolygonShape.js
+@@ -216,7 +216,7 @@ b2PolygonShape.prototype.SetAsArray = function (vertices, vertexCount ) {
+ 		this.SetAsVector(v, vertexCount);
+ 	}
+ b2PolygonShape.prototype.SetAsVector = function (vertices, vertexCount ) {
+-		if (vertexCount == 0)
++		if (typeof vertexCount == "undefined")
+ 			vertexCount = vertices.length;
+ 			
+ 		b2Settings.b2Assert(2 <= vertexCount);
 diff --git a/javascript/Box2D/Collision/b2AABB.js b/javascript/Box2D/Collision/b2AABB.js
 index e8fadd5..acc53c0 100644
 --- a/javascript/Box2D/Collision/b2AABB.js
@@ -119,6 +132,96 @@ index eb06178..1cb2d4f 100644
  					this.m_vertices[0] = circle.m_p;
  					this.m_count = 1;
  					this.m_radius = circle.m_radius;
+diff --git a/javascript/Box2D/Collision/b2DynamicTreeBroadPhase.js b/javascript/Box2D/Collision/b2DynamicTreeBroadPhase.js
+index a2428bc..c2ca788 100644
+--- a/javascript/Box2D/Collision/b2DynamicTreeBroadPhase.js
++++ b/javascript/Box2D/Collision/b2DynamicTreeBroadPhase.js
+@@ -61,29 +61,30 @@ b2DynamicTreeBroadPhase.prototype.UpdatePairs = function (callback) {
+ 		
+ 		for(var i=0, queryProxy=null;i<this.m_moveBuffer.length, queryProxy=this.m_moveBuffer[i]; i++)
+ 		{
+-			function this.QueryCallback(proxy)
++			var that = this;
++			function QueryCallback(proxy)
+ 			{
+ 				
+ 				if (proxy == queryProxy)
+ 					return true;
+ 					
+ 				
+-				if (this.m_pairCount == this.m_pairBuffer.length)
++				if (that.m_pairCount == that.m_pairBuffer.length)
+ 				{
+-					this.m_pairBuffer[this.m_pairCount] = new b2DynamicTreePair();
++					that.m_pairBuffer[that.m_pairCount] = new b2DynamicTreePair();
+ 				}
+ 				
+-				var pair = this.m_pairBuffer[this.m_pairCount];
++				var pair = that.m_pairBuffer[that.m_pairCount];
+ 				pair.proxyA = proxy < queryProxy?proxy:queryProxy;
+ 				pair.proxyB = proxy >= queryProxy?proxy:queryProxy;
+-				++this.m_pairCount;
++				++that.m_pairCount;
+ 				
+ 				return true;
+ 			}
+ 			
+ 			
+ 			var fatAABB = this.m_tree.GetFatAABB(queryProxy);
+-			this.m_tree.Query(this.QueryCallback, fatAABB);
++			this.m_tree.Query(QueryCallback, fatAABB);
+ 		}
+ 		
+ 		
+@@ -114,24 +115,6 @@ b2DynamicTreeBroadPhase.prototype.UpdatePairs = function (callback) {
+ 			}
+ 		}
+ 	}
+-b2DynamicTreeBroadPhase.prototype.QueryCallback = function (proxy) {
+-				
+-				if (proxy == queryProxy)
+-					return true;
+-					
+-				
+-				if (this.m_pairCount == this.m_pairBuffer.length)
+-				{
+-					this.m_pairBuffer[this.m_pairCount] = new b2DynamicTreePair();
+-				}
+-				
+-				var pair = this.m_pairBuffer[this.m_pairCount];
+-				pair.proxyA = proxy < queryProxy?proxy:queryProxy;
+-				pair.proxyB = proxy >= queryProxy?proxy:queryProxy;
+-				++this.m_pairCount;
+-				
+-				return true;
+-			}
+ b2DynamicTreeBroadPhase.prototype.Query = function (callback, aabb) {
+ 		this.m_tree.Query(callback, aabb);
+ 	}
+diff --git a/javascript/Box2D/Collision/b2RayCastInput.js b/javascript/Box2D/Collision/b2RayCastInput.js
+index 79e8ddb..34ad6b4 100644
+--- a/javascript/Box2D/Collision/b2RayCastInput.js
++++ b/javascript/Box2D/Collision/b2RayCastInput.js
+@@ -2,12 +2,13 @@ var b2RayCastInput = function() {
+ this.__varz();
+ this.__constructor.apply(this, arguments);
+ }
+-b2RayCastInput.prototype.__constructor = function (this.p1 , this.p2 , this.maxFraction ) {
+-			if (this.p1)
+-				this.p1.SetV(this.p1);
+-			if (this.p2)
+-				this.p2.SetV(this.p2);
+-			this.maxFraction = this.maxFraction;
++b2RayCastInput.prototype.__constructor = function (p1 , p2 , maxFraction ) {
++			if (p1)
++				this.p1.SetV(p1);
++			if (p2)
++				this.p2.SetV(p2);
++			if (maxFraction)
++				this.maxFraction = maxFraction;
+ 		}
+ b2RayCastInput.prototype.__varz = function(){
+ this.p1 =  new b2Vec2();
 diff --git a/javascript/Box2D/Common/Math/b2Vec2.js b/javascript/Box2D/Common/Math/b2Vec2.js
 index e94ec27..8c56b7e 100644
 --- a/javascript/Box2D/Common/Math/b2Vec2.js
@@ -195,25 +298,34 @@ index fcc66f2..c5aa7af 100644
 +b2Vec3.prototype.z =  0;
 \ No newline at end of file
 diff --git a/javascript/Box2D/Common/b2Color.js b/javascript/Box2D/Common/b2Color.js
-index 2034474..38c3c8d 100644
+index 2034474..47473b8 100644
 --- a/javascript/Box2D/Common/b2Color.js
 +++ b/javascript/Box2D/Common/b2Color.js
-@@ -17,18 +17,19 @@ b2Color.prototype.Set = function (rr, gg, bb) {
+@@ -17,18 +17,28 @@ b2Color.prototype.Set = function (rr, gg, bb) {
  		this._g = parseInt(255 * b2Math.Clamp(gg, 0.0, 1.0));
  		this._b = parseInt(255 * b2Math.Clamp(bb, 0.0, 1.0));
  	}
 -b2Color.prototype.set = function (rr) {
 +	
++b2Color.prototype.__defineGetter__("r", function() {
++			return this._r;
++		});
 +b2Color.prototype.__defineSetter__("r", function(rr) {
  		this._r = parseInt(255 * b2Math.Clamp(rr, 0.0, 1.0));
 -	}
 -b2Color.prototype.set = function (gg) {
 +	});
++b2Color.prototype.__defineGetter__("g", function() {
++				return this._g;
++			});
 +b2Color.prototype.__defineSetter__("g", function(gg) {
  		this._g = parseInt(255 * b2Math.Clamp(gg, 0.0, 1.0));
 -	}
 -b2Color.prototype.set = function (bb) {
 +	});
++b2Color.prototype.__defineGetter__("b", function() {
++					return this._b;
++				});
 +b2Color.prototype.__defineSetter__("b", function(bb) {
  		this._b = parseInt(255 * b2Math.Clamp(bb, 0.0, 1.0));
 -	}
@@ -226,50 +338,6 @@ index 2034474..38c3c8d 100644
  // attributes
  b2Color.prototype._r =  0;
  b2Color.prototype._g =  0;
-diff --git a/javascript/Box2D/Collision/b2DynamicTreeBroadPhase.js b/javascript/Box2D/Collision/b2DynamicTreeBroadPhase.js
-index e990ced..c2ca788 100644
---- a/javascript/Box2D/Collision/b2DynamicTreeBroadPhase.js
-+++ b/javascript/Box2D/Collision/b2DynamicTreeBroadPhase.js
-@@ -61,6 +61,7 @@ b2DynamicTreeBroadPhase.prototype.UpdatePairs = function (callback) {
- 		
- 		for(var i=0, queryProxy=null;i<this.m_moveBuffer.length, queryProxy=this.m_moveBuffer[i]; i++)
- 		{
-+			var that = this;
- 			function QueryCallback(proxy)
- 			{
- 				
-@@ -68,15 +69,15 @@ b2DynamicTreeBroadPhase.prototype.UpdatePairs = function (callback) {
- 					return true;
- 					
- 				
--				if (this.m_pairCount == this.m_pairBuffer.length)
-+				if (that.m_pairCount == that.m_pairBuffer.length)
- 				{
--					this.m_pairBuffer[this.m_pairCount] = new b2DynamicTreePair();
-+					that.m_pairBuffer[that.m_pairCount] = new b2DynamicTreePair();
- 				}
- 				
--				var pair = this.m_pairBuffer[this.m_pairCount];
-+				var pair = that.m_pairBuffer[that.m_pairCount];
- 				pair.proxyA = proxy < queryProxy?proxy:queryProxy;
- 				pair.proxyB = proxy >= queryProxy?proxy:queryProxy;
--				++this.m_pairCount;
-+				++that.m_pairCount;
- 				
- 				return true;
- 			}
-diff --git a/javascript/Box2D/Dynamics/Contacts/b2ContactFactory.js b/javascript/Box2D/Dynamics/Contacts/b2ContactFactory.js
-index 7cd147c..a464c59 100644
---- a/javascript/Box2D/Dynamics/Contacts/b2ContactFactory.js
-+++ b/javascript/Box2D/Dynamics/Contacts/b2ContactFactory.js
-@@ -4,6 +4,7 @@ this.__constructor.apply(this, arguments);
- }
- b2ContactFactory.prototype.__constructor = function(){}
- b2ContactFactory.prototype.__varz = function(){
-+	this.InitializeRegisters()
- }
- // static methods
- // static attributes
 diff --git a/javascript/Box2D/Dynamics/b2ContactManager.js b/javascript/Box2D/Dynamics/b2ContactManager.js
 index b601fbf..dd5b875 100644
 --- a/javascript/Box2D/Dynamics/b2ContactManager.js
@@ -286,37 +354,11 @@ index b601fbf..dd5b875 100644
  	}
  b2ContactManager.prototype.Destroy = function (c) {
  		
-diff --git a/javascript/Box2D/Common/b2Color.js b/javascript/Box2D/Common/b2Color.js
-index 38c3c8d..97f9a46 100644
---- a/javascript/Box2D/Common/b2Color.js
-+++ b/javascript/Box2D/Common/b2Color.js
-@@ -18,12 +18,21 @@ b2Color.prototype.Set = function (rr, gg, bb) {
- 		this._b = parseInt(255 * b2Math.Clamp(bb, 0.0, 1.0));
- 	}
- 	
-+b2Color.prototype.__defineGetter__("r", function() {
-+			return this._r;
-+		});
- b2Color.prototype.__defineSetter__("r", function(rr) {
- 		this._r = parseInt(255 * b2Math.Clamp(rr, 0.0, 1.0));
- 	});
-+b2Color.prototype.__defineGetter__("g", function() {
-+				return this._g;
-+			});
- b2Color.prototype.__defineSetter__("g", function(gg) {
- 		this._g = parseInt(255 * b2Math.Clamp(gg, 0.0, 1.0));
- 	});
-+b2Color.prototype.__defineGetter__("b", function() {
-+					return this._g;
-+				});
- b2Color.prototype.__defineSetter__("b", function(bb) {
- 		this._b = parseInt(255 * b2Math.Clamp(bb, 0.0, 1.0));
- 	});
 diff --git a/javascript/Box2D/Dynamics/b2DebugDraw.js b/javascript/Box2D/Dynamics/b2DebugDraw.js
-index 252b31f..78d37ff 100644
+index 252b31f..17e7a93 100644
 --- a/javascript/Box2D/Dynamics/b2DebugDraw.js
 +++ b/javascript/Box2D/Dynamics/b2DebugDraw.js
-@@ -64,6 +64,19 @@ b2DebugDraw.prototype.SetXFormScale = function (xformScale) {
+@@ -64,6 +64,23 @@ b2DebugDraw.prototype.SetXFormScale = function (xformScale) {
  b2DebugDraw.prototype.GetXFormScale = function () {
  		return this.m_xformScale;
  	}
@@ -329,6 +371,10 @@ index 252b31f..78d37ff 100644
 +	return this.m_sprite.canvas.height - y;
 +}
 +
++b2DebugDraw.prototype.ToWorldPoint = function(localPoint) {
++	return new b2Vec2(localPoint.x / this.m_drawScale, this.Y(localPoint.y)/this.m_drawScale);
++}
++
 +b2DebugDraw.prototype.ColorStyle = function(color, alpha) {
 +	return "rgba("+color.r+", "+color.g +", " + color.b + ", " + alpha + ")";
 +}
@@ -336,7 +382,7 @@ index 252b31f..78d37ff 100644
  b2DebugDraw.prototype.DrawPolygon = function (vertices, vertexCount, color) {
  		
  		this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
-@@ -75,16 +88,19 @@ b2DebugDraw.prototype.DrawPolygon = function (vertices, vertexCount, color) {
+@@ -75,16 +92,19 @@ b2DebugDraw.prototype.DrawPolygon = function (vertices, vertexCount, color) {
  		
  	}
  b2DebugDraw.prototype.DrawSolidPolygon = function (vertices, vertexCount, color) {
@@ -363,24 +409,7 @@ index 252b31f..78d37ff 100644
  	}
  b2DebugDraw.prototype.DrawCircle = function (center, radius, color) {
  		
-diff --git a/javascript/Box2D/Dynamics/b2World.js b/javascript/Box2D/Dynamics/b2World.js
-index ab2a305..99da12c 100644
---- a/javascript/Box2D/Dynamics/b2World.js
-+++ b/javascript/Box2D/Dynamics/b2World.js
-@@ -1075,7 +1075,7 @@ b2World.prototype.DrawDebugData = function () {
- 			return;
- 		}
- 		
--		this.m_debugDraw.m_sprite.graphics.clear();
-+		this.m_debugDraw.Clear();
- 		
- 		var flags = this.m_debugDraw.GetFlags();
- 		
-diff --git a/javascript/Box2D/Dynamics/b2DebugDraw.js b/javascript/Box2D/Dynamics/b2DebugDraw.js
-index 78d37ff..75f013a 100644
---- a/javascript/Box2D/Dynamics/b2DebugDraw.js
-+++ b/javascript/Box2D/Dynamics/b2DebugDraw.js
-@@ -109,15 +109,15 @@ b2DebugDraw.prototype.DrawCircle = function (center, radius, color) {
+@@ -93,33 +113,43 @@ b2DebugDraw.prototype.DrawCircle = function (center, radius, color) {
  		
  	}
  b2DebugDraw.prototype.DrawSolidCircle = function (center, radius, axis, color) {
@@ -404,7 +433,16 @@ index 78d37ff..75f013a 100644
  	}
  b2DebugDraw.prototype.DrawSegment = function (p1, p2, color) {
  		
-@@ -127,15 +127,21 @@ b2DebugDraw.prototype.DrawSegment = function (p1, p2, color) {
+-		this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
+-		this.m_sprite.graphics.moveTo(p1.x * this.m_drawScale, p1.y * this.m_drawScale);
+-		this.m_sprite.graphics.lineTo(p2.x * this.m_drawScale, p2.y * this.m_drawScale);
++		this.m_sprite.lineWidth = this.m_lineThickness;
++		this.m_sprite.strokeSyle = this.ColorStyle(color, this.m_alpha);
++		this.m_sprite.beginPath();
++		this.m_sprite.moveTo(p1.x * this.m_drawScale, this.Y(p1.y * this.m_drawScale));
++		this.m_sprite.lineTo(p2.x * this.m_drawScale, this.Y(p2.y * this.m_drawScale));
++		this.m_sprite.stroke();
++		this.m_sprite.closePath();		
  		
  	}
  b2DebugDraw.prototype.DrawTransform = function (xf) {
@@ -433,65 +471,141 @@ index 78d37ff..75f013a 100644
  	}
  // attributes
  b2DebugDraw.prototype.m_drawFlags =  0;
-diff --git a/javascript/Box2D/Collision/Shapes/b2PolygonShape.js b/javascript/Box2D/Collision/Shapes/b2PolygonShape.js
-index 47d4ce6..c617d07 100644
---- a/javascript/Box2D/Collision/Shapes/b2PolygonShape.js
-+++ b/javascript/Box2D/Collision/Shapes/b2PolygonShape.js
-@@ -213,7 +213,7 @@ b2PolygonShape.prototype.SetAsArray = function (vertices, vertexCount ) {
- 		this.SetAsVector(v, vertexCount);
- 	}
- b2PolygonShape.prototype.SetAsVector = function (vertices, vertexCount ) {
--		if (vertexCount == 0)
-+		if (typeof vertexCount == "undefined")
- 			vertexCount = vertices.length;
- 			
- 		b2Settings.b2Assert(2 <= vertexCount);
-diff --git a/javascript/Box2D/Dynamics/b2DebugDraw.js b/javascript/Box2D/Dynamics/b2DebugDraw.js
-index 75f013a..cad2ffb 100644
---- a/javascript/Box2D/Dynamics/b2DebugDraw.js
-+++ b/javascript/Box2D/Dynamics/b2DebugDraw.js
-@@ -121,9 +121,13 @@ b2DebugDraw.prototype.DrawSolidCircle = function (center, radius, axis, color) {
- 	}
- b2DebugDraw.prototype.DrawSegment = function (p1, p2, color) {
+diff --git a/javascript/Box2D/Dynamics/b2World.js b/javascript/Box2D/Dynamics/b2World.js
+index 4cccd3a..99da12c 100644
+--- a/javascript/Box2D/Dynamics/b2World.js
++++ b/javascript/Box2D/Dynamics/b2World.js
+@@ -1075,7 +1075,7 @@ b2World.prototype.DrawDebugData = function () {
+ 			return;
+ 		}
  		
--		this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
--		this.m_sprite.graphics.moveTo(p1.x * this.m_drawScale, p1.y * this.m_drawScale);
--		this.m_sprite.graphics.lineTo(p2.x * this.m_drawScale, p2.y * this.m_drawScale);
-+		this.m_sprite.lineWidth = this.m_lineThickness;
-+		this.m_sprite.strokeSyle = this.ColorStyle(color, this.m_alpha);
-+		this.m_sprite.beginPath();
-+		this.m_sprite.moveTo(p1.x * this.m_drawScale, this.Y(p1.y * this.m_drawScale));
-+		this.m_sprite.lineTo(p2.x * this.m_drawScale, this.Y(p2.y * this.m_drawScale));
-+		this.m_sprite.stroke();
-+		this.m_sprite.closePath();		
+-		this.m_debugDraw.m_sprite.graphics.clear();
++		this.m_debugDraw.Clear();
  		
+ 		var flags = this.m_debugDraw.GetFlags();
+ 		
+@@ -1202,15 +1202,12 @@ b2World.prototype.DrawDebugData = function () {
  	}
- b2DebugDraw.prototype.DrawTransform = function (xf) {
-diff --git a/javascript/Box2D/Dynamics/b2DebugDraw.js b/javascript/Box2D/Dynamics/b2DebugDraw.js
-index cad2ffb..17e7a93 100644
---- a/javascript/Box2D/Dynamics/b2DebugDraw.js
-+++ b/javascript/Box2D/Dynamics/b2DebugDraw.js
-@@ -73,6 +73,10 @@ b2DebugDraw.prototype.Y = function(y) {
- 	return this.m_sprite.canvas.height - y;
- }
- 
-+b2DebugDraw.prototype.ToWorldPoint = function(localPoint) {
-+	return new b2Vec2(localPoint.x / this.m_drawScale, this.Y(localPoint.y)/this.m_drawScale);
-+}
-+
- b2DebugDraw.prototype.ColorStyle = function(color, alpha) {
- 	return "rgba("+color.r+", "+color.g +", " + color.b + ", " + alpha + ")";
- }
-diff --git a/javascript/Box2D/Common/b2Color.js b/javascript/Box2D/Common/b2Color.js
-index 97f9a46..47473b8 100644
---- a/javascript/Box2D/Common/b2Color.js
-+++ b/javascript/Box2D/Common/b2Color.js
-@@ -31,7 +31,7 @@ b2Color.prototype.__defineSetter__("g", function(gg) {
- 		this._g = parseInt(255 * b2Math.Clamp(gg, 0.0, 1.0));
- 	});
- b2Color.prototype.__defineGetter__("b", function() {
--					return this._g;
-+					return this._b;
- 				});
- b2Color.prototype.__defineSetter__("b", function(bb) {
- 		this._b = parseInt(255 * b2Math.Clamp(bb, 0.0, 1.0));
+ b2World.prototype.QueryAABB = function (callback, aabb) {
+ 		var broadPhase = this.m_contactManager.m_broadPhase;
+-		function this.WorldQueryWrapper(proxy)
++		function WorldQueryWrapper(proxy)
+ 		{
+ 			return callback(broadPhase.GetUserData(proxy));
+ 		}
+-		broadPhase.Query(this.WorldQueryWrapper, aabb);
++		broadPhase.Query(WorldQueryWrapper, aabb);
+ 	}
+-b2World.prototype.WorldQueryWrapper = function (proxy) {
+-			return callback(broadPhase.GetUserData(proxy));
+-		}
+ b2World.prototype.QueryShape = function (callback, shape, transform ) {
+ 		if (transform == null)
+ 		{
+@@ -1218,7 +1215,7 @@ b2World.prototype.QueryShape = function (callback, shape, transform ) {
+ 			transform.SetIdentity();
+ 		}
+ 		var broadPhase = this.m_contactManager.m_broadPhase;
+-		function this.WorldQueryWrapper(proxy)
++		function WorldQueryWrapper(proxy)
+ 		{
+ 			var fixture = broadPhase.GetUserData(proxy)
+ 			if(b2Shape.TestOverlap(shape, transform, fixture.GetShape(), fixture.GetBody().GetTransform()))
+@@ -1227,17 +1224,11 @@ b2World.prototype.QueryShape = function (callback, shape, transform ) {
+ 		}
+ 		var aabb = new b2AABB();
+ 		shape.ComputeAABB(aabb, transform);
+-		broadPhase.Query(this.WorldQueryWrapper, aabb);
++		broadPhase.Query(WorldQueryWrapper, aabb);
+ 	}
+-b2World.prototype.WorldQueryWrapper = function (proxy) {
+-			var fixture = broadPhase.GetUserData(proxy)
+-			if(b2Shape.TestOverlap(shape, transform, fixture.GetShape(), fixture.GetBody().GetTransform()))
+-				return callback(fixture);
+-			return true;
+-		}
+ b2World.prototype.QueryPoint = function (callback, p) {
+ 		var broadPhase = this.m_contactManager.m_broadPhase;
+-		function this.WorldQueryWrapper(proxy)
++		function WorldQueryWrapper(proxy)
+ 		{
+ 			var fixture = broadPhase.GetUserData(proxy)
+ 			if(fixture.TestPoint(p))
+@@ -1248,18 +1239,12 @@ b2World.prototype.QueryPoint = function (callback, p) {
+ 		var aabb = new b2AABB();
+ 		aabb.lowerBound.Set(p.x - b2Settings.b2_linearSlop, p.y - b2Settings.b2_linearSlop);
+ 		aabb.upperBound.Set(p.x + b2Settings.b2_linearSlop, p.y + b2Settings.b2_linearSlop);
+-		broadPhase.Query(this.WorldQueryWrapper, aabb);
++		broadPhase.Query(WorldQueryWrapper, aabb);
+ 	}
+-b2World.prototype.WorldQueryWrapper = function (proxy) {
+-			var fixture = broadPhase.GetUserData(proxy)
+-			if(fixture.TestPoint(p))
+-				return callback(fixture);
+-			return true;
+-		}
+ b2World.prototype.RayCast = function (callback, point1, point2) {
+ 		var broadPhase = this.m_contactManager.m_broadPhase;
+ 		var output = new b2RayCastOutput;
+-		function this.RayCastWrapper(input, proxy)
++		function RayCastWrapper(input, proxy)
+ 		{
+ 			var userData = broadPhase.GetUserData(proxy);
+ 			var fixture = userData;
+@@ -1275,50 +1260,28 @@ b2World.prototype.RayCast = function (callback, point1, point2) {
+ 			return input.maxFraction;
+ 		}
+ 		var input = new b2RayCastInput(point1, point2);
+-		broadPhase.RayCast(this.RayCastWrapper, input);
++		broadPhase.RayCast(RayCastWrapper, input);
+ 	}
+-b2World.prototype.RayCastWrapper = function (input, proxy) {
+-			var userData = broadPhase.GetUserData(proxy);
+-			var fixture = userData;
+-			var hit = fixture.RayCast(output, input);
+-			if (hit)
+-			{
+-				var fraction = output.fraction;
+-				var point = new b2Vec2(
+-					(1.0 - fraction) * point1.x + fraction * point2.x,
+-					(1.0 - fraction) * point1.y + fraction * point2.y);
+-				return callback(fixture, point, output.normal, fraction);
+-			}
+-			return input.maxFraction;
+-		}
+ b2World.prototype.RayCastOne = function (point1, point2) {
+ 		var result;
+-		function this.RayCastOneWrapper(fixture, point, normal, fraction)
++		function RayCastOneWrapper(fixture, point, normal, fraction)
+ 		{
+ 			result = fixture;
+ 			return fraction;
+ 		}
+-		this.RayCast(this.RayCastOneWrapper, point1, point2);
++		this.RayCast(RayCastOneWrapper, point1, point2);
+ 		return result;
+ 	}
+-b2World.prototype.RayCastOneWrapper = function (fixture, point, normal, fraction) {
+-			result = fixture;
+-			return fraction;
+-		}
+ b2World.prototype.RayCastAll = function (point1, point2) {
+ 		var result = new Array();
+-		function this.RayCastAllWrapper(fixture, point, normal, fraction)
++		function RayCastAllWrapper(fixture, point, normal, fraction)
+ 		{
+ 			result[result.length] = fixture;
+ 			return 1;
+ 		}
+-		this.RayCast(this.RayCastAllWrapper, point1, point2);
++		this.RayCast(RayCastAllWrapper, point1, point2);
+ 		return result;
+ 	}
+-b2World.prototype.RayCastAllWrapper = function (fixture, point, normal, fraction) {
+-			result[result.length] = fixture;
+-			return 1;
+-		}
+ b2World.prototype.GetBodyList = function () {
+ 		return this.m_bodyList;
+ 	}
+

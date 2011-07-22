@@ -2,9 +2,11 @@ var b2ContactFactory = function() {
 this.__varz();
 this.__constructor.apply(this, arguments);
 }
-b2ContactFactory.prototype.__constructor = function(){}
+b2ContactFactory.prototype.__constructor = function (allocator) {
+		this.m_allocator = allocator;
+		this.InitializeRegisters();
+	}
 b2ContactFactory.prototype.__varz = function(){
-	this.InitializeRegisters()
 }
 // static methods
 // static attributes
