@@ -556,10 +556,11 @@ b2DistanceProxy.prototype.m_radius = null;var b2ContactFactory = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
-b2ContactFactory.prototype.__constructor = function() {
+b2ContactFactory.prototype.__constructor = function(allocator) {
+  this.m_allocator = allocator;
+  this.InitializeRegisters()
 };
 b2ContactFactory.prototype.__varz = function() {
-  this.InitializeRegisters()
 };
 b2ContactFactory.prototype.AddType = function(createFcn, destroyFcn, type1, type2) {
   this.m_registers[type1][type2].createFcn = createFcn;
@@ -1406,7 +1407,16 @@ b2JointEdge.prototype.next = null;var b2RayCastInput = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
-b2RayCastInput.prototype.__constructor = function() {
+b2RayCastInput.prototype.__constructor = function(p1, p2, maxFraction) {
+  if(p1) {
+    this.p1.SetV(p1)
+  }
+  if(p2) {
+    this.p2.SetV(p2)
+  }
+  if(maxFraction) {
+    this.maxFraction = maxFraction
+  }
 };
 b2RayCastInput.prototype.__varz = function() {
   this.p1 = new b2Vec2;

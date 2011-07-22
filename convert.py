@@ -152,7 +152,7 @@ def parse(code):
             aux = aux[aux.index("extends ")+len("extends "):]
             extends = aux[:min(aux.index(" "), aux.index("{"))].strip()
     code = readblock(aux[aux.index("{"):])
-    pubf = getfunctions(code, "public function ")
+    pubf = getfunctions(code, "^\s*(public\s)?function ")
     try:
         constructor = next(x for x in pubf if x[0] == klass)
         pubf.remove(constructor)
@@ -164,7 +164,7 @@ def parse(code):
     privvar = getvars(code, "private var ")
     pubvar = getvars(code, "public var ")
     statvar = getvars(code, "staticpublik var ") + getvars(code, "static var") + getvars(code, "staticprivat var")
-
+    
     return Klass(klass, extends, constructor, privvar+pubvar, privf+pubf, statvar, statf)
 
 def getvars(code, prefix):
@@ -190,8 +190,11 @@ def getvars(code, prefix):
 
 def getfunctions(code, prefix):
     functions = []
-    while prefix in code:
-        code = code[code.index(prefix)+len(prefix):]
+    while True:
+        so = re.search(prefix, code, re.M)
+        if not so:
+            break
+        code = code[so.end():]
         i = min(code.index(" "), code.index("("))
         name = code[:i]
         args = readblock(code, "(", ")")
