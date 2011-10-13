@@ -616,7 +616,7 @@ b2World.prototype.DrawJoint = function (joint) {
 				this.m_debugDraw.DrawSegment(x2, p2, color);
 		}
 	}
-b2World.prototype.DrawShape = function (shape, xf, color) {
+b2World.prototype.DrawShape = function (shape, xf, color, selected) {
 		
 		switch (shape.m_type)
 		{
@@ -628,7 +628,7 @@ b2World.prototype.DrawShape = function (shape, xf, color) {
 				var radius = circle.m_radius;
 				var axis = xf.R.col1;
 				
-				this.m_debugDraw.DrawSolidCircle(center, radius, axis, color);
+				this.m_debugDraw.DrawSolidCircle(center, radius, axis, color, selected);
 			}
 			break;
 		
@@ -646,7 +646,7 @@ b2World.prototype.DrawShape = function (shape, xf, color) {
 					vertices[i] = b2Math.MulX(xf, localVertices[i]);
 				}
 				
-				this.m_debugDraw.DrawSolidPolygon(vertices, vertexCount, color);
+				this.m_debugDraw.DrawSolidPolygon(vertices, vertexCount, color, selected);
 			}
 			break;
 		
@@ -654,7 +654,7 @@ b2World.prototype.DrawShape = function (shape, xf, color) {
 			{
 				var edge = shape;
 				
-				this.m_debugDraw.DrawSegment(b2Math.MulX(xf, edge.GetVertex1()), b2Math.MulX(xf, edge.GetVertex2()), color);
+				this.m_debugDraw.DrawSegment(b2Math.MulX(xf, edge.GetVertex1()), b2Math.MulX(xf, edge.GetVertex2()), color, selected);
 				
 			}
 			break;
@@ -1104,31 +1104,25 @@ b2World.prototype.DrawDebugData = function () {
 				for (f = b.GetFixtureList(); f; f = f.m_next)
 				{
 					s = f.GetShape();
-					if (b.IsActive() == false)
-					{
-						color.Set(0.5, 0.5, 0.3);
-						this.DrawShape(s, xf, color);
+					if (b.IsActive() == false) {
+					  color.Set(0.5, 0.5, 0.3);
 					}
-					else if (b.GetType() == b2Body.b2_staticBody)
-					{
+					else if (b.GetType() == b2Body.b2_staticBody) {
 						color.Set(0.5, 0.9, 0.5);
-						this.DrawShape(s, xf, color);
 					}
 					else if (b.GetType() == b2Body.b2_kinematicBody)
 					{
 						color.Set(0.5, 0.5, 0.9);
-						this.DrawShape(s, xf, color);
 					}
 					else if (b.IsAwake() == false)
 					{
 						color.Set(0.6, 0.6, 0.6);
-						this.DrawShape(s, xf, color);
 					}
 					else
 					{
 						color.Set(0.9, 0.7, 0.7);
-						this.DrawShape(s, xf, color);
 					}
+					this.DrawShape(s, xf, color, b.IsSelected());
 				}
 			}
 		}

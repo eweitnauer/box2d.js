@@ -1,18 +1,11 @@
+/// eweitnau:
+/// I introduced the isSelected property, it is just used in the DebugDrawing.
+
 var b2Body = function() {
 this.__varz();
 this.__constructor.apply(this, arguments);
 }
 b2Body.prototype.__constructor = function (bd, world) {
-		
-		
-		
- 		
- 		
- 		
- 		
- 		
- 		
-		
 		this.m_flags = 0;
 		
 		if (bd.bullet )
@@ -99,6 +92,8 @@ b2Body.prototype.__constructor = function (bd, world) {
 		
 		this.m_fixtureList = null;
 		this.m_fixtureCount = 0;
+		
+		this.m_isSelected = false;
 	}
 b2Body.prototype.__varz = function(){
 this.m_xf =  new b2Transform();
@@ -119,6 +114,14 @@ b2Body.e_bulletFlag =  0x0008;
 b2Body.e_fixedRotationFlag =  0x0010;
 b2Body.e_activeFlag =  0x0020;
 // methods
+
+b2Body.prototype.SetSelected = function(bool) {
+  this.m_isSelected = bool;
+}
+b2Body.prototype.IsSelected = function() {
+  return this.m_isSelected;
+}
+
 b2Body.prototype.connectEdges = function (s1, s2, angle1) {
 		var angle2 = Math.atan2(s2.GetDirectionVector().y, s2.GetDirectionVector().x);
 		var coreOffset = Math.tan((angle2 - angle1) * 0.5);
@@ -896,3 +899,4 @@ b2Body.prototype.m_linearDamping =  null;
 b2Body.prototype.m_angularDamping =  null;
 b2Body.prototype.m_sleepTime =  null;
 b2Body.prototype.m_userData =  null;
+b2Body.prototype.m_isSelected = false;

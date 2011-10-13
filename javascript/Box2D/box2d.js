@@ -27,7 +27,8 @@ b2BoundValues.prototype.__constructor = function() {
 b2BoundValues.prototype.__varz = function() {
 };
 b2BoundValues.prototype.lowerValues = null;
-b2BoundValues.prototype.upperValues = null;var b2PairManager = function() {
+b2BoundValues.prototype.upperValues = null;
+var b2PairManager = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -140,7 +141,8 @@ b2PairManager.prototype.m_pairs = null;
 b2PairManager.prototype.m_freePair = null;
 b2PairManager.prototype.m_pairCount = 0;
 b2PairManager.prototype.m_pairBuffer = null;
-b2PairManager.prototype.m_pairBufferCount = 0;var b2TimeStep = function() {
+b2PairManager.prototype.m_pairBufferCount = 0;
+var b2TimeStep = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -160,7 +162,8 @@ b2TimeStep.prototype.inv_dt = null;
 b2TimeStep.prototype.dtRatio = null;
 b2TimeStep.prototype.velocityIterations = 0;
 b2TimeStep.prototype.positionIterations = 0;
-b2TimeStep.prototype.warmStarting = null;var b2Controller = function() {
+b2TimeStep.prototype.warmStarting = null;
+var b2Controller = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -233,7 +236,8 @@ b2Controller.prototype.GetBodyList = function() {
 };
 b2Controller.prototype.m_next = null;
 b2Controller.prototype.m_prev = null;
-b2Controller.prototype.m_world = null;var b2GravityController = function() {
+b2Controller.prototype.m_world = null;
+var b2GravityController = function() {
   b2Controller.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -310,7 +314,8 @@ b2GravityController.prototype.Step = function(step) {
   }
 };
 b2GravityController.prototype.G = 1;
-b2GravityController.prototype.invSqr = true;var b2DestructionListener = function() {
+b2GravityController.prototype.invSqr = true;
+var b2DestructionListener = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -321,7 +326,8 @@ b2DestructionListener.prototype.__varz = function() {
 b2DestructionListener.prototype.SayGoodbyeJoint = function(joint) {
 };
 b2DestructionListener.prototype.SayGoodbyeFixture = function(fixture) {
-};var b2ContactEdge = function() {
+};
+var b2ContactEdge = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -332,7 +338,8 @@ b2ContactEdge.prototype.__varz = function() {
 b2ContactEdge.prototype.other = null;
 b2ContactEdge.prototype.contact = null;
 b2ContactEdge.prototype.prev = null;
-b2ContactEdge.prototype.next = null;var b2EdgeChainDef = function() {
+b2ContactEdge.prototype.next = null;
+var b2EdgeChainDef = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -345,7 +352,8 @@ b2EdgeChainDef.prototype.__varz = function() {
 };
 b2EdgeChainDef.prototype.vertices = null;
 b2EdgeChainDef.prototype.vertexCount = null;
-b2EdgeChainDef.prototype.isALoop = null;var b2Vec2 = function(x_, y_) {
+b2EdgeChainDef.prototype.isALoop = null;
+var b2Vec2 = function(x_, y_) {
   if(arguments.length == 2) {
     this.x = x_;
     this.y = y_
@@ -444,7 +452,8 @@ b2Vec2.prototype.IsValid = function() {
   return b2Math.IsValid(this.x) && b2Math.IsValid(this.y)
 };
 b2Vec2.prototype.x = 0;
-b2Vec2.prototype.y = 0;var b2Vec3 = function(x, y, z) {
+b2Vec2.prototype.y = 0;
+var b2Vec3 = function(x, y, z) {
   if(arguments.length == 3) {
     this.x = x;
     this.y = y;
@@ -492,7 +501,8 @@ b2Vec3.prototype.Multiply = function(a) {
 };
 b2Vec3.prototype.x = 0;
 b2Vec3.prototype.y = 0;
-b2Vec3.prototype.z = 0;var b2DistanceProxy = function() {
+b2Vec3.prototype.z = 0;
+var b2DistanceProxy = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -552,7 +562,8 @@ b2DistanceProxy.prototype.GetVertex = function(index) {
 };
 b2DistanceProxy.prototype.m_vertices = null;
 b2DistanceProxy.prototype.m_count = 0;
-b2DistanceProxy.prototype.m_radius = null;var b2ContactFactory = function() {
+b2DistanceProxy.prototype.m_radius = null;
+var b2ContactFactory = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -630,7 +641,8 @@ b2ContactFactory.prototype.Destroy = function(contact) {
   destroyFcn(contact, this.m_allocator)
 };
 b2ContactFactory.prototype.m_registers = null;
-b2ContactFactory.prototype.m_allocator = null;var b2ConstantAccelController = function() {
+b2ContactFactory.prototype.m_allocator = null;
+var b2ConstantAccelController = function() {
   b2Controller.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -653,7 +665,8 @@ b2ConstantAccelController.prototype.Step = function(step) {
     body.SetLinearVelocity(new b2Vec2(body.GetLinearVelocity().x + smallA.x, body.GetLinearVelocity().y + smallA.y))
   }
 };
-b2ConstantAccelController.prototype.A = new b2Vec2(0, 0);var b2SeparationFunction = function() {
+b2ConstantAccelController.prototype.A = new b2Vec2(0, 0);
+var b2SeparationFunction = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -875,7 +888,8 @@ b2SeparationFunction.prototype.m_proxyA = null;
 b2SeparationFunction.prototype.m_proxyB = null;
 b2SeparationFunction.prototype.m_type = 0;
 b2SeparationFunction.prototype.m_localPoint = new b2Vec2;
-b2SeparationFunction.prototype.m_axis = new b2Vec2;var b2DynamicTreePair = function() {
+b2SeparationFunction.prototype.m_axis = new b2Vec2;
+var b2DynamicTreePair = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -884,7 +898,8 @@ b2DynamicTreePair.prototype.__constructor = function() {
 b2DynamicTreePair.prototype.__varz = function() {
 };
 b2DynamicTreePair.prototype.proxyA = null;
-b2DynamicTreePair.prototype.proxyB = null;var b2ContactConstraintPoint = function() {
+b2DynamicTreePair.prototype.proxyB = null;
+var b2ContactConstraintPoint = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -903,7 +918,8 @@ b2ContactConstraintPoint.prototype.tangentImpulse = null;
 b2ContactConstraintPoint.prototype.normalMass = null;
 b2ContactConstraintPoint.prototype.tangentMass = null;
 b2ContactConstraintPoint.prototype.equalizedMass = null;
-b2ContactConstraintPoint.prototype.velocityBias = null;var b2ControllerEdge = function() {
+b2ContactConstraintPoint.prototype.velocityBias = null;
+var b2ControllerEdge = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -916,7 +932,8 @@ b2ControllerEdge.prototype.body = null;
 b2ControllerEdge.prototype.prevBody = null;
 b2ControllerEdge.prototype.nextBody = null;
 b2ControllerEdge.prototype.prevController = null;
-b2ControllerEdge.prototype.nextController = null;var b2DistanceInput = function() {
+b2ControllerEdge.prototype.nextController = null;
+var b2DistanceInput = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -928,7 +945,8 @@ b2DistanceInput.prototype.proxyA = null;
 b2DistanceInput.prototype.proxyB = null;
 b2DistanceInput.prototype.transformA = null;
 b2DistanceInput.prototype.transformB = null;
-b2DistanceInput.prototype.useRadii = null;var b2Settings = function() {
+b2DistanceInput.prototype.useRadii = null;
+var b2Settings = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -969,7 +987,8 @@ b2Settings.b2_maxRotationSquared = b2Settings.b2_maxRotation * b2Settings.b2_max
 b2Settings.b2_contactBaumgarte = 0.2;
 b2Settings.b2_timeToSleep = 0.5;
 b2Settings.b2_linearSleepTolerance = 0.01;
-b2Settings.b2_angularSleepTolerance = 2 / 180 * b2Settings.b2_pi;var b2Proxy = function() {
+b2Settings.b2_angularSleepTolerance = 2 / 180 * b2Settings.b2_pi;
+var b2Proxy = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -989,7 +1008,8 @@ b2Proxy.prototype.overlapCount = 0;
 b2Proxy.prototype.timeStamp = 0;
 b2Proxy.prototype.pairs = new Object;
 b2Proxy.prototype.next = null;
-b2Proxy.prototype.userData = null;var b2Point = function() {
+b2Proxy.prototype.userData = null;
+var b2Point = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1004,7 +1024,8 @@ b2Point.prototype.Support = function(xf, vX, vY) {
 b2Point.prototype.GetFirstVertex = function(xf) {
   return this.p
 };
-b2Point.prototype.p = new b2Vec2;var b2WorldManifold = function() {
+b2Point.prototype.p = new b2Vec2;
+var b2WorldManifold = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1101,7 +1122,8 @@ b2WorldManifold.prototype.Initialize = function(manifold, xfA, radiusA, xfB, rad
   }
 };
 b2WorldManifold.prototype.m_normal = new b2Vec2;
-b2WorldManifold.prototype.m_points = null;var b2RayCastOutput = function() {
+b2WorldManifold.prototype.m_points = null;
+var b2RayCastOutput = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1111,7 +1133,8 @@ b2RayCastOutput.prototype.__varz = function() {
   this.normal = new b2Vec2
 };
 b2RayCastOutput.prototype.normal = new b2Vec2;
-b2RayCastOutput.prototype.fraction = null;var b2ConstantForceController = function() {
+b2RayCastOutput.prototype.fraction = null;
+var b2ConstantForceController = function() {
   b2Controller.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -1133,7 +1156,8 @@ b2ConstantForceController.prototype.Step = function(step) {
     body.ApplyForce(this.F, body.GetWorldCenter())
   }
 };
-b2ConstantForceController.prototype.F = new b2Vec2(0, 0);var b2MassData = function() {
+b2ConstantForceController.prototype.F = new b2Vec2(0, 0);
+var b2MassData = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1144,7 +1168,8 @@ b2MassData.prototype.__varz = function() {
 };
 b2MassData.prototype.mass = 0;
 b2MassData.prototype.center = new b2Vec2(0, 0);
-b2MassData.prototype.I = 0;var b2DynamicTree = function() {
+b2MassData.prototype.I = 0;
+var b2DynamicTree = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1392,7 +1417,8 @@ b2DynamicTree.prototype.RayCast = function(callback, input) {
 b2DynamicTree.prototype.m_root = null;
 b2DynamicTree.prototype.m_freeList = null;
 b2DynamicTree.prototype.m_path = 0;
-b2DynamicTree.prototype.m_insertionCount = 0;var b2JointEdge = function() {
+b2DynamicTree.prototype.m_insertionCount = 0;
+var b2JointEdge = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1403,7 +1429,8 @@ b2JointEdge.prototype.__varz = function() {
 b2JointEdge.prototype.other = null;
 b2JointEdge.prototype.joint = null;
 b2JointEdge.prototype.prev = null;
-b2JointEdge.prototype.next = null;var b2RayCastInput = function() {
+b2JointEdge.prototype.next = null;
+var b2RayCastInput = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1424,7 +1451,8 @@ b2RayCastInput.prototype.__varz = function() {
 };
 b2RayCastInput.prototype.p1 = new b2Vec2;
 b2RayCastInput.prototype.p2 = new b2Vec2;
-b2RayCastInput.prototype.maxFraction = null;var Features = function() {
+b2RayCastInput.prototype.maxFraction = null;
+var Features = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1464,7 +1492,8 @@ Features.prototype._referenceEdge = 0;
 Features.prototype._incidentEdge = 0;
 Features.prototype._incidentVertex = 0;
 Features.prototype._flip = 0;
-Features.prototype._m_id = null;var b2FilterData = function() {
+Features.prototype._m_id = null;
+var b2FilterData = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1483,7 +1512,8 @@ b2FilterData.prototype.Copy = function() {
 };
 b2FilterData.prototype.categoryBits = 1;
 b2FilterData.prototype.maskBits = 65535;
-b2FilterData.prototype.groupIndex = 0;var b2AABB = function() {
+b2FilterData.prototype.groupIndex = 0;
+var b2AABB = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1603,7 +1633,8 @@ b2AABB.prototype.Combine = function(aabb1, aabb2) {
   this.upperBound.y = Math.max(aabb1.upperBound.y, aabb2.upperBound.y)
 };
 b2AABB.prototype.lowerBound = new b2Vec2;
-b2AABB.prototype.upperBound = new b2Vec2;var b2Jacobian = function() {
+b2AABB.prototype.upperBound = new b2Vec2;
+var b2Jacobian = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1631,7 +1662,8 @@ b2Jacobian.prototype.Compute = function(x1, a1, x2, a2) {
 b2Jacobian.prototype.linearA = new b2Vec2;
 b2Jacobian.prototype.angularA = null;
 b2Jacobian.prototype.linearB = new b2Vec2;
-b2Jacobian.prototype.angularB = null;var b2Bound = function() {
+b2Jacobian.prototype.angularB = null;
+var b2Bound = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1658,7 +1690,8 @@ b2Bound.prototype.Swap = function(b) {
 };
 b2Bound.prototype.value = 0;
 b2Bound.prototype.proxy = null;
-b2Bound.prototype.stabbingCount = 0;var b2SimplexVertex = function() {
+b2Bound.prototype.stabbingCount = 0;
+var b2SimplexVertex = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1679,7 +1712,8 @@ b2SimplexVertex.prototype.wB = null;
 b2SimplexVertex.prototype.w = null;
 b2SimplexVertex.prototype.a = null;
 b2SimplexVertex.prototype.indexA = 0;
-b2SimplexVertex.prototype.indexB = 0;var b2Mat22 = function() {
+b2SimplexVertex.prototype.indexB = 0;
+var b2Mat22 = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1775,7 +1809,8 @@ b2Mat22.prototype.Abs = function() {
   this.col2.Abs()
 };
 b2Mat22.prototype.col1 = new b2Vec2;
-b2Mat22.prototype.col2 = new b2Vec2;var b2SimplexCache = function() {
+b2Mat22.prototype.col2 = new b2Vec2;
+var b2SimplexCache = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1788,7 +1823,8 @@ b2SimplexCache.prototype.__varz = function() {
 b2SimplexCache.prototype.metric = null;
 b2SimplexCache.prototype.count = 0;
 b2SimplexCache.prototype.indexA = new Array(3);
-b2SimplexCache.prototype.indexB = new Array(3);var b2Shape = function() {
+b2SimplexCache.prototype.indexB = new Array(3);
+var b2Shape = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1844,7 +1880,8 @@ b2Shape.prototype.ComputeSubmergedArea = function(normal, offset, xf, c) {
   return 0
 };
 b2Shape.prototype.m_type = 0;
-b2Shape.prototype.m_radius = null;var b2Segment = function() {
+b2Shape.prototype.m_radius = null;
+var b2Segment = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1902,7 +1939,8 @@ b2Segment.prototype.ExtendBackward = function(aabb) {
   this.p1.y = this.p2.y + dY * lambda
 };
 b2Segment.prototype.p1 = new b2Vec2;
-b2Segment.prototype.p2 = new b2Vec2;var b2ContactRegister = function() {
+b2Segment.prototype.p2 = new b2Vec2;
+var b2ContactRegister = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1914,7 +1952,8 @@ b2ContactRegister.prototype.createFcn = null;
 b2ContactRegister.prototype.destroyFcn = null;
 b2ContactRegister.prototype.primary = null;
 b2ContactRegister.prototype.pool = null;
-b2ContactRegister.prototype.poolCount = 0;var b2DebugDraw = function() {
+b2ContactRegister.prototype.poolCount = 0;
+var b2DebugDraw = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -1989,17 +2028,29 @@ b2DebugDraw.prototype.ToWorldPoint = function(localPoint) {
 b2DebugDraw.prototype.ColorStyle = function(color, alpha) {
   return"rgba(" + color.r + ", " + color.g + ", " + color.b + ", " + alpha + ")"
 };
-b2DebugDraw.prototype.DrawPolygon = function(vertices, vertexCount, color) {
-  this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
-  this.m_sprite.graphics.moveTo(vertices[0].x * this.m_drawScale, vertices[0].y * this.m_drawScale);
-  for(var i = 1;i < vertexCount;i++) {
-    this.m_sprite.graphics.lineTo(vertices[i].x * this.m_drawScale, vertices[i].y * this.m_drawScale)
+b2DebugDraw.prototype.DrawPolygon = function(vertices, vertexCount, color, selected) {
+  if(selected) {
+    this.m_sprite.strokeStyle = this.m_colorSelected;
+    this.m_sprite.lineWidth = this.m_lineThicknessSelected
+  }else {
+    this.m_sprite.strokeStyle = this.ColorStyle(color, this.m_alpha);
+    this.m_sprite.lineWidth = this.m_lineThickness
   }
-  this.m_sprite.graphics.lineTo(vertices[0].x * this.m_drawScale, vertices[0].y * this.m_drawScale)
+  this.m_sprite.fillStyle = "none";
+  this.m_sprite.moveTo(vertices[0].x * this.m_drawScale, vertices[0].y * this.m_drawScale);
+  for(var i = 1;i < vertexCount;i++) {
+    this.m_sprite.lineTo(vertices[i].x * this.m_drawScale, vertices[i].y * this.m_drawScale)
+  }
+  this.m_sprite.lineTo(vertices[0].x * this.m_drawScale, vertices[0].y * this.m_drawScale)
 };
-b2DebugDraw.prototype.DrawSolidPolygon = function(vertices, vertexCount, color) {
-  this.m_sprite.strokeSyle = this.ColorStyle(color, this.m_alpha);
-  this.m_sprite.lineWidth = this.m_lineThickness;
+b2DebugDraw.prototype.DrawSolidPolygon = function(vertices, vertexCount, color, selected) {
+  if(selected) {
+    this.m_sprite.strokeStyle = this.m_colorSelected;
+    this.m_sprite.lineWidth = this.m_lineThicknessSelected
+  }else {
+    this.m_sprite.strokeStyle = this.ColorStyle(color, this.m_alpha);
+    this.m_sprite.lineWidth = this.m_lineThickness
+  }
   this.m_sprite.fillStyle = this.ColorStyle(color, this.m_fillAlpha);
   this.m_sprite.beginPath();
   this.m_sprite.moveTo(vertices[0].x * this.m_drawScale, this.Y(vertices[0].y * this.m_drawScale));
@@ -2011,13 +2062,24 @@ b2DebugDraw.prototype.DrawSolidPolygon = function(vertices, vertexCount, color) 
   this.m_sprite.stroke();
   this.m_sprite.closePath()
 };
-b2DebugDraw.prototype.DrawCircle = function(center, radius, color) {
-  this.m_sprite.graphics.lineStyle(this.m_lineThickness, color.color, this.m_alpha);
+b2DebugDraw.prototype.DrawCircle = function(center, radius, color, selected) {
+  if(selected) {
+    this.m_sprite.strokeStyle = this.m_colorSelected;
+    this.m_sprite.lineWidth = this.m_lineThicknessSelected
+  }else {
+    this.m_sprite.strokeStyle = this.ColorStyle(color, this.m_alpha);
+    this.m_sprite.lineWidth = this.m_lineThickness
+  }
   this.m_sprite.graphics.drawCircle(center.x * this.m_drawScale, center.y * this.m_drawScale, radius * this.m_drawScale)
 };
-b2DebugDraw.prototype.DrawSolidCircle = function(center, radius, axis, color) {
-  this.m_sprite.strokeSyle = this.ColorStyle(color, this.m_alpha);
-  this.m_sprite.lineWidth = this.m_lineThickness;
+b2DebugDraw.prototype.DrawSolidCircle = function(center, radius, axis, color, selected) {
+  if(selected) {
+    this.m_sprite.strokeStyle = this.m_colorSelected;
+    this.m_sprite.lineWidth = this.m_lineThicknessSelected
+  }else {
+    this.m_sprite.strokeStyle = this.ColorStyle(color, this.m_alpha);
+    this.m_sprite.lineWidth = this.m_lineThickness
+  }
   this.m_sprite.fillStyle = this.ColorStyle(color, this.m_fillAlpha);
   this.m_sprite.beginPath();
   this.m_sprite.arc(center.x * this.m_drawScale, this.Y(center.y * this.m_drawScale), radius * this.m_drawScale, 0, Math.PI * 2, true);
@@ -2025,9 +2087,14 @@ b2DebugDraw.prototype.DrawSolidCircle = function(center, radius, axis, color) {
   this.m_sprite.stroke();
   this.m_sprite.closePath()
 };
-b2DebugDraw.prototype.DrawSegment = function(p1, p2, color) {
-  this.m_sprite.lineWidth = this.m_lineThickness;
-  this.m_sprite.strokeSyle = this.ColorStyle(color, this.m_alpha);
+b2DebugDraw.prototype.DrawSegment = function(p1, p2, color, selected) {
+  if(selected) {
+    this.m_sprite.lineWidth = this.m_lineThicknessSelected;
+    this.m_sprite.strokeStyle = this.m_colorSelected
+  }else {
+    this.m_sprite.lineWidth = this.m_lineThickness;
+    this.m_sprite.strokeStyle = this.ColorStyle(color, this.m_alpha)
+  }
   this.m_sprite.beginPath();
   this.m_sprite.moveTo(p1.x * this.m_drawScale, this.Y(p1.y * this.m_drawScale));
   this.m_sprite.lineTo(p2.x * this.m_drawScale, this.Y(p2.y * this.m_drawScale));
@@ -2036,13 +2103,13 @@ b2DebugDraw.prototype.DrawSegment = function(p1, p2, color) {
 };
 b2DebugDraw.prototype.DrawTransform = function(xf) {
   this.m_sprite.lineWidth = this.m_lineThickness;
-  this.m_sprite.strokeSyle = this.ColorStyle(new b2Color(255, 0, 0), this.m_alpha);
+  this.m_sprite.strokeStyle = this.ColorStyle(new b2Color(255, 0, 0), this.m_alpha);
   this.m_sprite.beginPath();
   this.m_sprite.moveTo(xf.position.x * this.m_drawScale, this.Y(xf.position.y * this.m_drawScale));
   this.m_sprite.lineTo((xf.position.x + this.m_xformScale * xf.R.col1.x) * this.m_drawScale, this.Y((xf.position.y + this.m_xformScale * xf.R.col1.y) * this.m_drawScale));
   this.m_sprite.stroke();
   this.m_sprite.closePath();
-  this.m_sprite.strokeSyle = this.ColorStyle(new b2Color(0, 255, 0), this.m_alpha);
+  this.m_sprite.strokeStyle = this.ColorStyle(new b2Color(0, 255, 0), this.m_alpha);
   this.m_sprite.beginPath();
   this.m_sprite.moveTo(xf.position.x * this.m_drawScale, this.Y(xf.position.y * this.m_drawScale));
   this.m_sprite.lineTo((xf.position.x + this.m_xformScale * xf.R.col2.x) * this.m_drawScale, this.Y((xf.position.y + this.m_xformScale * xf.R.col2.y) * this.m_drawScale));
@@ -2053,9 +2120,12 @@ b2DebugDraw.prototype.m_drawFlags = 0;
 b2DebugDraw.prototype.m_sprite = null;
 b2DebugDraw.prototype.m_drawScale = 1;
 b2DebugDraw.prototype.m_lineThickness = 1;
+b2DebugDraw.prototype.m_lineThicknessSelected = 2;
+b2DebugDraw.prototype.m_colorSelected = "rgb(0,0,0)";
 b2DebugDraw.prototype.m_alpha = 1;
 b2DebugDraw.prototype.m_fillAlpha = 1;
-b2DebugDraw.prototype.m_xformScale = 1;var b2Sweep = function() {
+b2DebugDraw.prototype.m_xformScale = 1;
+var b2Sweep = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -2107,7 +2177,8 @@ b2Sweep.prototype.c0 = new b2Vec2;
 b2Sweep.prototype.c = new b2Vec2;
 b2Sweep.prototype.a0 = null;
 b2Sweep.prototype.a = null;
-b2Sweep.prototype.t0 = null;var b2DistanceOutput = function() {
+b2Sweep.prototype.t0 = null;
+var b2DistanceOutput = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -2120,7 +2191,8 @@ b2DistanceOutput.prototype.__varz = function() {
 b2DistanceOutput.prototype.pointA = new b2Vec2;
 b2DistanceOutput.prototype.pointB = new b2Vec2;
 b2DistanceOutput.prototype.distance = null;
-b2DistanceOutput.prototype.iterations = 0;var b2Mat33 = function() {
+b2DistanceOutput.prototype.iterations = 0;
+var b2Mat33 = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -2220,7 +2292,8 @@ b2Mat33.prototype.Solve33 = function(out, bX, bY, bZ) {
 };
 b2Mat33.prototype.col1 = new b2Vec3;
 b2Mat33.prototype.col2 = new b2Vec3;
-b2Mat33.prototype.col3 = new b2Vec3;var b2PositionSolverManifold = function() {
+b2Mat33.prototype.col3 = new b2Vec3;
+var b2PositionSolverManifold = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -2313,7 +2386,8 @@ b2PositionSolverManifold.prototype.Initialize = function(cc) {
 };
 b2PositionSolverManifold.prototype.m_normal = null;
 b2PositionSolverManifold.prototype.m_points = null;
-b2PositionSolverManifold.prototype.m_separations = null;var b2OBB = function() {
+b2PositionSolverManifold.prototype.m_separations = null;
+var b2OBB = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -2326,7 +2400,8 @@ b2OBB.prototype.__varz = function() {
 };
 b2OBB.prototype.R = new b2Mat22;
 b2OBB.prototype.center = new b2Vec2;
-b2OBB.prototype.extents = new b2Vec2;var b2Pair = function() {
+b2OBB.prototype.extents = new b2Vec2;
+var b2Pair = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -2366,7 +2441,8 @@ b2Pair.prototype.userData = null;
 b2Pair.prototype.proxy1 = null;
 b2Pair.prototype.proxy2 = null;
 b2Pair.prototype.next = null;
-b2Pair.prototype.status = 0;var b2FixtureDef = function() {
+b2Pair.prototype.status = 0;
+var b2FixtureDef = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -2390,7 +2466,8 @@ b2FixtureDef.prototype.friction = null;
 b2FixtureDef.prototype.restitution = null;
 b2FixtureDef.prototype.density = null;
 b2FixtureDef.prototype.isSensor = null;
-b2FixtureDef.prototype.filter = new b2FilterData;var b2ContactID = function() {
+b2FixtureDef.prototype.filter = new b2FilterData;
+var b2ContactID = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -2419,7 +2496,8 @@ b2ContactID.prototype.__defineSetter__("key", function(value) {
   this.features._flip = (this._key & 4278190080) >> 24 & 255
 });
 b2ContactID.prototype._key = 0;
-b2ContactID.prototype.features = new Features;var b2Transform = function() {
+b2ContactID.prototype.features = new Features;
+var b2Transform = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -2449,7 +2527,8 @@ b2Transform.prototype.GetAngle = function() {
   return Math.atan2(this.R.col1.y, this.R.col1.x)
 };
 b2Transform.prototype.position = new b2Vec2;
-b2Transform.prototype.R = new b2Mat22;var b2EdgeShape = function() {
+b2Transform.prototype.R = new b2Mat22;
+var b2EdgeShape = function() {
   b2Shape.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -2647,7 +2726,8 @@ b2EdgeShape.prototype.m_cornerDir2 = new b2Vec2;
 b2EdgeShape.prototype.m_cornerConvex1 = null;
 b2EdgeShape.prototype.m_cornerConvex2 = null;
 b2EdgeShape.prototype.m_nextEdge = null;
-b2EdgeShape.prototype.m_prevEdge = null;var b2BuoyancyController = function() {
+b2EdgeShape.prototype.m_prevEdge = null;
+var b2BuoyancyController = function() {
   b2Controller.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -2729,7 +2809,8 @@ b2BuoyancyController.prototype.linearDrag = 2;
 b2BuoyancyController.prototype.angularDrag = 1;
 b2BuoyancyController.prototype.useDensity = false;
 b2BuoyancyController.prototype.useWorldGravity = true;
-b2BuoyancyController.prototype.gravity = null;var b2Body = function() {
+b2BuoyancyController.prototype.gravity = null;
+var b2Body = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -2789,7 +2870,8 @@ b2Body.prototype.__constructor = function(bd, world) {
   this.m_inertiaScale = bd.inertiaScale;
   this.m_userData = bd.userData;
   this.m_fixtureList = null;
-  this.m_fixtureCount = 0
+  this.m_fixtureCount = 0;
+  this.m_isSelected = false
 };
 b2Body.prototype.__varz = function() {
   this.m_xf = new b2Transform;
@@ -2807,6 +2889,12 @@ b2Body.e_allowSleepFlag = 4;
 b2Body.e_bulletFlag = 8;
 b2Body.e_fixedRotationFlag = 16;
 b2Body.e_activeFlag = 32;
+b2Body.prototype.SetSelected = function(bool) {
+  this.m_isSelected = bool
+};
+b2Body.prototype.IsSelected = function() {
+  return this.m_isSelected
+};
 b2Body.prototype.connectEdges = function(s1, s2, angle1) {
   var angle2 = Math.atan2(s2.GetDirectionVector().y, s2.GetDirectionVector().x);
   var coreOffset = Math.tan((angle2 - angle1) * 0.5);
@@ -3368,7 +3456,9 @@ b2Body.prototype.m_inertiaScale = null;
 b2Body.prototype.m_linearDamping = null;
 b2Body.prototype.m_angularDamping = null;
 b2Body.prototype.m_sleepTime = null;
-b2Body.prototype.m_userData = null;var b2ContactImpulse = function() {
+b2Body.prototype.m_userData = null;
+b2Body.prototype.m_isSelected = false;
+var b2ContactImpulse = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -3379,7 +3469,8 @@ b2ContactImpulse.prototype.__varz = function() {
   this.tangentImpulses = new Array(b2Settings.b2_maxManifoldPoints)
 };
 b2ContactImpulse.prototype.normalImpulses = new Array(b2Settings.b2_maxManifoldPoints);
-b2ContactImpulse.prototype.tangentImpulses = new Array(b2Settings.b2_maxManifoldPoints);var b2TensorDampingController = function() {
+b2ContactImpulse.prototype.tangentImpulses = new Array(b2Settings.b2_maxManifoldPoints);
+var b2TensorDampingController = function() {
   b2Controller.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -3421,7 +3512,8 @@ b2TensorDampingController.prototype.Step = function(step) {
   }
 };
 b2TensorDampingController.prototype.T = new b2Mat22;
-b2TensorDampingController.prototype.maxTimestep = 0;var b2ManifoldPoint = function() {
+b2TensorDampingController.prototype.maxTimestep = 0;
+var b2ManifoldPoint = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -3447,7 +3539,8 @@ b2ManifoldPoint.prototype.Set = function(m) {
 b2ManifoldPoint.prototype.m_localPoint = new b2Vec2;
 b2ManifoldPoint.prototype.m_normalImpulse = null;
 b2ManifoldPoint.prototype.m_tangentImpulse = null;
-b2ManifoldPoint.prototype.m_id = new b2ContactID;var b2PolygonShape = function() {
+b2ManifoldPoint.prototype.m_id = new b2ContactID;
+var b2PolygonShape = function() {
   b2Shape.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -3916,7 +4009,8 @@ b2PolygonShape.prototype.GetSupportVertex = function(d) {
 b2PolygonShape.prototype.m_centroid = null;
 b2PolygonShape.prototype.m_vertices = null;
 b2PolygonShape.prototype.m_normals = null;
-b2PolygonShape.prototype.m_vertexCount = 0;var b2Fixture = function() {
+b2PolygonShape.prototype.m_vertexCount = 0;
+var b2Fixture = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -4074,7 +4168,8 @@ b2Fixture.prototype.m_restitution = null;
 b2Fixture.prototype.m_proxy = null;
 b2Fixture.prototype.m_filter = new b2FilterData;
 b2Fixture.prototype.m_isSensor = null;
-b2Fixture.prototype.m_userData = null;var b2DynamicTreeNode = function() {
+b2Fixture.prototype.m_userData = null;
+var b2DynamicTreeNode = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -4090,7 +4185,8 @@ b2DynamicTreeNode.prototype.userData = null;
 b2DynamicTreeNode.prototype.aabb = new b2AABB;
 b2DynamicTreeNode.prototype.parent = null;
 b2DynamicTreeNode.prototype.child1 = null;
-b2DynamicTreeNode.prototype.child2 = null;var b2BodyDef = function() {
+b2DynamicTreeNode.prototype.child2 = null;
+var b2BodyDef = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -4127,7 +4223,8 @@ b2BodyDef.prototype.fixedRotation = null;
 b2BodyDef.prototype.bullet = null;
 b2BodyDef.prototype.active = null;
 b2BodyDef.prototype.userData = null;
-b2BodyDef.prototype.inertiaScale = null;var b2DynamicTreeBroadPhase = function() {
+b2BodyDef.prototype.inertiaScale = null;
+var b2DynamicTreeBroadPhase = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -4230,7 +4327,8 @@ b2DynamicTreeBroadPhase.prototype.m_tree = new b2DynamicTree;
 b2DynamicTreeBroadPhase.prototype.m_proxyCount = 0;
 b2DynamicTreeBroadPhase.prototype.m_moveBuffer = new Array;
 b2DynamicTreeBroadPhase.prototype.m_pairBuffer = new Array;
-b2DynamicTreeBroadPhase.prototype.m_pairCount = 0;var b2BroadPhase = function() {
+b2DynamicTreeBroadPhase.prototype.m_pairCount = 0;
+var b2BroadPhase = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -4897,7 +4995,8 @@ b2BroadPhase.prototype.m_queryResultCount = 0;
 b2BroadPhase.prototype.m_worldAABB = null;
 b2BroadPhase.prototype.m_quantizationFactor = new b2Vec2;
 b2BroadPhase.prototype.m_proxyCount = 0;
-b2BroadPhase.prototype.m_timeStamp = 0;var b2Manifold = function() {
+b2BroadPhase.prototype.m_timeStamp = 0;
+var b2Manifold = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -4941,7 +5040,8 @@ b2Manifold.prototype.m_points = null;
 b2Manifold.prototype.m_localPlaneNormal = null;
 b2Manifold.prototype.m_localPoint = null;
 b2Manifold.prototype.m_type = 0;
-b2Manifold.prototype.m_pointCount = 0;var b2CircleShape = function() {
+b2Manifold.prototype.m_pointCount = 0;
+var b2CircleShape = function() {
   b2Shape.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -5044,7 +5144,8 @@ b2CircleShape.prototype.GetRadius = function() {
 b2CircleShape.prototype.SetRadius = function(radius) {
   this.m_radius = radius
 };
-b2CircleShape.prototype.m_p = new b2Vec2;var b2Joint = function() {
+b2CircleShape.prototype.m_p = new b2Vec2;
+var b2Joint = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -5173,7 +5274,8 @@ b2Joint.prototype.m_localCenterB = new b2Vec2;
 b2Joint.prototype.m_invMassA = null;
 b2Joint.prototype.m_invMassB = null;
 b2Joint.prototype.m_invIA = null;
-b2Joint.prototype.m_invIB = null;var b2LineJoint = function() {
+b2Joint.prototype.m_invIB = null;
+var b2LineJoint = function() {
   b2Joint.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -5616,7 +5718,8 @@ b2LineJoint.prototype.m_maxMotorForce = null;
 b2LineJoint.prototype.m_motorSpeed = null;
 b2LineJoint.prototype.m_enableLimit = null;
 b2LineJoint.prototype.m_enableMotor = null;
-b2LineJoint.prototype.m_limitState = 0;var b2ContactSolver = function() {
+b2LineJoint.prototype.m_limitState = 0;
+var b2ContactSolver = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -6021,7 +6124,8 @@ b2ContactSolver.prototype.SolvePositionConstraints = function(baumgarte) {
 b2ContactSolver.prototype.m_step = new b2TimeStep;
 b2ContactSolver.prototype.m_allocator = null;
 b2ContactSolver.prototype.m_constraints = new Array;
-b2ContactSolver.prototype.m_constraintCount = 0;var b2Simplex = function() {
+b2ContactSolver.prototype.m_constraintCount = 0;
+var b2Simplex = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -6248,7 +6352,8 @@ b2Simplex.prototype.m_v1 = new b2SimplexVertex;
 b2Simplex.prototype.m_v2 = new b2SimplexVertex;
 b2Simplex.prototype.m_v3 = new b2SimplexVertex;
 b2Simplex.prototype.m_vertices = new Array(3);
-b2Simplex.prototype.m_count = 0;var b2WeldJoint = function() {
+b2Simplex.prototype.m_count = 0;
+var b2WeldJoint = function() {
   b2Joint.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -6421,7 +6526,8 @@ b2WeldJoint.prototype.m_localAnchorA = new b2Vec2;
 b2WeldJoint.prototype.m_localAnchorB = new b2Vec2;
 b2WeldJoint.prototype.m_referenceAngle = null;
 b2WeldJoint.prototype.m_impulse = new b2Vec3;
-b2WeldJoint.prototype.m_mass = new b2Mat33;var b2Math = function() {
+b2WeldJoint.prototype.m_mass = new b2Mat33;
+var b2Math = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -6561,7 +6667,8 @@ b2Math.IsPowerOfTwo = function(x) {
 };
 b2Math.b2Vec2_zero = new b2Vec2(0, 0);
 b2Math.b2Mat22_identity = b2Mat22.FromVV(new b2Vec2(1, 0), new b2Vec2(0, 1));
-b2Math.b2Transform_identity = new b2Transform(b2Math.b2Vec2_zero, b2Math.b2Mat22_identity);var b2PulleyJoint = function() {
+b2Math.b2Transform_identity = new b2Transform(b2Math.b2Vec2_zero, b2Math.b2Mat22_identity);
+var b2PulleyJoint = function() {
   b2Joint.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -6949,7 +7056,8 @@ b2PulleyJoint.prototype.m_limitImpulse1 = null;
 b2PulleyJoint.prototype.m_limitImpulse2 = null;
 b2PulleyJoint.prototype.m_state = 0;
 b2PulleyJoint.prototype.m_limitState1 = 0;
-b2PulleyJoint.prototype.m_limitState2 = 0;var b2PrismaticJoint = function() {
+b2PulleyJoint.prototype.m_limitState2 = 0;
+var b2PrismaticJoint = function() {
   b2Joint.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -7401,7 +7509,8 @@ b2PrismaticJoint.prototype.m_maxMotorForce = null;
 b2PrismaticJoint.prototype.m_motorSpeed = null;
 b2PrismaticJoint.prototype.m_enableLimit = null;
 b2PrismaticJoint.prototype.m_enableMotor = null;
-b2PrismaticJoint.prototype.m_limitState = 0;var b2RevoluteJoint = function() {
+b2PrismaticJoint.prototype.m_limitState = 0;
+var b2RevoluteJoint = function() {
   b2Joint.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -7804,7 +7913,8 @@ b2RevoluteJoint.prototype.m_enableLimit = null;
 b2RevoluteJoint.prototype.m_referenceAngle = null;
 b2RevoluteJoint.prototype.m_lowerAngle = null;
 b2RevoluteJoint.prototype.m_upperAngle = null;
-b2RevoluteJoint.prototype.m_limitState = 0;var b2JointDef = function() {
+b2RevoluteJoint.prototype.m_limitState = 0;
+var b2JointDef = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -7821,7 +7931,8 @@ b2JointDef.prototype.type = 0;
 b2JointDef.prototype.userData = null;
 b2JointDef.prototype.bodyA = null;
 b2JointDef.prototype.bodyB = null;
-b2JointDef.prototype.collideConnected = null;var b2LineJointDef = function() {
+b2JointDef.prototype.collideConnected = null;
+var b2LineJointDef = function() {
   b2JointDef.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -7859,7 +7970,8 @@ b2LineJointDef.prototype.lowerTranslation = null;
 b2LineJointDef.prototype.upperTranslation = null;
 b2LineJointDef.prototype.enableMotor = null;
 b2LineJointDef.prototype.maxMotorForce = null;
-b2LineJointDef.prototype.motorSpeed = null;var b2DistanceJoint = function() {
+b2LineJointDef.prototype.motorSpeed = null;
+var b2DistanceJoint = function() {
   b2Joint.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -8050,7 +8162,8 @@ b2DistanceJoint.prototype.m_gamma = null;
 b2DistanceJoint.prototype.m_bias = null;
 b2DistanceJoint.prototype.m_impulse = null;
 b2DistanceJoint.prototype.m_mass = null;
-b2DistanceJoint.prototype.m_length = null;var b2PulleyJointDef = function() {
+b2DistanceJoint.prototype.m_length = null;
+var b2PulleyJointDef = function() {
   b2JointDef.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -8103,7 +8216,8 @@ b2PulleyJointDef.prototype.lengthA = null;
 b2PulleyJointDef.prototype.maxLengthA = null;
 b2PulleyJointDef.prototype.lengthB = null;
 b2PulleyJointDef.prototype.maxLengthB = null;
-b2PulleyJointDef.prototype.ratio = null;var b2DistanceJointDef = function() {
+b2PulleyJointDef.prototype.ratio = null;
+var b2DistanceJointDef = function() {
   b2JointDef.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -8136,7 +8250,8 @@ b2DistanceJointDef.prototype.localAnchorA = new b2Vec2;
 b2DistanceJointDef.prototype.localAnchorB = new b2Vec2;
 b2DistanceJointDef.prototype.length = null;
 b2DistanceJointDef.prototype.frequencyHz = null;
-b2DistanceJointDef.prototype.dampingRatio = null;var b2FrictionJointDef = function() {
+b2DistanceJointDef.prototype.dampingRatio = null;
+var b2FrictionJointDef = function() {
   b2JointDef.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -8162,7 +8277,8 @@ b2FrictionJointDef.prototype.Initialize = function(bA, bB, anchor) {
 b2FrictionJointDef.prototype.localAnchorA = new b2Vec2;
 b2FrictionJointDef.prototype.localAnchorB = new b2Vec2;
 b2FrictionJointDef.prototype.maxForce = null;
-b2FrictionJointDef.prototype.maxTorque = null;var b2WeldJointDef = function() {
+b2FrictionJointDef.prototype.maxTorque = null;
+var b2WeldJointDef = function() {
   b2JointDef.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -8187,7 +8303,8 @@ b2WeldJointDef.prototype.Initialize = function(bA, bB, anchor) {
 };
 b2WeldJointDef.prototype.localAnchorA = new b2Vec2;
 b2WeldJointDef.prototype.localAnchorB = new b2Vec2;
-b2WeldJointDef.prototype.referenceAngle = null;var b2GearJointDef = function() {
+b2WeldJointDef.prototype.referenceAngle = null;
+var b2GearJointDef = function() {
   b2JointDef.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -8205,7 +8322,8 @@ b2GearJointDef.prototype.__varz = function() {
 };
 b2GearJointDef.prototype.joint1 = null;
 b2GearJointDef.prototype.joint2 = null;
-b2GearJointDef.prototype.ratio = null;var b2Color = function() {
+b2GearJointDef.prototype.ratio = null;
+var b2Color = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -8244,7 +8362,8 @@ b2Color.prototype.__defineGetter__("color", function() {
 });
 b2Color.prototype._r = 0;
 b2Color.prototype._g = 0;
-b2Color.prototype._b = 0;var b2FrictionJoint = function() {
+b2Color.prototype._b = 0;
+var b2FrictionJoint = function() {
   b2Joint.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -8411,7 +8530,8 @@ b2FrictionJoint.prototype.m_angularImpulse = null;
 b2FrictionJoint.prototype.m_maxForce = null;
 b2FrictionJoint.prototype.m_maxTorque = null;
 b2FrictionJoint.prototype.m_linearMass = new b2Mat22;
-b2FrictionJoint.prototype.m_angularMass = null;var b2Distance = function() {
+b2FrictionJoint.prototype.m_angularMass = null;
+var b2Distance = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -8519,7 +8639,8 @@ b2Distance.b2_gjkIters = 0;
 b2Distance.b2_gjkMaxIters = 0;
 b2Distance.s_simplex = new b2Simplex;
 b2Distance.s_saveA = new Array(3);
-b2Distance.s_saveB = new Array(3);var b2MouseJoint = function() {
+b2Distance.s_saveB = new Array(3);
+var b2MouseJoint = function() {
   b2Joint.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -8677,7 +8798,8 @@ b2MouseJoint.prototype.m_maxForce = null;
 b2MouseJoint.prototype.m_frequencyHz = null;
 b2MouseJoint.prototype.m_dampingRatio = null;
 b2MouseJoint.prototype.m_beta = null;
-b2MouseJoint.prototype.m_gamma = null;var b2PrismaticJointDef = function() {
+b2MouseJoint.prototype.m_gamma = null;
+var b2PrismaticJointDef = function() {
   b2JointDef.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -8718,7 +8840,8 @@ b2PrismaticJointDef.prototype.lowerTranslation = null;
 b2PrismaticJointDef.prototype.upperTranslation = null;
 b2PrismaticJointDef.prototype.enableMotor = null;
 b2PrismaticJointDef.prototype.maxMotorForce = null;
-b2PrismaticJointDef.prototype.motorSpeed = null;var b2TimeOfImpact = function() {
+b2PrismaticJointDef.prototype.motorSpeed = null;
+var b2TimeOfImpact = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -8837,7 +8960,8 @@ b2TimeOfImpact.s_distanceInput = new b2DistanceInput;
 b2TimeOfImpact.s_xfA = new b2Transform;
 b2TimeOfImpact.s_xfB = new b2Transform;
 b2TimeOfImpact.s_fcn = new b2SeparationFunction;
-b2TimeOfImpact.s_distanceOutput = new b2DistanceOutput;var b2GearJoint = function() {
+b2TimeOfImpact.s_distanceOutput = new b2DistanceOutput;
+var b2GearJoint = function() {
   b2Joint.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -9037,7 +9161,8 @@ b2GearJoint.prototype.m_J = new b2Jacobian;
 b2GearJoint.prototype.m_constant = null;
 b2GearJoint.prototype.m_ratio = null;
 b2GearJoint.prototype.m_mass = null;
-b2GearJoint.prototype.m_impulse = null;var b2TOIInput = function() {
+b2GearJoint.prototype.m_impulse = null;
+var b2TOIInput = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -9053,7 +9178,8 @@ b2TOIInput.prototype.proxyA = new b2DistanceProxy;
 b2TOIInput.prototype.proxyB = new b2DistanceProxy;
 b2TOIInput.prototype.sweepA = new b2Sweep;
 b2TOIInput.prototype.sweepB = new b2Sweep;
-b2TOIInput.prototype.tolerance = null;var b2RevoluteJointDef = function() {
+b2TOIInput.prototype.tolerance = null;
+var b2RevoluteJointDef = function() {
   b2JointDef.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -9092,7 +9218,8 @@ b2RevoluteJointDef.prototype.lowerAngle = null;
 b2RevoluteJointDef.prototype.upperAngle = null;
 b2RevoluteJointDef.prototype.enableMotor = null;
 b2RevoluteJointDef.prototype.motorSpeed = null;
-b2RevoluteJointDef.prototype.maxMotorTorque = null;var b2MouseJointDef = function() {
+b2RevoluteJointDef.prototype.maxMotorTorque = null;
+var b2MouseJointDef = function() {
   b2JointDef.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -9112,7 +9239,8 @@ b2MouseJointDef.prototype.__varz = function() {
 b2MouseJointDef.prototype.target = new b2Vec2;
 b2MouseJointDef.prototype.maxForce = null;
 b2MouseJointDef.prototype.frequencyHz = null;
-b2MouseJointDef.prototype.dampingRatio = null;var b2Contact = function() {
+b2MouseJointDef.prototype.dampingRatio = null;
+var b2Contact = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -9293,7 +9421,8 @@ b2Contact.prototype.m_fixtureA = null;
 b2Contact.prototype.m_fixtureB = null;
 b2Contact.prototype.m_manifold = new b2Manifold;
 b2Contact.prototype.m_oldManifold = new b2Manifold;
-b2Contact.prototype.m_toi = null;var b2ContactConstraint = function() {
+b2Contact.prototype.m_toi = null;
+var b2ContactConstraint = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -9323,7 +9452,8 @@ b2ContactConstraint.prototype.radius = null;
 b2ContactConstraint.prototype.friction = null;
 b2ContactConstraint.prototype.restitution = null;
 b2ContactConstraint.prototype.pointCount = 0;
-b2ContactConstraint.prototype.manifold = null;var b2ContactResult = function() {
+b2ContactConstraint.prototype.manifold = null;
+var b2ContactResult = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -9340,7 +9470,8 @@ b2ContactResult.prototype.position = new b2Vec2;
 b2ContactResult.prototype.normal = new b2Vec2;
 b2ContactResult.prototype.normalImpulse = null;
 b2ContactResult.prototype.tangentImpulse = null;
-b2ContactResult.prototype.id = new b2ContactID;var b2PolygonContact = function() {
+b2ContactResult.prototype.id = new b2ContactID;
+var b2PolygonContact = function() {
   b2Contact.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -9364,7 +9495,8 @@ b2PolygonContact.prototype.Evaluate = function() {
 };
 b2PolygonContact.prototype.Reset = function(fixtureA, fixtureB) {
   this._super.Reset.apply(this, [fixtureA, fixtureB])
-};var ClipVertex = function() {
+};
+var ClipVertex = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -9379,7 +9511,8 @@ ClipVertex.prototype.Set = function(other) {
   this.id.Set(other.id)
 };
 ClipVertex.prototype.v = new b2Vec2;
-ClipVertex.prototype.id = new b2ContactID;var b2ContactFilter = function() {
+ClipVertex.prototype.id = new b2ContactID;
+var b2ContactFilter = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -9402,7 +9535,8 @@ b2ContactFilter.prototype.RayCollide = function(userData, fixture) {
     return true
   }
   return this.ShouldCollide(userData, fixture)
-};var b2NullContact = function() {
+};
+var b2NullContact = function() {
   b2Contact.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -9415,7 +9549,8 @@ b2NullContact.prototype.__constructor = function() {
 b2NullContact.prototype.__varz = function() {
 };
 b2NullContact.prototype.Evaluate = function() {
-};var b2ContactListener = function() {
+};
+var b2ContactListener = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -9431,7 +9566,8 @@ b2ContactListener.prototype.EndContact = function(contact) {
 b2ContactListener.prototype.PreSolve = function(contact, oldManifold) {
 };
 b2ContactListener.prototype.PostSolve = function(contact, impulse) {
-};var b2Island = function() {
+};
+var b2Island = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -9663,7 +9799,8 @@ b2Island.prototype.m_jointCount = 0;
 b2Island.prototype.m_contactCount = 0;
 b2Island.prototype.m_bodyCapacity = 0;
 b2Island.prototype.m_contactCapacity = 0;
-b2Island.prototype.m_jointCapacity = 0;var b2PolyAndEdgeContact = function() {
+b2Island.prototype.m_jointCapacity = 0;
+var b2PolyAndEdgeContact = function() {
   b2Contact.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -9691,7 +9828,8 @@ b2PolyAndEdgeContact.prototype.Reset = function(fixtureA, fixtureB) {
   this._super.Reset.apply(this, [fixtureA, fixtureB]);
   b2Settings.b2Assert(fixtureA.GetType() == b2Shape.e_polygonShape);
   b2Settings.b2Assert(fixtureB.GetType() == b2Shape.e_edgeShape)
-};var b2Collision = function() {
+};
+var b2Collision = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -10155,7 +10293,8 @@ b2Collision.s_tangent = new b2Vec2;
 b2Collision.s_tangent2 = new b2Vec2;
 b2Collision.s_v11 = new b2Vec2;
 b2Collision.s_v12 = new b2Vec2;
-b2Collision.b2CollidePolyTempVec = new b2Vec2;var b2PolyAndCircleContact = function() {
+b2Collision.b2CollidePolyTempVec = new b2Vec2;
+var b2PolyAndCircleContact = function() {
   b2Contact.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -10181,7 +10320,8 @@ b2PolyAndCircleContact.prototype.Reset = function(fixtureA, fixtureB) {
   this._super.Reset.apply(this, [fixtureA, fixtureB]);
   b2Settings.b2Assert(fixtureA.GetType() == b2Shape.e_polygonShape);
   b2Settings.b2Assert(fixtureB.GetType() == b2Shape.e_circleShape)
-};var b2ContactPoint = function() {
+};
+var b2ContactPoint = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -10201,7 +10341,8 @@ b2ContactPoint.prototype.normal = new b2Vec2;
 b2ContactPoint.prototype.separation = null;
 b2ContactPoint.prototype.friction = null;
 b2ContactPoint.prototype.restitution = null;
-b2ContactPoint.prototype.id = new b2ContactID;var b2CircleContact = function() {
+b2ContactPoint.prototype.id = new b2ContactID;
+var b2CircleContact = function() {
   b2Contact.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -10225,7 +10366,8 @@ b2CircleContact.prototype.Evaluate = function() {
 };
 b2CircleContact.prototype.Reset = function(fixtureA, fixtureB) {
   this._super.Reset.apply(this, [fixtureA, fixtureB])
-};var b2EdgeAndCircleContact = function() {
+};
+var b2EdgeAndCircleContact = function() {
   b2Contact.prototype.__varz.call(this);
   this.__varz();
   this.__constructor.apply(this, arguments)
@@ -10251,7 +10393,8 @@ b2EdgeAndCircleContact.prototype.b2CollideEdgeAndCircle = function(manifold, edg
 };
 b2EdgeAndCircleContact.prototype.Reset = function(fixtureA, fixtureB) {
   this._super.Reset.apply(this, [fixtureA, fixtureB])
-};var b2ContactManager = function() {
+};
+var b2ContactManager = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -10414,7 +10557,8 @@ b2ContactManager.prototype.m_contactCount = 0;
 b2ContactManager.prototype.m_contactFilter = null;
 b2ContactManager.prototype.m_contactListener = null;
 b2ContactManager.prototype.m_contactFactory = null;
-b2ContactManager.prototype.m_allocator = null;var b2World = function() {
+b2ContactManager.prototype.m_allocator = null;
+var b2World = function() {
   this.__varz();
   this.__constructor.apply(this, arguments)
 };
@@ -10781,14 +10925,14 @@ b2World.prototype.DrawJoint = function(joint) {
       }
   }
 };
-b2World.prototype.DrawShape = function(shape, xf, color) {
+b2World.prototype.DrawShape = function(shape, xf, color, selected) {
   switch(shape.m_type) {
     case b2Shape.e_circleShape:
       var circle = shape;
       var center = b2Math.MulX(xf, circle.m_p);
       var radius = circle.m_radius;
       var axis = xf.R.col1;
-      this.m_debugDraw.DrawSolidCircle(center, radius, axis, color);
+      this.m_debugDraw.DrawSolidCircle(center, radius, axis, color, selected);
       break;
     case b2Shape.e_polygonShape:
       var i = 0;
@@ -10799,11 +10943,11 @@ b2World.prototype.DrawShape = function(shape, xf, color) {
       for(i = 0;i < vertexCount;++i) {
         vertices[i] = b2Math.MulX(xf, localVertices[i])
       }
-      this.m_debugDraw.DrawSolidPolygon(vertices, vertexCount, color);
+      this.m_debugDraw.DrawSolidPolygon(vertices, vertexCount, color, selected);
       break;
     case b2Shape.e_edgeShape:
       var edge = shape;
-      this.m_debugDraw.DrawSegment(b2Math.MulX(xf, edge.GetVertex1()), b2Math.MulX(xf, edge.GetVertex2()), color);
+      this.m_debugDraw.DrawSegment(b2Math.MulX(xf, edge.GetVertex1()), b2Math.MulX(xf, edge.GetVertex2()), color, selected);
       break
   }
 };
@@ -11116,27 +11260,23 @@ b2World.prototype.DrawDebugData = function() {
       for(f = b.GetFixtureList();f;f = f.m_next) {
         s = f.GetShape();
         if(b.IsActive() == false) {
-          color.Set(0.5, 0.5, 0.3);
-          this.DrawShape(s, xf, color)
+          color.Set(0.5, 0.5, 0.3)
         }else {
           if(b.GetType() == b2Body.b2_staticBody) {
-            color.Set(0.5, 0.9, 0.5);
-            this.DrawShape(s, xf, color)
+            color.Set(0.5, 0.9, 0.5)
           }else {
             if(b.GetType() == b2Body.b2_kinematicBody) {
-              color.Set(0.5, 0.5, 0.9);
-              this.DrawShape(s, xf, color)
+              color.Set(0.5, 0.5, 0.9)
             }else {
               if(b.IsAwake() == false) {
-                color.Set(0.6, 0.6, 0.6);
-                this.DrawShape(s, xf, color)
+                color.Set(0.6, 0.6, 0.6)
               }else {
-                color.Set(0.9, 0.7, 0.7);
-                this.DrawShape(s, xf, color)
+                color.Set(0.9, 0.7, 0.7)
               }
             }
           }
         }
+        this.DrawShape(s, xf, color, b.IsSelected())
       }
     }
   }
@@ -11289,7 +11429,8 @@ b2World.prototype.m_allowSleep = null;
 b2World.prototype.m_groundBody = null;
 b2World.prototype.m_destructionListener = null;
 b2World.prototype.m_debugDraw = null;
-b2World.prototype.m_inv_dt0 = null;if(typeof exports !== "undefined") {
+b2World.prototype.m_inv_dt0 = null;
+if(typeof exports !== "undefined") {
   exports.b2BoundValues = b2BoundValues;
   exports.b2Math = b2Math;
   exports.b2DistanceOutput = b2DistanceOutput;
