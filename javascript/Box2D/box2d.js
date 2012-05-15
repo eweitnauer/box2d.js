@@ -2033,7 +2033,7 @@ b2DebugDraw.prototype.DrawPolygon = function(vertices, vertexCount, color, selec
     this.m_sprite.strokeStyle = this.m_colorSelected;
     this.m_sprite.lineWidth = this.m_lineThicknessSelected
   }else {
-    this.m_sprite.strokeStyle = this.ColorStyle(color, this.m_alpha);
+    this.m_sprite.strokeStyle = this.m_bodyLineColor;
     this.m_sprite.lineWidth = this.m_lineThickness
   }
   this.m_sprite.fillStyle = "none";
@@ -2048,7 +2048,7 @@ b2DebugDraw.prototype.DrawSolidPolygon = function(vertices, vertexCount, color, 
     this.m_sprite.strokeStyle = this.m_colorSelected;
     this.m_sprite.lineWidth = this.m_lineThicknessSelected
   }else {
-    this.m_sprite.strokeStyle = this.ColorStyle(color, this.m_alpha);
+    this.m_sprite.strokeStyle = this.m_bodyLineColor;
     this.m_sprite.lineWidth = this.m_lineThickness
   }
   this.m_sprite.fillStyle = this.ColorStyle(color, this.m_fillAlpha);
@@ -2067,7 +2067,7 @@ b2DebugDraw.prototype.DrawCircle = function(center, radius, color, selected) {
     this.m_sprite.strokeStyle = this.m_colorSelected;
     this.m_sprite.lineWidth = this.m_lineThicknessSelected
   }else {
-    this.m_sprite.strokeStyle = this.ColorStyle(color, this.m_alpha);
+    this.m_sprite.strokeStyle = this.m_bodyLineColor;
     this.m_sprite.lineWidth = this.m_lineThickness
   }
   this.m_sprite.graphics.drawCircle(center.x * this.m_drawScale, center.y * this.m_drawScale, radius * this.m_drawScale)
@@ -2077,7 +2077,7 @@ b2DebugDraw.prototype.DrawSolidCircle = function(center, radius, axis, color, se
     this.m_sprite.strokeStyle = this.m_colorSelected;
     this.m_sprite.lineWidth = this.m_lineThicknessSelected
   }else {
-    this.m_sprite.strokeStyle = this.ColorStyle(color, this.m_alpha);
+    this.m_sprite.strokeStyle = this.m_bodyLineColor;
     this.m_sprite.lineWidth = this.m_lineThickness
   }
   this.m_sprite.fillStyle = this.ColorStyle(color, this.m_fillAlpha);
@@ -2103,12 +2103,19 @@ b2DebugDraw.prototype.DrawSegment = function(p1, p2, color, selected) {
 };
 b2DebugDraw.prototype.DrawTransform = function(xf) {
   this.m_sprite.lineWidth = this.m_lineThickness;
-  this.m_sprite.strokeStyle = this.ColorStyle(new b2Color(255, 0, 0), this.m_alpha);
+  if(this.m_transformOnlyX) {
+    this.m_sprite.strokeStyle = this.m_transformOnlyXColor
+  }else {
+    this.m_sprite.strokeStyle = this.ColorStyle(new b2Color(255, 0, 0), this.m_alpha)
+  }
   this.m_sprite.beginPath();
   this.m_sprite.moveTo(xf.position.x * this.m_drawScale, this.Y(xf.position.y * this.m_drawScale));
   this.m_sprite.lineTo((xf.position.x + this.m_xformScale * xf.R.col1.x) * this.m_drawScale, this.Y((xf.position.y + this.m_xformScale * xf.R.col1.y) * this.m_drawScale));
   this.m_sprite.stroke();
   this.m_sprite.closePath();
+  if(this.m_transformOnlyX) {
+    return
+  }
   this.m_sprite.strokeStyle = this.ColorStyle(new b2Color(0, 255, 0), this.m_alpha);
   this.m_sprite.beginPath();
   this.m_sprite.moveTo(xf.position.x * this.m_drawScale, this.Y(xf.position.y * this.m_drawScale));
@@ -2122,6 +2129,11 @@ b2DebugDraw.prototype.m_drawScale = 1;
 b2DebugDraw.prototype.m_lineThickness = 1;
 b2DebugDraw.prototype.m_lineThicknessSelected = 2;
 b2DebugDraw.prototype.m_colorSelected = "rgb(0,0,0)";
+b2DebugDraw.prototype.m_bodyLineColor = "rgb(0,0,0)";
+b2DebugDraw.prototype.m_transformOnlyX = true;
+b2DebugDraw.prototype.m_transformOnlyXColor = "rgb(0,0,0)";
+b2DebugDraw.prototype.m_fillColor = "#e3f4d7";
+b2DebugDraw.prototype.m_fillColorSelected = "#bde59f";
 b2DebugDraw.prototype.m_alpha = 1;
 b2DebugDraw.prototype.m_fillAlpha = 1;
 b2DebugDraw.prototype.m_xformScale = 1;
@@ -11271,7 +11283,7 @@ b2World.prototype.DrawDebugData = function() {
               if(b.IsAwake() == false) {
                 color.Set(0.6, 0.6, 0.6)
               }else {
-                color.Set(0.9, 0.7, 0.7)
+                color.Set(0.89, 0.96, 0.84)
               }
             }
           }

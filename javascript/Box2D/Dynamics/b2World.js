@@ -1120,7 +1120,7 @@ b2World.prototype.DrawDebugData = function () {
 					}
 					else
 					{
-						color.Set(0.9, 0.7, 0.7);
+						color.Set(0.89, 0.96, 0.84);
 					}
 					this.DrawShape(s, xf, color, b.IsSelected());
 				}
